@@ -522,7 +522,7 @@ input:focus{border-color:rgba(230,57,70,.7)}
 
   <div class="level">
     <div class="level-head">
-      <span class="lvl" id="lvlText">Lvl 1</span>
+      <span class="lvl" id="lvlText" data-i18n="level_short">Lvl 1</span>
       <span class="val" id="lvlProg">0 / 1000</span>
     </div>
     <div class="level-bg">
@@ -548,11 +548,11 @@ input:focus{border-color:rgba(230,57,70,.7)}
 
     >
 
-  <button class="btn btn-red" id="claimBtn" onclick="claimCoins()" disabled>CLAIM</button>
+  <button class="btn btn-red" id="claimBtn" onclick="claimCoins()" disabled><span data-i18n="claim">CLAIM</span></button>
 
   <div class="btn-row">
-    <button class="btn btn-blue btn-sm" onclick="buyEnergy()">⚡ +50</button>
-    <button class="btn btn-yellow btn-sm" onclick="showBoosters()">🚀 Boosters</button>
+    <button class="btn btn-blue btn-sm" onclick="buyEnergy()" data-i18n="buy_energy">⚡ +50</button>
+    <button class="btn btn-yellow btn-sm" onclick="showBoosters()" data-i18n="boosters">🚀 Boosters</button>
   </div>
 </div>
 
@@ -978,6 +978,8 @@ var LANG = {
     account_title: "حسابك", welcome_back: "مرحباً بك",
     welcome_desc: "اجمع MYT وانشر الرابط لدعوة أصدقائك",
     referral_link: "YOUR REFERRAL LINK", copy_link: "📋 نسخ الرابط",
+    nav_account: "حسابك", nav_mining: "التعدين", nav_tasks: "المهام", nav_payment: "الدفع", nav_shop: "المتجر",
+    claim: "استلام", boosters: "معززات", buy_energy: "شراء طاقة", level_short: "مستوى",
     share: "📤 مشاركة", your_stats: "📊 إحصائياتك",
     referrals: "👥 الإحالات", checkin_days: "📅 أيام التسجيل",
     streak: "🔥 السلسلة اليومية", earnings_total: "💰 إجمالي الأرباح",
