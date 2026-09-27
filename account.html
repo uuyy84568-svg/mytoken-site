@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>MYTOKEN | حسابك</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif;-webkit-tap-highlight-color:transparent}
+body{background:#0a0505;color:#f0e8e8;min-height:100vh;padding-bottom:100px;overflow-x:hidden;background-image:radial-gradient(ellipse at top,rgba(180,30,30,.12),transparent 60%),radial-gradient(ellipse at bottom,rgba(120,10,10,.08),transparent 50%);background-attachment:fixed}
+.topbar{position:sticky;top:0;z-index:100;background:rgba(10,5,5,.95);backdrop-filter:blur(20px);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(220,50,50,.15)}
+.topbar h1{font-size:17px;font-weight:900;color:#fff}
+.topbar .sub{font-size:10px;color:#8a7a7a;margin-top:1px}
+.close-btn{width:34px;height:34px;border-radius:50%;background:rgba(220,50,50,.1);border:1px solid rgba(220,50,50,.25);color:#e04040;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.close-btn:active{background:rgba(220,50,50,.2)}
+.wrap{max-width:520px;margin:0 auto;padding:18px}
+.page-title{text-align:center;font-size:26px;font-weight:900;color:#fff;margin:10px 0 22px;letter-spacing:.5px}
+.card{background:linear-gradient(145deg,rgba(30,10,10,.9),rgba(15,5,5,.95));border:1px solid rgba(220,50,50,.12);border-radius:18px;overflow:hidden;margin-bottom:12px;transition:.2s}
+.row{display:flex;align-items:center;padding:15px 16px;gap:14px;position:relative}
+.row:not(:last-child)::after{content:'';position:absolute;bottom:0;right:16px;left:16px;height:1px;background:rgba(220,50,50,.08)}
+.ico{width:46px;height:46px;border-radius:13px;background:rgba(220,50,50,.08);border:1px solid rgba(220,50,50,.15);display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0}
+.ico.green{background:rgba(0,200,120,.1);border-color:rgba(0,200,120,.25)}
+.ico.gold{background:rgba(245,184,0,.1);border-color:rgba(245,184,0,.25)}
+.info{flex:1;min-width:0}
+.info .t{font-size:14px;font-weight:800;color:#fff;margin-bottom:3px}
+.info .d{font-size:12px;color:#8a7a7a;line-height:1.35;word-break:break-all}
+.val{font-size:17px;font-weight:900;color:#e04040;text-align:right;white-space:nowrap}
+.val.green{color:#00d97e}
+.val.gold{color:#f5b800}
+.btn-gold{background:#e04040;color:#fff;border:none;padding:10px 20px;border-radius:12px;font-size:13px;font-weight:900;font-family:'Cairo',sans-serif;cursor:pointer;transition:.15s;white-space:nowrap;box-shadow:0 4px 14px rgba(224,64,64,.3)}
+.btn-gold:active{transform:scale(.96);background:#c03030}
+.btn-gold:disabled{background:#333;color:#666;box-shadow:none;cursor:not-allowed}
+.toggle{width:48px;height:28px;border-radius:14px;background:#2a1515;position:relative;cursor:pointer;transition:.2s;flex-shrink:0;border:1px solid rgba(220,50,50,.15)}
+.toggle.on{background:#e04040;border-color:#e04040}
+.toggle::after{content:'';position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 2px 4px rgba(0,0,0,.3)}
+.toggle.on::after{right:calc(100% - 23px)}
+.avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#e04040,#8a1010);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#fff;flex-shrink:0;box-shadow:0 0 20px rgba(224,64,64,.4)}
+.sec-title{font-size:14px;font-weight:900;color:#e04040;margin:22px 0 10px;padding-right:4px;letter-spacing:.3px;display:flex;align-items:center;gap:8px}
+.sec-title::before{content:'';width:3px;height:15px;background:linear-gradient(180deg,#e04040,#8a1010);border-radius:2px}
+.empty{text-align:center;padding:25px;color:#8a7a7a;font-size:12px}
+.empty .ic{font-size:34px;opacity:.3;display:block;margin-bottom:6px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;z-index:9999;padding:20px;backdrop-filter:blur(8px)}
+.modal.show{display:flex;animation:fade .2s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.modal-box{background:linear-gradient(145deg,#1a0a0a,#0d0505);border:1px solid rgba(220,50,50,.3);border-radius:20px;padding:22px;max-width:420px;width:100%;animation:pop .25s}
+@keyframes pop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-box h3{color:#e04040;font-size:17px;text-align:center;margin-bottom:16px;font-weight:900}
+.inp{width:100%;padding:13px;background:rgba(0,0,0,.5);border:1.5px solid rgba(220,50,50,.2);border-radius:12px;color:#fff;font-size:14px;outline:none;font-family:'Cairo',sans-serif;text-align:right;transition:.2s}
+.inp:focus{border-color:#e04040;box-shadow:0 0 0 3px rgba(224,64,64,.1)}
+.inp::placeholder{color:#6a5a5a}
+.m-actions{display:flex;gap:10px;margin-top:16px}
+.m-actions .btn-gold{flex:1;padding:13px}
+.btn-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.15);padding:13px;border-radius:12px;font-size:13px;font-weight:800;font-family:'Cairo',sans-serif;cursor:pointer;flex:1;transition:.15s}
+.btn-ghost:active{background:rgba(255,255,255,.05)}
+.toast{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-30px);background:#e04040;color:#fff;padding:14px 24px;border-radius:14px;font-weight:800;font-size:13px;z-index:99999;opacity:0;transition:.3s;pointer-events:none;max-width:90%;text-align:center;box-shadow:0 10px 40px rgba(224,64,64,.4)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.err{background:#8a1010;box-shadow:0 10px 40px rgba(138,16,16,.4)}
+.loading{text-align:center;padding:60px 20px;color:#8a7a7a}
+.spinner{width:40px;height:40px;border:3px solid rgba(224,64,64,.15);border-top-color:#e04040;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 14px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(10,5,5,.98);border-top:1px solid rgba(220,50,50,.12);padding:10px 0;display:flex;justify-content:space-around;z-index:100;backdrop-filter:blur(20px)}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:#6a5a5a;cursor:pointer;padding:6px 10px;font-weight:600}
+.nav-item .ic{font-size:19px}
+.nav-item.active{color:#e04040}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+    <button class="close-btn" onclick="closeApp()">✕</button>
+    <div style="text-align:center">
+        <h1>MYTOKEN</h1>
+        <div class="sub">حسابك</div>
+    </div>
+    <button class="close-btn" onclick="loadUser()">↻</button>
+</div>
+
+<div class="wrap" id="app">
+    <div class="loading"><div class="spinner"></div>جاري التحميل...</div>
+</div>
+
+<div class="nav">
+    <div class="nav-item" onclick="closeApp()"><div class="ic">⛏️</div>التعدين</div>
+    <div class="nav-item" onclick="closeApp()"><div class="ic">📋</div>المهام</div>
+    <div class="nav-item" onclick="closeApp()"><div class="ic">💰</div>الدفع</div>
+    <div class="nav-item active"><div class="ic">👤</div>حسابك</div>
+</div>
+
+<div class="modal" id="walletModal">
+    <div class="modal-box">
+        <h3>💼 ربط محفظة TON</h3>
+        <input type="text" class="inp" id="walletInput" placeholder="الصق عنوان محفظتك" dir="ltr">
+        <div class="m-actions">
+            <button class="btn-ghost" onclick="closeModal()">إلغاء</button>
+            <button class="btn-gold" onclick="saveWallet()">حفظ</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="withdrawModal">
+    <div class="modal-box">
+        <h3>📤 سحب الأرباح</h3>
+        <input type="number" class="inp" id="withdrawInput" placeholder="الكمية" dir="ltr">
+        <div style="text-align:center;font-size:11px;color:#8a7a7a;margin-top:10px">الحد الأدنى: <b style="color:#e04040" id="minText">1,000</b> MYT</div>
+        <div class="m-actions">
+            <button class="btn-ghost" onclick="closeModal()">إلغاء</button>
+            <button class="btn-gold" onclick="submitWithdraw()">تأكيد</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="historyModal">
+    <div class="modal-box">
+        <h3>📜 سجل السحوبات</h3>
+        <div class="empty"><div class="ic">📭</div>لا توجد سحوبات بعد</div>
+        <div class="m-actions">
+            <button class="btn-gold" onclick="closeModal()">إغلاق</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API='https://mytoken-api.vercel.app';
+const RATE=0.001;
+const MIN_WD=1000;
+const ADMIN='8063963886';
+let tg=window.Telegram?.WebApp;
+let user=null;
+let ud=null;
+let soundOn=true;
+
+function toast(m,e){const t=document.getElementById('toast');t.textContent=m;t.className='toast show'+(e?' err':'');setTimeout(()=>t.className='toast'+(e?' err':''),3000)}
+function closeModal(){document.querySelectorAll('.modal').forEach(x=>x.classList.remove('show'))}
+function closeApp(){if(tg)tg.close()}
+function fmt(n){n=parseFloat(n||0);return n===Math.floor(n)?n.toLocaleString('en-US'):n.toFixed(2)}
+function usd(m){return (parseFloat(m||0)*RATE).toFixed(2)}
+
+async function api(p,b){
+    try{
+        const r=await fetch(API+p,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});
+        return r.json();
+    }catch(e){return null}
+}
+
+async function loadUser(){
+    if(tg){tg.ready();tg.expand();user=tg.initDataUnsafe?.user}
+    if(!user)user={id:8063963886,first_name:'Yassine'};
+    await api('/api/register',{id:user.id,first_name:user.first_name});
+    ud=await api('/api/user',{id:user.id});
+    render();
+}
+
+function render(){
+    const app=document.getElementById('app');
+    if(!ud||!ud.exists){app.innerHTML='<div class="loading">لا يوجد حساب</div>';return}
+
+    const bal=parseFloat(ud.balance||0);
+    const pend=parseFloat(ud.pending||0);
+    const wal=ud.wallet||'';
+    const canWD=bal>=MIN_WD&&wal;
+    const walShow=wal?wal.slice(0,12)+'...'+wal.slice(-6):'غير مربوط';
+    const letter=(user.first_name||'Y').charAt(0).toUpperCase();
+
+    app.innerHTML=`
+    <div class="page-title">حسابك</div>
+
+    <div class="card">
+        <div class="row">
+            <div class="avatar">${letter}</div>
+            <div class="info">
+                <div class="t">User ID</div>
+                <div class="d" style="font-family:monospace;direction:ltr;text-align:right">${user.id}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="row">
+            <div class="ico ${wal?'green':''}">${wal?'✅':'📛'}</div>
+            <div class="info">
+                <div class="t">توثيق الحساب</div>
+                <div class="d">${wal?'موثق':'غير موثق'}</div>
+            </div>
+            <button class="btn-gold" onclick="${wal?'':'openWallet()'}">${wal?'تم':'توثيق'}</button>
+        </div>
+
+        <div class="row">
+            <div class="ico">🔊</div>
+            <div class="info">
+                <div class="t">تأثيرات الصوت</div>
+                <div class="d">${soundOn?'مفعّل':'متوقف'}</div>
+            </div>
+            <div class="toggle ${soundOn?'on':''}" onclick="toggleSound(this)"></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="row">
+            <div class="ico gold">💎</div>
+            <div class="info">
+                <div class="t">VIP</div>
+                <div class="d">مضاعف 2x · مكافآت أعلى</div>
+            </div>
+            <button class="btn-gold" onclick="toast('⭐ قريباً')">فتح</button>
+        </div>
+    </div>
+
+    <div class="sec-title">الأصول</div>
+
+    <div class="card">
+        <div class="row">
+            <div class="ico gold">💰</div>
+            <div class="info">
+                <div class="t">Assets</div>
+                <div class="d">${fmt(bal)} MYT ≈ $${usd(bal)}</div>
+            </div>
+            <div class="val">${fmt(bal)} MYT</div>
+        </div>
+
+        <div class="row">
+            <div class="ico ${wal?'green':''}">💳</div>
+            <div class="info">
+                <div class="t">Holding Wallet</div>
+                <div class="d" style="font-family:monospace;direction:ltr;text-align:right">${walShow}</div>
+            </div>
+            <button class="btn-gold" onclick="openWallet()">${wal?'تعديل':'ربط'}</button>
+        </div>
+
+        <div class="row">
+            <div class="ico green">🏦</div>
+            <div class="info">
+                <div class="t">Pool Wallet</div>
+                <div class="d">الرصيد القابل للسحب</div>
+            </div>
+            <div class="val green">${fmt(bal)} MYT</div>
+        </div>
+    </div>
+
+    <div class="sec-title">التحكم</div>
+
+    <div class="card">
+        <div class="row">
+            <div class="ico ${canWD?'green':''}">📤</div>
+            <div class="info">
+                <div class="t">سحب</div>
+                <div class="d">من Pool إلى Holding Wallet</div>
+            </div>
+            <button class="btn-gold" onclick="openWithdraw()" ${canWD?'':'disabled'}>سحب</button>
+        </div>
+
+        <div class="row">
+            <div class="ico">📜</div>
+            <div class="info">
+                <div class="t">السجل</div>
+                <div class="d">سحوباتك السابقة</div>
+            </div>
+            <button class="btn-gold" style="background:rgba(224,64,64,.15);color:#e04040;box-shadow:none" onclick="openHistory()">فتح</button>
+        </div>
+    </div>
+
+    <div class="sec-title">إضافي</div>
+
+    <div class="card">
+        <div class="row">
+            <div class="ico gold">📊</div>
+            <div class="info">
+                <div class="t">الإحصائيات</div>
+                <div class="d">إحالات، تسجيل، مستوى</div>
+            </div>
+            <div class="val" style="font-size:14px">${ud.refs||0}👥 · ${ud.checkinDay||0}/7</div>
+        </div>
+
+        <div class="row">
+            <div class="ico gold">⏳</div>
+            <div class="info">
+                <div class="t">معلق</div>
+                <div class="d">قيد المراجعة</div>
+            </div>
+            <div class="val gold">${fmt(pend)} MYT</div>
+        </div>
+    </div>
+
+    <div style="height:20px"></div>
+    `;
+}
+
+function toggleSound(el){
+    soundOn=!soundOn;
+    el.classList.toggle('on',soundOn);
+    el.parentElement.querySelector('.d').textContent=soundOn?'مفعّل':'متوقف';
+}
+
+function openWallet(){
+    document.getElementById('walletInput').value=ud.wallet||'';
+    document.getElementById('walletModal').classList.add('show');
+}
+
+function openHistory(){document.getElementById('historyModal').classList.add('show')}
+
+async function saveWallet(){
+    const w=document.getElementById('walletInput').value.trim();
+    if(!w||w.length<40){toast('عنوان غير صالح',true);return}
+    const r=await api('/api/wallet',{id:user.id,wallet:w});
+    if(r&&r.ok){ud.wallet=w;closeModal();toast('✅ تم حفظ المحفظة');render()}
+    else toast('❌ فشل الحفظ',true);
+}
+
+function openWithdraw(){
+    document.getElementById('withdrawInput').value='';
+    document.getElementById('minText').textContent=fmt(MIN_WD);
+    document.getElementById('withdrawModal').classList.add('show');
+}
+
+async function submitWithdraw(){
+    const amt=parseFloat(document.getElementById('withdrawInput').value);
+    const bal=parseFloat(ud.balance||0);
+    if(!amt||amt<MIN_WD){toast('الحد الأدنى '+fmt(MIN_WD)+' MYT',true);return}
+    if(amt>bal){toast('رصيدك '+fmt(bal)+' MYT فقط',true);return}
+    const r=await api('/api/admin/give',{admin_id:ADMIN,target_id:String(user.id),amount:-amt});
+    if(r&&r.ok){
+        ud.balance=bal-amt;ud.pending=(ud.pending||0)+amt;
+        closeModal();toast('✅ طلب سحب '+fmt(amt)+' MYT');render()
+    }else toast('❌ فشل الإرسال',true);
+}
+
+loadUser().catch(e=>{console.error(e);document.getElementById('app').innerHTML='<div class="loading">خطأ</div>'});
+</script>
+</body>
+</html>
