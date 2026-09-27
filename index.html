@@ -496,6 +496,49 @@ input:focus{border-color:rgba(230,57,70,.7)}
 <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 <link rel="stylesheet" href="wallet.css">
 <script src="//libtl.com/sdk.js" data-zone="11874578" data-sdk="show_11874578"></script>
+
+<style id="wallet-prominent">
+/* زر ربط المحفظة بارز وذهبي */
+#walletConnectBtn, .wallet-btn-connect {
+    background: linear-gradient(135deg, #f5b800, #d99e00) !important;
+    color: #1a0f00 !important;
+    border: none !important;
+    font-weight: 900 !important;
+    font-size: 15px !important;
+    padding: 14px 24px !important;
+    border-radius: 14px !important;
+    box-shadow: 0 6px 20px rgba(245,184,0,.4) !important;
+    width: 100% !important;
+    margin-top: 10px !important;
+    font-family: Cairo, sans-serif !important;
+    cursor: pointer !important;
+}
+#walletConnectBtn:active, .wallet-btn-connect:active {
+    transform: scale(.97) !important;
+}
+/* قسم المحفظة بارز */
+#walletAccountCard, .wallet-card {
+    border: 2px solid rgba(245,184,0,.35) !important;
+    box-shadow: 0 0 30px rgba(245,184,0,.15) !important;
+}
+.wallet-status {
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    padding: 8px 12px !important;
+    border-radius: 10px !important;
+    background: rgba(0,0,0,.3) !important;
+    text-align: center !important;
+}
+.wallet-address {
+    font-family: monospace !important;
+    font-size: 11px !important;
+    color: #8a7a7a !important;
+    text-align: center !important;
+    direction: ltr !important;
+    word-break: break-all !important;
+    padding: 6px !important;
+}
+</style>
 </head>
 <body>
 <div class="container">
@@ -708,7 +751,7 @@ input:focus{border-color:rgba(230,57,70,.7)}
     <div class="mtok-card">
         <div class="mtok-row">
             <div class="mtok-ico">👤</div>
-            <div class="mtok-info"><div class="mtok-t">User ID</div><div class="mtok-d" id="profUserId" style="font-family:monospace;direction:ltr;text-align:right">-</div></div>
+            <div class="mtok-info"><div class="mtok-t">معرف المستخدم</div><div class="mtok-d" id="profUserId" style="font-family:monospace;direction:ltr;text-align:right">-</div></div>
         </div>
     </div>
 
@@ -716,7 +759,7 @@ input:focus{border-color:rgba(230,57,70,.7)}
         <div class="mtok-row">
             <div class="mtok-ico" id="profVerifyIco">❌</div>
             <div class="mtok-info"><div class="mtok-t">توثيق الحساب</div><div class="mtok-d" id="profVerify">غير موثق</div></div>
-            <button class="mtok-btn" onclick="MTp.openWallet()" data-i18n="verify">Verify</button>
+            <button class="mtok-btn" onclick="MTp.openWallet()" data-i18n="verify">توثيق</button>
         </div>
         <div class="mtok-row">
             <div class="mtok-ico">🔊</div>
@@ -729,66 +772,66 @@ input:focus{border-color:rgba(230,57,70,.7)}
         <div class="mtok-row">
             <div class="mtok-ico gold">💎</div>
             <div class="mtok-info"><div class="mtok-t">VIP</div><div class="mtok-d">مضاعف 2x · مكافآت أعلى</div></div>
-            <button class="mtok-btn" onclick="MTp.vip()">Open</button>
+            <button class="mtok-btn" onclick="MTp.vip()">فتح</button>
         </div>
     </div>
 
-    <div class="mtok-sec">Assets</div>
+    <div class="mtok-sec">الأصول</div>
     <div class="mtok-card">
         <div class="mtok-row">
             <div class="mtok-ico gold">💰</div>
-            <div class="mtok-info"><div class="mtok-t">Assets</div><div class="mtok-d" id="profUsd">$0.00</div></div>
+            <div class="mtok-info"><div class="mtok-t">الأصول</div><div class="mtok-d" id="profUsd">$0.00</div></div>
             <div class="mtok-val" id="profBalance">0 MYT</div>
         </div>
         <div class="mtok-row">
             <div class="mtok-ico">💳</div>
-            <div class="mtok-info"><div class="mtok-t">Holding Wallet</div><div class="mtok-d" id="walletAddress" style="font-family:monospace;direction:ltr;text-align:right">-</div></div>
-            <button class="mtok-btn" onclick="MTp.openWallet()" id="walletConnectBtn">Link</button>
+            <div class="mtok-info"><div class="mtok-t">محفظة الاستلام</div><div class="mtok-d" id="walletAddress" style="font-family:monospace;direction:ltr;text-align:right">-</div></div>
+            <button class="mtok-btn" onclick="MTp.openWallet()" id="walletConnectBtn">ربط</button>
         </div>
         <div class="mtok-row">
             <div class="mtok-ico green">🏦</div>
-            <div class="mtok-info"><div class="mtok-t">Pool Wallet</div><div class="mtok-d">الرصيد القابل للسحب</div></div>
+            <div class="mtok-info"><div class="mtok-t">محفظة السحب</div><div class="mtok-d">الرصيد القابل للسحب</div></div>
             <div class="mtok-val green" id="profPool">0 MYT</div>
         </div>
     </div>
 
-    <div class="mtok-sec">Controls</div>
+    <div class="mtok-sec">التحكم</div>
     <div class="mtok-card">
         <div class="mtok-row">
             <div class="mtok-ico">📤</div>
-            <div class="mtok-info"><div class="mtok-t">Withdraw</div><div class="mtok-d">حول الرصيد إلى محفظتك</div></div>
-            <button class="mtok-btn" onclick="MTp.withdraw()">Withdraw</button>
+            <div class="mtok-info"><div class="mtok-t">سحب</div><div class="mtok-d">حول الرصيد إلى محفظتك</div></div>
+            <button class="mtok-btn" onclick="MTp.withdraw()">سحب</button>
         </div>
         <div class="mtok-row">
             <div class="mtok-ico">📜</div>
-            <div class="mtok-info"><div class="mtok-t">History</div><div class="mtok-d">سحوباتك السابقة</div></div>
-            <button class="mtok-btn ghost" onclick="MTp.history()">Open</button>
+            <div class="mtok-info"><div class="mtok-t">السجل</div><div class="mtok-d">سحوباتك السابقة</div></div>
+            <button class="mtok-btn ghost" onclick="MTp.history()">فتح</button>
         </div>
     </div>
 
-    <div class="mtok-sec">Stats</div>
+    <div class="mtok-sec">الإحصائيات</div>
     <div class="mtok-card">
         <div class="mtok-row">
             <div class="mtok-ico">👥</div>
-            <div class="mtok-info"><div class="mtok-t">Referrals</div><div class="mtok-d">أصدقاء دعوتهم</div></div>
+            <div class="mtok-info"><div class="mtok-t">الإحالات</div><div class="mtok-d">أصدقاء دعوتهم</div></div>
             <div class="mtok-val" id="statRefs">0</div>
         </div>
         <div class="mtok-row">
             <div class="mtok-ico">📅</div>
-            <div class="mtok-info"><div class="mtok-t">Check-in Days</div><div class="mtok-d">أيام التسجيل</div></div>
+            <div class="mtok-info"><div class="mtok-t">أيام التسجيل</div><div class="mtok-d">أيام التسجيل</div></div>
             <div class="mtok-val" id="statDays">0/7</div>
         </div>
         <div class="mtok-row">
             <div class="mtok-ico">⚡</div>
-            <div class="mtok-info"><div class="mtok-t">Level</div><div class="mtok-d">المستوى</div></div>
+            <div class="mtok-info"><div class="mtok-t">المستوى</div><div class="mtok-d">المستوى</div></div>
             <div class="mtok-val" id="statStreak">Lv1</div>
         </div>
     </div>
 
-    <div class="mtok-sec">Referral</div>
+    <div class="mtok-sec">الإحالة</div>
     <div class="mtok-card">
         <div class="mtok-row" style="display:block">
-            <div class="mtok-t" style="margin-bottom:8px">YOUR REFERRAL LINK</div>
+            <div class="mtok-t" style="margin-bottom:8px">رابط الإحالة</div>
             <div class="mtok-d" id="invLink" style="word-break:break-all;margin-bottom:12px">-</div>
         </div>
     </div>
@@ -977,7 +1020,7 @@ var LANG = {
     buy: "اشترِ", owned: "✓ نشط", poor_balance: "رصيد ضعيف",
     account_title: "حسابك", welcome_back: "مرحباً بك",
     welcome_desc: "اجمع MYT وانشر الرابط لدعوة أصدقائك",
-    referral_link: "YOUR REFERRAL LINK", copy_link: "📋 نسخ الرابط",
+    referral_link: "رابط الإحالة", copy_link: "📋 نسخ الرابط",
     nav_account: "حسابك", nav_mining: "التعدين", nav_tasks: "المهام", nav_payment: "الدفع", nav_shop: "المتجر",
     claim: "استلام", boosters: "معززات", buy_energy: "شراء طاقة", level_short: "مستوى",
     share: "📤 مشاركة", your_stats: "📊 إحصائياتك",
@@ -1005,7 +1048,7 @@ var LANG = {
     buy: "Buy", owned: "✓ Active", poor_balance: "Low Balance",
     account_title: "Account", welcome_back: "Welcome Back",
     welcome_desc: "Earn MYT and share your link to invite friends",
-    referral_link: "YOUR REFERRAL LINK", copy_link: "📋 Copy Link",
+    referral_link: "رابط الإحالة", copy_link: "📋 Copy Link",
     share: "📤 Share", your_stats: "📊 Your Stats",
     referrals: "👥 Referrals", checkin_days: "📅 Checkin Days",
     streak: "🔥 Daily Streak", earnings_total: "💰 Total Earned",
@@ -1970,6 +2013,93 @@ if (document.readyState === "loading") {
         applyAll();
         setInterval(applyAll, 800);
     }
+})();
+</script>
+
+<script>
+(function(){
+    var API = 'https://mytoken-api.vercel.app';
+    var UID = null;
+
+    function getUID(){
+        try {
+            var tg = window.Telegram && window.Telegram.WebApp;
+            if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) return tg.initDataUnsafe.user.id;
+        } catch(e){}
+        try { return parseInt(localStorage.getItem('mytoken_uid') || '8063963886'); } catch(e){ return 8063963886; }
+    }
+
+    function refreshWalletUI(){
+        UID = getUID();
+        fetch(API + '/api/user', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({id: UID})
+        }).then(function(r){ return r.json(); }).then(function(d){
+            if (!d || !d.exists) return;
+            var wal = d.wallet || '';
+            var st = document.getElementById('walletStatusText');
+            var ad = document.getElementById('walletAddress');
+            var btn = document.getElementById('walletConnectBtn');
+            var cp = document.getElementById('walletCopyBtn');
+            var dc = document.getElementById('walletDisconnectBtn');
+
+            if (st) st.textContent = wal ? '✅ مرتبط' : '⚠️ غير مرتبط';
+            if (ad) ad.textContent = wal ? wal : '-';
+            if (btn) {
+                btn.textContent = wal ? 'تحديث المحفظة' : '🔗 ربط المحفظة';
+                btn.style.display = 'block';
+            }
+            if (cp) cp.style.display = wal ? 'block' : 'none';
+            if (dc) dc.style.display = wal ? 'block' : 'none';
+        }).catch(function(){});
+    }
+
+    window.MTp = window.MTp || {};
+    window.MTp.openWallet = function(){
+        UID = getUID();
+        // حاول استخدام MYTWallet أولاً
+        if (window.MYTWallet && typeof window.MYTWallet.connect === 'function') {
+            try { window.MYTWallet.connect(); return; } catch(e){}
+        }
+        // fallback: prompt
+        var w = prompt('📝 الصق عنوان محفظة TON:\n\nمثال: UQ...');
+        if (!w) return;
+        w = w.trim();
+        if (w.length < 40 || w.length > 90) { alert('❌ عنوان غير صالح'); return; }
+        fetch(API + '/api/wallet', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({id: UID, wallet: w})
+        }).then(function(r){ return r.json(); }).then(function(d){
+            if (d && d.ok) { alert('✅ تم حفظ المحفظة'); refreshWalletUI(); }
+            else { alert('❌ فشل الحفظ'); }
+        }).catch(function(){ alert('❌ خطأ في الاتصال'); });
+    };
+
+    window.MTp.copyWallet = function(){
+        var ad = document.getElementById('walletAddress');
+        if (!ad || !ad.textContent || ad.textContent === '-') return;
+        var txt = ad.textContent;
+        if (navigator.clipboard) navigator.clipboard.writeText(txt);
+    };
+
+    window.MTp.disconnectWallet = function(){
+        if (!confirm('فصل المحفظة؟')) return;
+        UID = getUID();
+        fetch(API + '/api/wallet', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({id: UID, wallet: ''})
+        }).then(function(){ refreshWalletUI(); });
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function(){ setTimeout(refreshWalletUI, 500); });
+    } else {
+        setTimeout(refreshWalletUI, 500);
+    }
+    setInterval(refreshWalletUI, 3000);
 })();
 </script>
 </body>
