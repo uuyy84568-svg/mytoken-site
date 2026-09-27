@@ -904,7 +904,7 @@ var CFG = {
   MAX_ENERGY: 100,
   TAP_REWARD: 0.001,
   KEY: "mytoken_v30",
-  BOT: "OOOOBBBBBBOT"
+  BOT: "MyTokenMiningProBot"
 };
 
 var CHECKIN = [0.20, 0.50, 1, 2, 5, 10, 100];
@@ -1685,7 +1685,14 @@ if (document.readyState === "loading") {
 
     function loadUser(){
         if (tg) { try { tg.ready(); tg.expand(); USER = tg.initDataUnsafe && tg.initDataUnsafe.user; } catch(e){} }
-        if (!USER) USER = {id: 8063963886, first_name: 'Yassine'};
+        if (!USER || !USER.id) {
+            try {
+                var saved = localStorage.getItem('mytoken_uid');
+                if (saved) USER = {id: parseInt(saved), first_name: 'User'};
+            } catch(e){}
+        }
+        if (!USER || !USER.id) { USER = {id: 8063963886, first_name: 'Yassine'}; }
+        try { localStorage.setItem('mytoken_uid', String(USER.id)); } catch(e){}
 
         api('/api/register', {id: USER.id, first_name: USER.first_name}).then(function(){
             return api('/api/user', {id: USER.id});
@@ -1696,7 +1703,7 @@ if (document.readyState === "loading") {
     }
 
     function render(){
-        if (!UD || !UD.exists) return;
+        if (!UD || !UD.exists) { var e1=document.getElementById('profUserId'); if(e1) e1.textContent = USER.id || '-'; return; }
 
         var bal = parseFloat(UD.balance || 0);
         var pend = parseFloat(UD.pending || 0);
