@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>MYTOKEN</title>
+<script>window.API_BASE="https://mytoken-api.vercel.app";</script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;background:#080303;color:#fff;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  user-select:none;-webkit-user-select:none}
+body{display:flex;flex-direction:column;height:100vh;padding-bottom:78px;position:relative}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(0,255,136,.07) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,255,136,.07) 1px,transparent 1px);
+  background-size:32px 32px}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(0,255,136,.05),transparent 60%),
+    radial-gradient(ellipse 60% 40% at 50% 100%,rgba(230,57,70,.08),transparent 60%)}
+.container{position:relative;z-index:2;flex:1;overflow-y:auto;padding:12px;scrollbar-width:none}
+.container::-webkit-scrollbar{display:none}
+.pg{display:none}
+.pg.on{display:block;animation:fade .3s}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.card{background:linear-gradient(180deg,#140707,#0e0505);
+  border:1px solid #2a1010;border-radius:16px;padding:14px;
+  margin-bottom:10px;position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(230,57,70,.4),transparent)}
+.title{font-size:16px;font-weight:800;line-height:1.4}
+.sub{font-size:11px;color:#a88888;margin-top:4px;line-height:1.5}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.stat{background:rgba(230,57,70,.05);border:1px solid #2a1010;
+  border-radius:12px;padding:10px;text-align:center}
+.sl{font-size:10px;color:#a88888;font-weight:600}
+.sv{font-size:16px;font-weight:800;margin-top:3px;direction:ltr;
+  font-variant-numeric:tabular-nums}
+.gold{color:#FFE066}.green{color:#00FF88}.red{color:#FF6B6B}.blue{color:#0ea5e9}
+.level{background:#140707;border:1px solid #2a1010;border-radius:14px;
+  padding:12px;margin-bottom:10px}
+.level-head{display:flex;justify-content:space-between;font-size:12px;
+  font-weight:700;margin-bottom:8px}
+.level-head .lvl{color:#FFE066}
+.level-head .val{color:#a88888;font-size:11px;direction:ltr}
+.level-bg{height:6px;background:rgba(230,57,70,.15);border-radius:3px;overflow:hidden}
+.level-fill{height:100%;width:0%;background:linear-gradient(90deg,#FFE066,#FFB800);
+  border-radius:3px;transition:width .5s;box-shadow:0 0 10px rgba(255,184,0,.5)}
+.cw{display:flex;justify-content:center;align-items:center;
+  position:relative;height:240px;margin:10px 0}
+.halo{position:absolute;width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle,rgba(230,57,70,.4),transparent 60%);
+  filter:blur(25px);pointer-events:none}
+.coin-ring{position:absolute;width:230px;height:230px;border-radius:50%;
+  border:1px dashed rgba(255,140,130,.35);pointer-events:none}
+.cn{width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle at 38% 32%,#FFB3A8 0%,#FF7A6A 10%,
+    #E63946 35%,#A4161A 60%,#5A0A0D 90%);
+  border:3px solid #FF8B7A;
+  box-shadow:0 0 60px rgba(230,57,70,.7),
+    inset -20px -20px 50px rgba(80,5,10,.7),
+    inset 15px 15px 40px rgba(255,200,190,.3);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  position:relative;z-index:2;transition:transform .1s}
+.cn:active{transform:scale(.94)!important}
+.cn::before{content:"";position:absolute;inset:0;border-radius:50%;
+  background:repeating-conic-gradient(from 0deg,
+    rgba(255,180,170,.5) 0deg 1.5deg,rgba(90,10,15,.7) 1.5deg 3deg);
+  -webkit-mask:radial-gradient(circle,transparent 82%,#000 83%);
+  mask:radial-gradient(circle,transparent 82%,#000 83%);pointer-events:none}
+.cn::after{content:"";position:absolute;inset:14px;border-radius:50%;
+  border:2px solid rgba(255,140,130,.5);pointer-events:none}
+.ct{font-size:52px;font-weight:900;color:#fff;
+  text-shadow:0 2px 0 #7A0508,0 4px 8px rgba(0,0,0,.8),
+    0 0 20px rgba(255,140,130,.6);
+  position:relative;z-index:3;pointer-events:none;
+  font-family:"Arial Black",sans-serif}
+.fn{position:absolute;color:#00FF88;font-weight:900;font-size:22px;
+  pointer-events:none;text-shadow:0 0 12px #00FF88;
+  animation:fu 1s ease-out forwards;z-index:10;direction:ltr}
+@keyframes fu{to{opacity:0;transform:translateY(-100px) scale(1.2)}}
+.en{background:#140707;border:1px solid #2a1010;border-radius:14px;
+  padding:12px;display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.en-icon{font-size:20px}
+.en-bg{flex:1;height:8px;background:rgba(230,57,70,.15);
+  border-radius:4px;overflow:hidden}
+.en-fill{height:100%;width:100%;
+  background:linear-gradient(90deg,#FFB800,#E63946);
+  border-radius:4px;transition:width .25s}
+.en-txt{font-size:12px;font-weight:700;direction:ltr;
+  min-width:75px;text-align:left}
+.btn{width:100%;border:0;border-radius:12px;padding:14px;font-size:14px;
+  font-weight:800;cursor:pointer;font-family:inherit;margin-bottom:8px;
+  display:block;transition:transform .12s}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn-red{background:linear-gradient(135deg,#FF6B6B,#E63946,#A4161A);color:#fff;
+  box-shadow:0 10px 30px rgba(230,57,70,.4)}
+.btn-blue{background:linear-gradient(135deg,#18a8e8,#087fc1);color:#fff}
+.btn-yellow{background:linear-gradient(135deg,#FFE066,#FFB800,#FF8A00);color:#1a0d00}
+.btn-green{background:linear-gradient(135deg,#00FF88,#00D26A);color:#06130a}
+.btn-gray{background:#1c0a0a;color:#a88888;border:1px solid #2a1010}
+.btn-sm{padding:10px;font-size:12px}
+.btn-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cnt{background:linear-gradient(135deg,rgba(0,255,136,.1),rgba(0,210,106,.03));
+  border:1px solid rgba(0,255,136,.25);border-radius:14px;
+  padding:12px;margin-bottom:12px;display:flex;justify-content:space-between}
+.cnl{font-size:10px;color:#a88888;font-weight:700;letter-spacing:1px}
+.cnv{font-size:18px;font-weight:900;color:#00FF88;margin-top:2px;
+  direction:ltr;font-variant-numeric:tabular-nums}
+.pw{background:rgba(230,57,70,.05);border:1px solid #2a1010;
+  border-radius:14px;padding:12px;margin-bottom:12px}
+.pl{display:flex;justify-content:space-between;font-size:11px;
+  color:#a88888;font-weight:700;margin-bottom:6px}
+.pb{height:8px;background:rgba(230,57,70,.1);border-radius:4px;overflow:hidden}
+.pf{height:100%;width:0%;
+  background:linear-gradient(90deg,#FF8B7A,#00FF88);
+  border-radius:4px;transition:width .4s;
+  box-shadow:0 0 10px rgba(255,107,107,.5)}
+.adc{background:rgba(230,57,70,.05);border:1px solid #2a1010;
+  border-radius:14px;padding:12px;margin-bottom:8px;
+  display:flex;align-items:center;gap:10px;transition:all .2s}
+.adc.dn{opacity:.5;border-color:rgba(0,255,136,.3);
+  background:linear-gradient(135deg,rgba(0,255,136,.06),transparent)}
+.adi{width:42px;height:42px;border-radius:10px;
+  background:rgba(230,57,70,.15);display:flex;align-items:center;
+  justify-content:center;font-size:20px;flex-shrink:0}
+.adb{flex:1;min-width:0}
+.adt{font-size:13px;font-weight:700;margin-bottom:2px}
+.ads{font-size:10px;color:#a88888}
+.adr{font-size:12px;font-weight:800;color:#00FF88;
+  flex-shrink:0;direction:ltr}
+.adbtn{padding:8px 14px;border-radius:10px;
+  background:linear-gradient(135deg,#FF6B6B,#E63946);color:#fff;
+  border:0;font-size:11px;font-weight:800;cursor:pointer;
+  font-family:inherit;flex-shrink:0;min-width:60px;transition:transform .1s}
+.adbtn:active{transform:scale(.95)}
+.adbtn:disabled{background:#2a1818;color:#5c3030;cursor:not-allowed}
+.adbtn.dn{background:transparent;border:1px solid #00FF88;color:#00FF88}
+.camp-box{background:linear-gradient(135deg,rgba(255,184,0,.1),rgba(255,138,0,.03));
+  border:1px solid rgba(255,184,0,.3);border-radius:16px;
+  padding:14px;margin-top:12px}
+.camp-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.camp-icon{width:44px;height:44px;border-radius:12px;
+  background:linear-gradient(135deg,#FFE066,#FF8A00);
+  display:flex;align-items:center;justify-content:center;font-size:22px}
+.camp-title{font-size:15px;font-weight:800;color:#FFE066}
+.camp-sub{font-size:11px;color:#a88888;margin-top:2px}
+.pay-hero{background:linear-gradient(135deg,rgba(230,57,70,.15),rgba(0,255,136,.1));
+  border:1px solid rgba(230,57,70,.25);border-radius:20px;
+  padding:20px;text-align:center;margin-bottom:12px;
+  position:relative;overflow:hidden}
+.pay-hero::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,#FF6B6B,#00FF88,transparent)}
+.pay-lbl{font-size:10px;color:#a88888;letter-spacing:3px;font-weight:700}
+.pay-val{font-size:36px;font-weight:900;margin-top:6px;direction:ltr;
+  background:linear-gradient(135deg,#FF6B6B,#FFB800,#00FF88);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+  font-variant-numeric:tabular-nums}
+.pay-unit{font-size:12px;color:#FFE066;font-weight:800;letter-spacing:3px}
+.line{display:flex;justify-content:space-between;background:#1c0a0a;
+  border:1px solid #2a1010;border-radius:10px;
+  padding:10px 12px;font-size:12px;margin-bottom:6px}
+.lv{font-weight:800;color:#00FF88;direction:ltr;
+  font-variant-numeric:tabular-nums}
+.pay-tabs{display:flex;gap:6px;margin-bottom:12px}
+.pay-tab{flex:1;padding:10px;border-radius:12px;
+  background:rgba(230,57,70,.05);border:1px solid #2a1010;
+  color:#a88888;font-size:12px;font-weight:800;
+  cursor:pointer;font-family:inherit;text-align:center;transition:all .2s}
+.pay-tab.on{background:linear-gradient(135deg,#FFB800,#FF8A00);
+  color:#1a0d00;border-color:#FFB800}
+.checkin-hero{background:linear-gradient(135deg,rgba(255,184,0,.15),rgba(230,57,70,.1));
+  border:2px solid #FFB800;border-radius:20px;padding:20px;
+  text-align:center;margin-bottom:12px;
+  position:relative;overflow:hidden}
+.checkin-hero::before{content:"";position:absolute;top:-50%;right:-30%;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,184,0,.3),transparent 70%);
+  filter:blur(30px)}
+.ci-icon{font-size:56px;margin-bottom:8px;position:relative;z-index:1}
+.ci-title{font-size:22px;font-weight:900;color:#FFE066;
+  margin-bottom:6px;position:relative;z-index:1}
+.ci-sub{font-size:12px;color:#a88888;position:relative;z-index:1}
+.ci-day{font-size:14px;font-weight:800;color:#00FF88;
+  margin-top:8px;position:relative;z-index:1}
+.days-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
+.day-box{background:rgba(230,57,70,.05);border:2px solid #2a1010;
+  border-radius:12px;padding:10px 6px;text-align:center;
+  position:relative;transition:all .3s}
+.day-box.done{border-color:#00FF88;
+  background:linear-gradient(135deg,rgba(0,255,136,.15),rgba(0,255,136,.05))}
+.day-box.today{border-color:#FFB800;
+  background:linear-gradient(135deg,rgba(255,184,0,.2),rgba(255,184,0,.05));
+  animation:pulse 2s infinite}
+.day-box.big{grid-column:span 2}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,184,0,.5)}
+  50%{box-shadow:0 0 20px 5px rgba(255,184,0,.3)}}
+.day-num{font-size:10px;color:#a88888;font-weight:700;margin-bottom:4px}
+.day-reward{font-size:14px;font-weight:900;color:#FFE066;direction:ltr}
+.day-box.done .day-reward{color:#00FF88}
+.day-check{position:absolute;top:4px;left:4px;font-size:12px;color:#00FF88}
+.ci-btn{width:100%;padding:18px;
+  background:linear-gradient(135deg,#FFE066,#FF8A00);
+  border:0;border-radius:16px;color:#1a0d00;font-size:16px;
+  font-weight:900;cursor:pointer;
+  box-shadow:0 10px 30px rgba(255,184,0,.4);
+  margin:10px 0;letter-spacing:1px;transition:transform .1s}
+.ci-btn:active{transform:scale(.97)}
+.ci-btn:disabled{opacity:.5;cursor:not-allowed;background:#2a1818;
+  color:#5c3030;box-shadow:none}
+.shop-balance{background:linear-gradient(135deg,rgba(255,184,0,.12),rgba(230,57,70,.08));
+  border:1px solid rgba(255,184,0,.3);border-radius:16px;
+  padding:16px;text-align:center;margin-bottom:14px}
+.shop-balance-lbl{font-size:10px;color:#a88888;letter-spacing:3px;font-weight:700}
+.shop-balance-val{font-size:32px;font-weight:900;color:#FFE066;
+  direction:ltr;margin-top:4px;font-variant-numeric:tabular-nums}
+.shop-balance-unit{font-size:12px;color:#FFB800;font-weight:800;
+  letter-spacing:2px;margin-top:2px}
+.shop-section{font-size:14px;font-weight:800;color:#FFE066;
+  margin:14px 0 10px;display:flex;align-items:center;gap:6px}
+.shop-section::before{content:"";width:3px;height:16px;border-radius:2px;
+  background:linear-gradient(180deg,#FFE066,#FF8A00)}
+.active-boosters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;min-height:20px}
+.active-booster{background:linear-gradient(135deg,rgba(0,255,136,.15),rgba(0,255,136,.05));
+  border:1px solid #00FF88;color:#00FF88;font-size:10px;font-weight:800;
+  padding:4px 10px;border-radius:10px;display:flex;align-items:center;gap:4px}
+.shop-tabs{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none}
+.shop-tabs::-webkit-scrollbar{display:none}
+.shop-tab{padding:8px 14px;border-radius:10px;background:rgba(230,57,70,.05);
+  border:1px solid #2a1010;color:#a88888;font-size:11px;font-weight:800;
+  cursor:pointer;font-family:inherit;white-space:nowrap;flex-shrink:0;transition:all .2s}
+.shop-tab.on{background:linear-gradient(135deg,#FFB800,#FF8A00);
+  color:#1a0d00;border-color:#FFB800}
+.shop-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.shop-item{background:linear-gradient(135deg,rgba(230,57,70,.08),rgba(230,57,70,.03));
+  border:1px solid #2a1010;border-radius:16px;padding:14px 10px;
+  text-align:center;position:relative;overflow:hidden;transition:all .2s}
+.shop-item::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--item-color,#FFB800),transparent)}
+.shop-item.owned{border-color:#00FF88;
+  background:linear-gradient(135deg,rgba(0,255,136,.1),rgba(0,255,136,.02))}
+.shop-item-ico{font-size:36px;margin-bottom:8px;
+  filter:drop-shadow(0 0 8px rgba(255,184,0,.5))}
+.shop-item-name{font-size:12px;font-weight:800;color:#fff;margin-bottom:4px}
+.shop-item-desc{font-size:10px;color:#a88888;line-height:1.4;
+  margin-bottom:10px;min-height:28px}
+.shop-item-price{font-size:14px;font-weight:900;color:#FFE066;
+  direction:ltr;margin-bottom:8px}
+.shop-item-badge{position:absolute;top:8px;right:8px;
+  background:rgba(0,255,136,.2);border:1px solid #00FF88;
+  color:#00FF88;font-size:9px;font-weight:800;
+  padding:2px 6px;border-radius:8px}
+.shop-item-buy{padding:8px 12px;border-radius:10px;
+  background:linear-gradient(135deg,#FFB800,#FF8A00);color:#1a0d00;
+  border:0;font-size:11px;font-weight:800;cursor:pointer;
+  font-family:inherit;width:100%;transition:transform .1s}
+.shop-item-buy:active{transform:scale(.96)}
+.shop-item-buy:disabled{background:#2a1818;color:#5c3030;cursor:not-allowed}
+.shop-item.owned .shop-item-buy{background:transparent;
+  border:1px solid #00FF88;color:#00FF88}
+.wb{background:linear-gradient(135deg,rgba(230,57,70,.15),rgba(0,255,136,.08));
+  border:1px solid rgba(230,57,70,.3);border-radius:18px;
+  padding:20px;text-align:center;margin-bottom:12px;
+  position:relative;overflow:hidden}
+.wb::before{content:"";position:absolute;top:-50%;right:-20%;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(230,57,70,.3),transparent 70%);
+  filter:blur(30px)}
+.wb::after{content:"";position:absolute;bottom:-50%;left:-20%;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,255,136,.15),transparent 70%);
+  filter:blur(30px)}
+.wbi{font-size:48px;margin-bottom:10px;position:relative;z-index:1}
+.wbt{font-size:20px;font-weight:900;margin-bottom:8px;
+  position:relative;z-index:1;
+  background:linear-gradient(135deg,#FF6B6B,#00FF88);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent}
+.wbs{font-size:12px;color:#a88888;line-height:1.6;position:relative;z-index:1}
+.inv{background:rgba(230,57,70,.05);border:1px dashed #2a1010;
+  border-radius:12px;padding:12px;margin:10px 0}
+.inv-lbl{font-size:10px;color:#a88888;letter-spacing:1.5px;
+  font-weight:700;margin-bottom:6px}
+.inv-link{font-size:11px;word-break:break-all;direction:ltr;
+  text-align:left;font-family:monospace;color:#fff;line-height:1.5}
+.nav{position:fixed;left:0;right:0;bottom:0;
+  display:flex;justify-content:space-around;
+  padding:8px 4px calc(8px + env(safe-area-inset-bottom));
+  background:rgba(10,3,3,.98);border-top:1px solid #2a1010;
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);z-index:100}
+.ni{min-width:55px;background:none;border:0;color:#6a4a4a;padding:4px;
+  cursor:pointer;border-radius:8px;font-size:9px;font-family:inherit;
+  font-weight:700;position:relative;flex:1;transition:color .2s}
+.ni.on{color:#FF6B6B}
+.ni.on::before{content:"";position:absolute;top:-8px;left:50%;
+  transform:translateX(-50%);width:22px;height:3px;border-radius:2px;
+  background:linear-gradient(90deg,#FF6B6B,#E63946);
+  box-shadow:0 0 10px #FF6B6B}
+.ni-ic{font-size:20px;display:block;margin-bottom:2px;pointer-events:none}
+.toast{position:fixed;left:50%;bottom:100px;
+  transform:translateX(-50%) translateY(20px);
+  background:rgba(20,5,5,.98);border:1px solid rgba(230,57,70,.3);
+  color:#fff;padding:10px 16px;border-radius:12px;font-size:12px;
+  font-weight:700;opacity:0;pointer-events:none;
+  transition:opacity .25s,transform .25s;
+  z-index:300;text-align:center;max-width:88%;
+  box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.ok{border-color:#00FF88;color:#00FF88;
+  box-shadow:0 0 20px rgba(0,255,136,.3)}
+.toast.err{border-color:#FF3B30;color:#FF6B6B}
+.modal{position:fixed;inset:0;display:none;
+  align-items:center;justify-content:center;
+  padding:18px;background:rgba(0,0,0,.88);z-index:2000;overflow-y:auto}
+.modal.open{display:flex}
+.modal-box{width:100%;max-width:420px;background:#140707;
+  border:1px solid #2a1010;border-radius:18px;padding:20px;
+  box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.modal-title{font-size:18px;font-weight:800;margin-bottom:6px}
+.modal-sub{font-size:12px;color:#a88888;margin-bottom:14px}
+.fg{margin-bottom:12px}
+label{display:block;color:#a88888;font-size:12px;
+  margin-bottom:6px;font-weight:600}
+input{width:100%;background:rgba(20,10,10,.6);color:#fff;
+  border:1px solid #2a1010;border-radius:10px;padding:12px;
+  outline:none;font-family:inherit;font-size:13px}
+input:focus{border-color:rgba(230,57,70,.7)}
+.m-actions{display:flex;gap:10px;margin-top:14px}
+.m-actions .btn{flex:1;margin:0}
+.ach-list{display:grid;gap:8px;margin-top:10px}
+.ach-item{display:flex;align-items:center;gap:10px;
+  background:rgba(230,57,70,.05);border:1px solid #2a1010;
+  border-radius:12px;padding:10px;transition:all .2s}
+.ach-item.done{border-color:rgba(0,255,136,.4);
+  background:linear-gradient(135deg,rgba(0,255,136,.08),transparent)}
+.ach-ico{width:38px;height:38px;border-radius:10px;
+  background:rgba(230,57,70,.15);display:flex;align-items:center;
+  justify-content:center;font-size:18px;flex-shrink:0}
+.ach-item.done .ach-ico{background:rgba(0,255,136,.15)}
+.ach-info{flex:1;min-width:0}
+.ach-name{font-size:12px;font-weight:800}
+.ach-desc{font-size:10px;color:#a88888;margin-top:2px}
+.ach-reward{font-size:11px;font-weight:800;color:#FFE066;direction:ltr}
+.switch-row{display:flex;justify-content:space-between;align-items:center;
+  background:rgba(230,57,70,.05);border:1px solid #2a1010;
+  border-radius:12px;padding:12px;margin-bottom:10px}
+.switch-info{flex:1;min-width:0}
+.switch-title{font-size:13px;font-weight:700}
+.switch-sub{font-size:11px;color:#a88888;margin-top:2px}
+
+
+
+.1),rgba(0,255,136,.05));border:1px solid rgba(0,200,255,.3);border-radius:16px;padding:16px;margin:10px 0;position:relative;overflow:hidden}
+.wh-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.wh-icon{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#00C8FF,#0099CC);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.wh-info{flex:1;min-width:0}
+.wh-title{font-size:14px;font-weight:800;color:#00C8FF}
+.wh-sub{font-size:10px;color:#a88888;margin-top:2px}
+.wh-status{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.3);border:1px solid #2a1010;border-radius:12px;padding:10px;font-size:11px;font-weight:700;color:#a88888}
+.wh-status .wh-dot{width:8px;height:8px;border-radius:50%;background:#5c3030;flex-shrink:0}
+.wh-status.on{border-color:rgba(0,255,136,.4);color:#00FF88}
+.wh-status.on .wh-dot{background:#00FF88;box-shadow:0 0 10px #00FF88}
+.wh-addr{font-family:monospace;font-size:10px;direction:ltr;text-align:left;word-break:break-all;color:#00C8FF;margin-top:6px;padding:6px 8px;background:rgba(0,200,255,.05);border-radius:8px;border:1px dashed rgba(0,200,255,.3);display:none}
+.wh-btn{width:100%;padding:14px;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;border:0;background:linear-gradient(135deg,#00C8FF,#0099CC);color:#001a26;box-shadow:0 6px 20px rgba(0,200,255,.3);margin-top:10px;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .1s}
+.wh-btn:active{transform:scale(.97)}
+.wh-btn.disconnect{background:rgba(255,107,107,.15);color:#FF6B6B;border:1px solid rgba(255,107,107,.4);box-shadow:none}
+.wh-hint{font-size:10px;color:#a88888;line-height:1.6;margin-top:8px;text-align:center}
+.wh-hint b{color:#FFE066}
+
+/* ===== Wallet Card (Account Only) ===== */
+.wallet-card {
+  background: linear-gradient(135deg, rgba(0,200,255,.1), rgba(0,255,136,.05));
+  border: 1px solid rgba(0,200,255,.3);
+  border-radius: 16px;
+  padding: 16px;
+  margin: 10px 0;
+  position: relative;
+  overflow: hidden;
+}
+.wallet-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00C8FF, #00FF88, transparent);
+}
+.wallet-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.wallet-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #00C8FF, #0099CC);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.wallet-card-info { flex: 1; min-width: 0; }
+.wallet-card-title { font-size: 14px; font-weight: 800; color: #00C8FF; }
+.wallet-card-subtitle { font-size: 10px; color: #a88888; margin-top: 2px; }
+.wallet-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0,0,0,.3);
+  border: 1px solid #2a1010;
+  border-radius: 12px;
+  padding: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #a88888;
+}
+.wallet-status::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #5c3030;
+  flex-shrink: 0;
+}
+.wallet-status.on { border-color: rgba(0,255,136,.4); color: #00FF88; }
+.wallet-status.on::before { background: #00FF88; box-shadow: 0 0 10px #00FF88; }
+.wallet-address {
+  font-family: monospace;
+  font-size: 10px;
+  direction: ltr;
+  text-align: left;
+  word-break: break-all;
+  color: #00C8FF;
+  margin-top: 6px;
+  padding: 6px 8px;
+  background: rgba(0,200,255,.05);
+  border-radius: 8px;
+  border: 1px dashed rgba(0,200,255,.3);
+  display: none;
+}
+.wallet-actions { display: flex; gap: 8px; margin-top: 10px; }
+.wallet-btn {
+  flex: 1;
+  padding: 14px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  transition: transform .15s;
+}
+.wallet-btn:active { transform: scale(.96); }
+.wallet-btn-connect {
+  background: linear-gradient(135deg, #00C8FF, #0099CC);
+  color: #001a26;
+}
+.wallet-btn-disconnect {
+  background: rgba(255,107,107,.12);
+  color: #FF6B6B;
+  border: 1px solid rgba(255,107,107,.45);
+  display: none;
+}
+.wallet-btn-copy {
+  background: rgba(0,255,136,.1);
+  color: #00FF88;
+  border: 1px solid rgba(0,255,136,.4);
+  display: none;
+  flex: 0 0 auto;
+  padding: 14px 18px;
+}
+.wallet-hint {
+  font-size: 10px;
+  color: #a88888;
+  line-height: 1.7;
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: rgba(255,212,71,.06);
+  border-radius: 10px;
+  border-left: 3px solid #FFD447;
+}
+.wallet-hint strong { color: #FFD447; }
+.ton-logo { width: 22px; height: 22px; flex-shrink: 0; }
+
+</style>
+<script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+<link rel="stylesheet" href="wallet.css">
+<script src="//libtl.com/sdk.js" data-zone="11874578" data-sdk="show_11874578"></script>
+</head>
+<body>
+<div class="container">
+<!-- ===== صفحة التعدين ===== -->
+<div class="pg on" id="pgHome">
+  <div class="card">
+    <div class="title">MYTOKEN</div>
+    <div class="sub" data-i18n="mining_subtitle">انقر العملة لجمع MYT</div>
+    <div class="stats">
+      <div class="stat">
+        <div class="sl" data-i18n="energy">الطاقة</div>
+        <div class="sv red" id="eSt">100</div>
+      </div>
+      <div class="stat">
+        <div class="sl" data-i18n="balance">الرصيد</div>
+        <div class="sv gold" id="bSt">0.0000</div>
+      </div>
+      <div class="stat">
+        <div class="sl" data-i18n="clicks">النقرات</div>
+        <div class="sv green" id="cSt">0</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="level">
+    <div class="level-head">
+      <span class="lvl" id="lvlText">Lvl 1</span>
+      <span class="val" id="lvlProg">0 / 1000</span>
+    </div>
+    <div class="level-bg">
+      <div class="level-fill" id="lvlBar"></div>
+    </div>
+  </div>
+
+  <div class="cw" id="cw">
+    <div class="halo"></div>
+    <div class="coin-ring"></div>
+    <div class="cn" id="coin" onclick="tapCoin(event)">
+      <span class="ct">MYT</span>
+    </div>
+  </div>
+
+  <div class="en">
+    <span class="en-icon">⚡</span>
+    <div class="en-bg">
+      <div class="en-fill" id="enBar"></div>
+    </div>
+    <div class="en-txt" id="enTxt">100/100</div>
+  </div>
+
+    >
+
+  <button class="btn btn-red" id="claimBtn" onclick="claimCoins()" disabled>CLAIM</button>
+
+  <div class="btn-row">
+    <button class="btn btn-blue btn-sm" onclick="buyEnergy()">⚡ +50</button>
+    <button class="btn btn-yellow btn-sm" onclick="showBoosters()">🚀 Boosters</button>
+  </div>
+</div>
+
+<!-- ===== صفحة المهام ===== -->
+<div class="pg" id="pgTasks">
+  <div class="card">
+    <div class="title" data-i18n="tasks_title">📋 المهام</div>
+    <div class="sub" data-i18n="tasks_subtitle">شاهد الإعلانات واربح MYT!</div>
+  </div>
+
+  <div class="cnt">
+    <div>
+      <div class="cnl" data-i18n="earnings">الأرباح</div>
+      <div class="cnv" id="adTot">0.0000 MYT</div>
+    </div>
+    <div style="text-align:left">
+      <div class="cnl" data-i18n="daily_ads">إعلانات اليوم</div>
+      <div class="cnv" id="adCnt">0 / 20</div>
+    </div>
+  </div>
+
+  <div class="pw">
+    <div class="pl">
+      <span data-i18n="progress">التقدم اليومي</span>
+      <span id="pTxt">0%</span>
+    </div>
+    <div class="pb">
+      <div class="pf" id="pFill"></div>
+    </div>
+  </div>
+
+  <div id="adsList"></div>
+
+  <div class="camp-box">
+    <div class="camp-head">
+      <div class="camp-icon">📣</div>
+      <div>
+        <div class="camp-title" data-i18n="add_campaign">إضافة حملة</div>
+        <div class="camp-sub" data-i18n="create_campaign_desc">أنشئ حملتك الإعلانية</div>
+      </div>
+    </div>
+    <button class="btn btn-yellow" onclick="openCampaign()" data-i18n="create_campaign">✨ إنشاء حملة جديدة</button>
+  </div>
+</div>
+
+<!-- ===== صفحة الدفع ===== -->
+<div class="pg" id="pgPay">
+  <div class="card">
+    <div class="title" data-i18n="pay_title">💰 الدفع</div>
+    <div class="sub" data-i18n="pay_subtitle">نسبة أرباحك والتسجيل اليومي</div>
+  </div>
+
+  <div class="pay-tabs">
+    <button class="pay-tab on" onclick="showPayTab('rates', event)" data-i18n="rates">📊 معدلات الأرباح</button>
+    <button class="pay-tab" onclick="showPayTab('checkin', event)" data-i18n="daily_checkin">📅 التسجيل اليومي</button>
+  </div>
+
+  <div id="payRatesView">
+    <div class="pay-hero">
+      <div class="pay-lbl" data-i18n="total_earned">TOTAL EARNED</div>
+      <div class="pay-val" id="payTot">0.0000</div>
+      <div class="pay-unit">MYT</div>
+    </div>
+
+    <div class="line">
+      <span data-i18n="ad_view">مشاهدة إعلان</span>
+      <span class="lv">0.10 MYT</span>
+    </div>
+    <div class="line">
+      <span data-i18n="tap_mining">نقرة تعدين</span>
+      <span class="lv">0.001 MYT</span>
+    </div>
+    <div class="line">
+      <span data-i18n="ref_friend">إحالة صديق</span>
+      <span class="lv">+100 MYT</span>
+    </div>
+    <div class="line">
+      <span data-i18n="daily_bonus">مكافأة يومية</span>
+      <span class="lv">+50 MYT</span>
+    </div>
+    <div class="line">
+      <span data-i18n="daily_checkin_reward">تسجيل يومي</span>
+      <span class="lv">0.20 → 100 MYT</span>
+    </div>
+  </div>
+
+  <div id="payCheckinView" style="display:none">
+    <div class="checkin-hero">
+      <div class="ci-icon">📅</div>
+      <div class="ci-title" data-i18n="daily_checkin">تسجيل يومي</div>
+      <div class="ci-sub">سجل كل يوم واحصل على مكافأة أكبر</div>
+      <div class="ci-day" id="ciDayText">اليوم 1 / 7</div>
+    </div>
+
+    <div class="days-grid" id="daysGrid"></div>
+
+    <button class="ci-btn" id="ciBtn" onclick="doCheckin()">📅 سجّل اليوم</button>
+
+    <div class="card">
+      <div class="title" style="font-size:14px;margin-bottom:10px">📋 قواعد التسجيل</div>
+      <div class="line"><span>اليوم 1</span><span class="lv">0.20 MYT</span></div>
+      <div class="line"><span>اليوم 2</span><span class="lv">0.50 MYT</span></div>
+      <div class="line"><span>اليوم 3</span><span class="lv">1.00 MYT</span></div>
+      <div class="line"><span>اليوم 4</span><span class="lv">2.00 MYT</span></div>
+      <div class="line"><span>اليوم 5</span><span class="lv">5.00 MYT</span></div>
+      <div class="line"><span>اليوم 6</span><span class="lv">10.00 MYT</span></div>
+      <div class="line" style="border:2px solid #FFB800">
+        <span>🎉 اليوم 7</span>
+        <span class="lv" style="color:#FFE066;font-size:15px">100.00 MYT</span>
+      </div>
+    </div>
+
+    <div class="card" style="text-align:center">
+      <div style="font-size:11px;color:#a88888;line-height:1.6">
+        ⚠️ إذا غبت يوماً واحداً،<br>تعود السلسلة للبداية
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ===== صفحة المتجر ===== -->
+<div class="pg" id="pgShop">
+  <div class="card">
+    <div class="title" data-i18n="shop_title">🛒 المتجر</div>
+    <div class="sub" data-i18n="shop_subtitle">اشترِ Boosters ونفّذ حملاتك</div>
+  </div>
+
+  <div class="shop-balance">
+    <div class="shop-balance-lbl">YOUR BALANCE</div>
+    <div class="shop-balance-val" id="shopBal">0.0000</div>
+    <div class="shop-balance-unit">MYT</div>
+  </div>
+
+  <div class="shop-section" data-i18n="active_boosters">⚡ Boosters النشطة</div>
+  <div class="active-boosters" id="activeBoosters">
+    <span style="font-size:10px;color:#a88888" data-i18n="no_active_boosters">لا توجد boosters نشطة</span>
+  </div>
+
+  <div class="shop-tabs">
+    <button class="shop-tab on" onclick="showShopTab('boost', event)" data-i18n="boosters_tab">⚡ Boosters</button>
+    <button class="shop-tab" onclick="showShopTab('campaign', event)" data-i18n="campaigns_tab">📢 حملات</button>
+    <button class="shop-tab" onclick="showShopTab('vip', event)" data-i18n="vip_tab">👑 VIP</button>
+  </div>
+
+  <div id="shopBoostGrid" class="shop-grid"></div>
+  <div id="shopCampGrid" class="shop-grid" style="display:none"></div>
+  <div id="shopVipGrid" class="shop-grid" style="display:none"></div>
+</div>
+
+<!-- ===== صفحة الحساب ===== -->
+<div class="pg" id="pgWel">
+  <div class="card">
+    <div class="title" data-i18n="account_title">👤 حسابك</div>
+  </div>
+
+  <div class="wb">
+    <div class="wbi">⛏️</div>
+    <div class="wbt" data-i18n="welcome_back">مرحباً بك</div>
+    <div class="wbs" data-i18n="welcome_desc">اجمع MYT وانشر الرابط لدعوة أصدقائك</div>
+  </div>
+  <!-- Wallet Widget (Account) -->
+  >
+
+
+
+    >
+
+  >
+
+  <!-- Wallet Card (Account Page) -->
+  <div class="wallet-card" id="walletAccountCard">
+    <div class="wallet-card-header">
+      <div class="wallet-card-icon">👛</div>
+      <div class="wallet-card-info">
+        <div class="wallet-card-title">محفظة TON</div>
+        <div class="wallet-card-subtitle">اربط محفظتك لسحب أرباحك</div>
+      </div>
+    </div>
+    <div class="wallet-status" id="walletStatus">
+      <span id="walletStatusText">غير متصل</span>
+    </div>
+    <div class="wallet-address" id="walletAddress">—</div>
+    <div class="wallet-actions">
+      <button class="wallet-btn wallet-btn-connect" id="walletConnectBtn" type="button" onclick="window.MYTWallet && window.MYTWallet.connect();return false;">
+        <svg class="ton-logo" viewBox="0 0 56 56" fill="none">
+          <circle cx="28" cy="28" r="28" fill="white" fill-opacity="0.15"/>
+          <path d="M37.56 18H18.44c-3.34 0-5.44 3.56-3.75 6.46l11.28 19.28c.86 1.46 2.96 1.46 3.82 0l11.5-19.28C43 21.56 40.9 18 37.56 18z" fill="white"/>
+          <path d="M25.5 34.5l-5-8.5h7.5v8.5z" fill="#0098EA"/>
+        </svg>
+        <span>Connect Wallet</span>
+      </button>
+      <button class="wallet-btn wallet-btn-disconnect" id="walletDisconnectBtn" type="button" onclick="window.MYTWallet && window.MYTWallet.disconnect();return false;">
+        <span>✖️ قطع الاتصال</span>
+      </button>
+      <button class="wallet-btn wallet-btn-copy" id="walletCopyBtn" type="button" onclick="window.MYTWallet && window.MYTWallet.copyAddress();return false;">
+        <span>📋</span>
+      </button>
+    </div>
+    <div class="wallet-hint">
+      <strong>💡 أمان تام:</strong> لا نطلب أبداً كلمات الاسترداد.
+    </div>
+  </div>
+
+<div class="switch-row">
+    <div class="switch-info">
+      <div class="switch-title">🌍 <span data-i18n="language">اللغة</span></div>
+      <div class="switch-sub">English / العربية</div>
+    </div>
+    <button id="langBtn" onclick="toggleLang()" style="padding:10px 14px;background:linear-gradient(135deg,#0a6fb1,#0a4d7a);color:#fff;border:0;border-radius:10px;font-weight:800;cursor:pointer;font-size:12px">🇬🇧 English</button>
+  </div>
+
+  <div class="inv">
+    <div class="inv-lbl" data-i18n="referral_link">YOUR REFERRAL LINK</div>
+    <div class="inv-link" id="invLink">—</div>
+  </div>
+
+  <button class="btn btn-blue" onclick="copyLink()" data-i18n="copy_link">📋 نسخ الرابط</button>
+  <button class="btn btn-gray" onclick="shareLink()" data-i18n="share">📤 مشاركة</button>
+
+  <div class="card" style="margin-top:12px">
+    <div class="title" style="font-size:14px;margin-bottom:10px" data-i18n="your_stats">📊 إحصائياتك</div>
+    <div class="line">
+      <span data-i18n="referrals">👥 الإحالات</span>
+      <span class="lv" id="statRefs">0</span>
+    </div>
+    <div class="line">
+      <span data-i18n="checkin_days">📅 أيام التسجيل</span>
+      <span class="lv" id="statDays">0/7</span>
+    </div>
+    <div class="line">
+      <span data-i18n="streak">🔥 السلسلة اليومية</span>
+      <span class="lv" id="statStreak">0</span>
+    </div>
+    <div class="line">
+      <span data-i18n="earnings_total">💰 إجمالي الأرباح</span>
+      <span class="lv" id="statEarn">0.0000</span>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:12px">
+    <div class="title" style="font-size:14px;margin-bottom:10px">🏆 الإنجازات</div>
+    <div class="ach-list" id="achList"></div>
+  </div>
+</div>
+
+</div><!-- نهاية .container -->
+
+<!-- ===== القائمة السفلية ===== -->
+<div class="nav">
+  <button class="ni" onclick="showPage('Wel')" data-page="Wel">
+    <span class="ni-ic">👤</span>
+    <span data-i18n="account_title">حسابك</span>
+  </button>
+  <button class="ni" onclick="showPage('Shop')" data-page="Shop">
+    <span class="ni-ic">🛒</span>
+    <span data-i18n="shop_title">المتجر</span>
+  </button>
+  <button class="ni" onclick="showPage('Pay')" data-page="Pay">
+    <span class="ni-ic">💰</span>
+    <span data-i18n="pay_title">الدفع</span>
+  </button>
+  <button class="ni" onclick="showPage('Tasks')" data-page="Tasks">
+    <span class="ni-ic">📋</span>
+    <span data-i18n="tasks_title">المهام</span>
+  </button>
+  <button class="ni on" onclick="showPage('Home')" data-page="Home">
+    <span class="ni-ic">⛏️</span>
+    <span data-i18n="mining_title">التعدين</span>
+  </button>
+</div>
+
+<!-- ===== نافذة الحملات ===== -->
+<div class="modal" id="campModal">
+  <div class="modal-box">
+    <div class="modal-title">📣 إنشاء حملة</div>
+    <div class="modal-sub">املأ البيانات لإنشاء حملتك</div>
+    <div class="fg">
+      <label>اسم الحملة</label>
+      <input type="text" id="cName" placeholder="حملة تسويقية">
+    </div>
+    <div class="fg">
+      <label>الرابط</label>
+      <input type="url" id="cUrl" placeholder="https://t.me/..." dir="ltr">
+    </div>
+    <div class="fg">
+      <label>الميزانية (MYT)</label>
+      <input type="number" id="cBudget" placeholder="100" dir="ltr">
+    </div>
+    <div class="m-actions">
+      <button class="btn btn-gray" onclick="closeCampaign()">إلغاء</button>
+      <button class="btn btn-green" onclick="createCampaign()">إنشاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== نافذة Boosters ===== -->
+<div class="modal" id="boostModal">
+  <div class="modal-box">
+    <div class="modal-title">🚀 Boosters</div>
+    <div class="modal-sub">معلومات عن الـ Boosters النشطة</div>
+    <div id="boostContent"></div>
+    <div class="m-actions">
+      <button class="btn btn-red" onclick="closeBoost()">إغلاق</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Toast ===== -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== Core Config ===== */
+var tg = window.Telegram && window.Telegram.WebApp;
+var inTG = !!(tg && tg.initData);
+var API = window.API_BASE || "https://mytoken-api.vercel.app";
+
+var CFG = {
+  AD_REWARD: 0.10,
+  TOTAL_ADS: 100,
+  MAX_ENERGY: 100,
+  TAP_REWARD: 0.001,
+  KEY: "mytoken_v30",
+  BOT: "OOOOBBBBBBOT"
+};
+
+var CHECKIN = [0.20, 0.50, 1, 2, 5, 10, 100];
+
+var S = {
+  balance: 0, pending: 0, clicks: 0,
+  energy: 100, maxEnergy: 100,
+  adsWatched: 0, adDay: null, adTotal: 0, adBusy: false,
+  userId: null, firstName: "User",
+  refs: 0, streak: 0, tapBuffer: 0,
+  checkinDay: 0, canCheckin: true, checkinBusy: false,
+  achievements: []
+};
+
+var UK = CFG.KEY + "_guest";
+
+/* ===== Helpers ===== */
+function $(id) { return document.getElementById(id); }
+function fmt(n, d) { d = d || 4; return (Number(n) || 0).toFixed(d); }
+
+function toast(msg, type) {
+  var el = $("toast");
+  if (!el) return;
+  el.textContent = msg;
+  el.className = "toast show " + (type || "");
+  clearTimeout(el._t);
+  el._t = setTimeout(function(){ el.className = "toast"; }, 2400);
+}
+
+function haptic(s) {
+  try { if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred(s || "light"); } catch(e) {}
+}
+
+function playTap() {
+  try {
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    if (!window._ac) window._ac = new AC();
+    var o = window._ac.createOscillator();
+    var g = window._ac.createGain();
+    o.connect(g); g.connect(window._ac.destination);
+    o.frequency.value = 800 + Math.random() * 200;
+    o.type = "sine";
+    g.gain.setValueAtTime(0.03, window._ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, window._ac.currentTime + 0.08);
+    o.start(); o.stop(window._ac.currentTime + 0.08);
+  } catch(e) {}
+}
+
+/* ===== Language System ===== */
+var CUR_LANG = "ar";
+var LANG = {
+  ar: {
+    mining_title: "التعدين", mining_subtitle: "انقر العملة لجمع MYT",
+    energy: "الطاقة", balance: "الرصيد", clicks: "النقرات",
+    tasks_title: "المهام", tasks_subtitle: "شاهد الإعلانات واربح MYT!",
+    earnings: "الأرباح", daily_ads: "إعلانات اليوم", progress: "التقدم اليومي",
+    watch: "شاهد", watched: "تمت", watch_prev: "شاهد السابق أولاً", press: "اضغط",
+    add_campaign: "إضافة حملة", create_campaign: "✨ إنشاء حملة جديدة",
+    create_campaign_desc: "أنشئ حملتك الإعلانية",
+    pay_title: "الدفع", pay_subtitle: "نسبة أرباحك والتسجيل اليومي",
+    total_earned: "TOTAL EARNED", rates: "📊 معدلات الأرباح",
+    daily_checkin: "📅 التسجيل اليومي",
+    ad_view: "مشاهدة إعلان", tap_mining: "نقرة تعدين",
+    ref_friend: "إحالة صديق", daily_bonus: "مكافأة يومية",
+    daily_checkin_reward: "تسجيل يومي",
+    shop_title: "المتجر", shop_subtitle: "اشترِ Boosters ونفّذ حملاتك",
+    active_boosters: "⚡ Boosters النشطة", no_active_boosters: "لا توجد boosters نشطة",
+    boosters_tab: "⚡ Boosters", campaigns_tab: "📢 حملات", vip_tab: "👑 VIP",
+    buy: "اشترِ", owned: "✓ نشط", poor_balance: "رصيد ضعيف",
+    account_title: "حسابك", welcome_back: "مرحباً بك",
+    welcome_desc: "اجمع MYT وانشر الرابط لدعوة أصدقائك",
+    referral_link: "YOUR REFERRAL LINK", copy_link: "📋 نسخ الرابط",
+    share: "📤 مشاركة", your_stats: "📊 إحصائياتك",
+    referrals: "👥 الإحالات", checkin_days: "📅 أيام التسجيل",
+    streak: "🔥 السلسلة اليومية", earnings_total: "💰 إجمالي الأرباح",
+    language: "اللغة"
+  },
+  en: {
+    mining_title: "Mining", mining_subtitle: "Tap the coin to earn MYT",
+    energy: "Energy", balance: "Balance", clicks: "Clicks",
+    tasks_title: "Tasks", tasks_subtitle: "Watch ads and earn MYT!",
+    earnings: "Earnings", daily_ads: "Today's Ads", progress: "Daily Progress",
+    watch: "Watch", watched: "Done", watch_prev: "Watch previous first", press: "Press",
+    add_campaign: "Add Campaign", create_campaign: "✨ Create New Campaign",
+    create_campaign_desc: "Create your ad campaign",
+    pay_title: "Payment", pay_subtitle: "Your earnings and daily checkin",
+    total_earned: "TOTAL EARNED", rates: "📊 Earnings Rates",
+    daily_checkin: "📅 Daily Checkin",
+    ad_view: "Ad View", tap_mining: "Mining Tap",
+    ref_friend: "Friend Referral", daily_bonus: "Daily Bonus",
+    daily_checkin_reward: "Daily Checkin",
+    shop_title: "Shop", shop_subtitle: "Buy Boosters and run campaigns",
+    active_boosters: "⚡ Active Boosters", no_active_boosters: "No active boosters",
+    boosters_tab: "⚡ Boosters", campaigns_tab: "📢 Campaigns", vip_tab: "👑 VIP",
+    buy: "Buy", owned: "✓ Active", poor_balance: "Low Balance",
+    account_title: "Account", welcome_back: "Welcome Back",
+    welcome_desc: "Earn MYT and share your link to invite friends",
+    referral_link: "YOUR REFERRAL LINK", copy_link: "📋 Copy Link",
+    share: "📤 Share", your_stats: "📊 Your Stats",
+    referrals: "👥 Referrals", checkin_days: "📅 Checkin Days",
+    streak: "🔥 Daily Streak", earnings_total: "💰 Total Earned",
+    language: "Language"
+  }
+};
+
+function t(key) {
+  var lang = LANG[CUR_LANG] || LANG.ar;
+  return lang[key] || LANG.ar[key] || key;
+}
+
+function applyLang() {
+  var els = document.querySelectorAll("[data-i18n]");
+  for (var i = 0; i < els.length; i++) {
+    var key = els[i].getAttribute("data-i18n");
+    els[i].textContent = t(key);
+  }
+  document.documentElement.lang = CUR_LANG;
+  document.documentElement.dir = CUR_LANG === "ar" ? "rtl" : "ltr";
+  updateLangButton();
+  if (typeof updateWalletUI === "function") updateWalletUI();
+  if (typeof updateWalletUI === "function") updateWalletUI();
+  if (typeof updateWalletUI === "function") updateWalletUI();
+}
+
+function updateLangButton() {
+  var btn = $("langBtn");
+  if (!btn) return;
+  btn.textContent = CUR_LANG === "ar" ? "🇬🇧 English" : "🇸🇦 العربية";
+}
+
+function toggleLang() {
+  CUR_LANG = CUR_LANG === "ar" ? "en" : "ar";
+  try { localStorage.setItem("mytoken_lang", CUR_LANG); } catch(e) {}
+  applyLang();
+  haptic("soft");
+}
+
+function detectLang() {
+  try {
+    var saved = localStorage.getItem("mytoken_lang");
+    if (saved && LANG[saved]) { CUR_LANG = saved; return; }
+  } catch(e) {}
+  if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+    var code = tg.initDataUnsafe.user.language_code || "ar";
+    CUR_LANG = code.startsWith("ar") ? "ar" : "en";
+  }
+}
+
+/* ===== Local Storage ===== */
+function saveLocal() {
+  try { localStorage.setItem(UK, JSON.stringify(S)); } catch(e) {}
+}
+
+function loadLocal() {
+  try {
+    var r = localStorage.getItem(UK);
+    if (r) {
+      var o = JSON.parse(r);
+      for (var k in o) if (S.hasOwnProperty(k)) S[k] = o[k];
+    }
+  } catch(e) {}
+}
+
+function checkDay() {
+  var d = new Date().toDateString();
+  if (S.adDay !== d) {
+    S.adDay = d;
+    S.adsWatched = 0;
+    S.energy = S.maxEnergy || CFG.MAX_ENERGY;
+    S.adTotal = 0;
+  }
+}
+
+/* ===== API Functions ===== */
+function apiLoad() {
+  if (!S.userId) return;
+  fetch(API + "/api/user?id=" + S.userId)
+    .then(function(r){ return r.json(); })
+    .then(function(d) {
+      if (d.ok && d.exists) {
+        S.balance = d.balance || 0;
+        S.pending = d.pending || 0;
+        S.refs = d.refs || 0;
+        S.streak = d.streak || 0;
+        S.checkinDay = d.checkinDay || 0;
+        S.canCheckin = d.canCheckin !== false;
+        S.achievements = d.achievements || [];
+        render();
+      }
+    })
+    .catch(function(e){ console.log(e); });
+}
+
+function apiTap() {
+  if (!S.userId || S.tapBuffer <= 0) return;
+  var n = S.tapBuffer;
+  S.tapBuffer = 0;
+  fetch(API + "/api/tap", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({id: S.userId, count: n})
+  }).catch(function(e){ S.tapBuffer += n; });
+}
+
+function apiAd() {
+  if (!S.userId) return;
+  fetch(API + "/api/ad", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({id: S.userId})
+  }).then(function(r){ return r.json(); })
+    .then(function(d){ if (d.ok) { S.pending = d.pending || S.pending; render(); } })
+    .catch(function(e){});
+}
+
+function apiClaim() {
+  if (!S.userId) return;
+  fetch(API + "/api/claim", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({id: S.userId})
+  }).then(function(r){ return r.json(); })
+    .then(function(d) {
+      if (d.ok) { S.balance = d.balance || 0; S.pending = 0; render(); }
+    })
+    .catch(function(e){});
+}
+/* ===== Navigation ===== */
+function showPage(name) {
+  var pgs = document.querySelectorAll(".pg");
+  var nis = document.querySelectorAll(".ni");
+  for (var i = 0; i < pgs.length; i++) pgs[i].classList.remove("on");
+  for (var i = 0; i < nis.length; i++) nis[i].classList.remove("on");
+  var p = $("pg" + name);
+  if (p) p.classList.add("on");
+  var n = document.querySelector('.ni[data-page="' + name + '"]');
+  if (n) n.classList.add("on");
+  haptic("soft");
+  if (name === "Tasks") renderAds();
+  if (name === "Shop") renderShop();
+  if (name === "Pay") renderCheckin();
+  if (name === "Wel") renderAch();
+  window.scrollTo(0, 0);
+}
+
+function showPayTab(tab, ev) {
+  var tabs = document.querySelectorAll(".pay-tab");
+  for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove("on");
+  if (ev && ev.target) ev.target.classList.add("on");
+  $("payRatesView").style.display = tab === "rates" ? "block" : "none";
+  $("payCheckinView").style.display = tab === "checkin" ? "block" : "none";
+  if (tab === "checkin") renderCheckin();
+}
+
+/* ===== Tap Coin ===== */
+function tapCoin(e) {
+  checkDay();
+  if (S.energy < 1) { toast("⚡", "err"); return; }
+  S.pending += CFG.TAP_REWARD;
+  S.clicks++;
+  S.energy--;
+  S.tapBuffer++;
+
+  var w = $("cw");
+  if (w) {
+    var r = w.getBoundingClientRect();
+    var x = ((e && e.clientX) ? e.clientX : r.left + r.width / 2) - r.left;
+    var y = ((e && e.clientY) ? e.clientY : r.top + r.height / 2) - r.top;
+    var f = document.createElement("div");
+    f.className = "fn";
+    f.textContent = "+" + CFG.TAP_REWARD.toFixed(3);
+    f.style.left = x + "px";
+    f.style.top = y + "px";
+    w.appendChild(f);
+    setTimeout(function(){ if (f.parentNode) f.parentNode.removeChild(f); }, 1000);
+  }
+  haptic("light");
+  playTap();
+  render();
+
+  if (S.tapBuffer >= 5) apiTap();
+  clearTimeout(window._sv);
+  window._sv = setTimeout(function(){ apiTap(); saveLocal(); }, 2000);
+}
+
+function claimCoins() {
+  if (S.pending <= 0) { toast("لا شيء", "err"); return; }
+  var a = S.pending;
+  S.balance += a;
+  S.pending = 0;
+  haptic("medium");
+  toast("✅ +" + a.toFixed(4) + " MYT", "ok");
+  apiClaim();
+  render();
+  saveLocal();
+}
+
+function buyEnergy() { toast("قريباً", ""); }
+
+/* ===== Watch Ad ===== */
+/* ===== Check-in ===== */
+function renderCheckin() {
+  var el = $("daysGrid");
+  if (!el) return;
+  var h = "";
+  for (var i = 0; i < 7; i++) {
+    var done = i < S.checkinDay;
+    var isToday = i === S.checkinDay && S.canCheckin;
+    var cls = "day-box";
+    if (done) cls += " done";
+    if (isToday) cls += " today";
+    if (i === 6) cls += " big";
+    h += '<div class="' + cls + '">';
+    if (done) h += '<div class="day-check">✓</div>';
+    h += '<div class="day-num">اليوم ' + (i + 1) + '</div>';
+    h += '<div class="day-reward">+' + CHECKIN[i] + '</div></div>';
+  }
+  el.innerHTML = h;
+  var next = Math.min(S.checkinDay + 1, 7);
+  if ($("ciDayText")) $("ciDayText").textContent = "اليوم " + next + " / 7";
+  var b = $("ciBtn");
+  if (!b) return;
+  if (!S.canCheckin) {
+    b.disabled = true; b.textContent = "✓ سجلت اليوم";
+  } else if (S.checkinBusy) {
+    b.disabled = true; b.textContent = "⏳";
+  } else {
+    b.disabled = false;
+    b.textContent = "📅 سجّل اليوم (+" + CHECKIN[Math.min(S.checkinDay, 6)] + " MYT)";
+  }
+}
+
+function doCheckin() {
+  if (S.checkinBusy || !S.canCheckin || !S.userId) return;
+  S.checkinBusy = true;
+  renderCheckin();
+  haptic("medium");
+  fetch(API + "/api/checkin", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({id: S.userId})
+  }).then(function(r){ return r.json(); }).then(function(d){
+    S.checkinBusy = false;
+    if (d.ok) {
+      S.checkinDay = d.day;
+      S.balance = d.balance || S.balance;
+      S.canCheckin = false;
+      haptic("heavy");
+      toast("🎉 +" + d.reward + " MYT", "ok");
+    } else if (d.error === "already") {
+      S.canCheckin = false;
+      toast("سجلت اليوم بالفعل", "err");
+    } else { toast("خطأ", "err"); }
+    renderCheckin();
+    render();
+  }).catch(function(e){
+    S.checkinBusy = false;
+    toast("خطأ في الاتصال", "err");
+    renderCheckin();
+  });
+}
+
+/* ===== Shop ===== */
+var SHOP_BOOSTERS = [
+  {id:"tap2",icon:"🚀",name:"Tap x2",price:2000,color:"#FFB800"},
+  {id:"tap5",icon:"💎",name:"Tap x5",price:5000,color:"#0ea5e9"},
+  {id:"tap10",icon:"🔥",name:"Tap x10",price:15000,color:"#E63946"},
+  {id:"energy",icon:"⚡",name:"+100 Energy",price:800,color:"#00FF88"},
+  {id:"maxE",icon:"🔋",name:"+50 Max Energy",price:3000,color:"#FFE066"}
+];
+
+var SHOP_CAMPAIGNS = [
+  {id:"camp1",icon:"📢",name:"Basic",price:20000,color:"#FFB800",desc:"1000 views"},
+  {id:"camp2",icon:"🎯",name:"Advanced",price:80000,color:"#0ea5e9",desc:"5000 views"},
+  {id:"camp3",icon:"🚀",name:"Pro",price:250000,color:"#E63946",desc:"20000 views"}
+];
+
+var SHOP_VIP = [
+  {id:"vip_week",icon:"⭐",name:"VIP Week",price:50000,color:"#FFE066",desc:"50 ads/day + 2x checkin"},
+  {id:"vip_month",icon:"👑",name:"VIP Month",price:150000,color:"#FFB800",desc:"All benefits + badge"}
+];
+
+var S_SHOP = { tapMult: 1, vip: 0, tempBoosters: {} };
+
+function showShopTab(tab, ev) {
+  var tabs = document.querySelectorAll(".shop-tab");
+  for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove("on");
+  if (ev && ev.target) ev.target.classList.add("on");
+  $("shopBoostGrid").style.display = tab === "boost" ? "grid" : "none";
+  $("shopCampGrid").style.display = tab === "campaign" ? "grid" : "none";
+  $("shopVipGrid").style.display = tab === "vip" ? "grid" : "none";
+}
+
+function renderShop() {
+  if ($("shopBal")) $("shopBal").textContent = fmt((S.balance || 0) + (S.pending || 0));
+  var el = $("shopBoostGrid");
+  if (el) {
+    var h = "";
+    for (var i = 0; i < SHOP_BOOSTERS.length; i++) {
+      var b = SHOP_BOOSTERS[i];
+      var can = (S.balance || 0) >= b.price;
+      h += '<div class="shop-item" style="--item-color:' + b.color + '">';
+      h += '<div class="shop-item-ico">' + b.icon + '</div>';
+      h += '<div class="shop-item-name">' + b.name + '</div>';
+      h += '<div class="shop-item-price">' + b.price + ' MYT</div>';
+      h += '<button class="shop-item-buy" ' + (can ? '' : 'disabled') + ' onclick="buyBooster(\'' + b.id + '\')">' + (can ? t("buy") : t("poor_balance")) + '</button></div>';
+    }
+    el.innerHTML = h;
+  }
+  var ec = $("shopCampGrid");
+  if (ec) {
+    var h2 = "";
+    for (var j = 0; j < SHOP_CAMPAIGNS.length; j++) {
+      var c = SHOP_CAMPAIGNS[j];
+      var can2 = (S.balance || 0) >= c.price;
+      h2 += '<div class="shop-item" style="--item-color:' + c.color + '">';
+      h2 += '<div class="shop-item-ico">' + c.icon + '</div>';
+      h2 += '<div class="shop-item-name">' + c.name + '</div>';
+      h2 += '<div class="shop-item-desc">' + c.desc + '</div>';
+      h2 += '<div class="shop-item-price">' + c.price + ' MYT</div>';
+      h2 += '<button class="shop-item-buy" ' + (can2 ? '' : 'disabled') + ' onclick="buyCampaign(\'' + c.id + '\')">' + (can2 ? t("buy") : t("poor_balance")) + '</button></div>';
+    }
+    ec.innerHTML = h2;
+  }
+  var ev2 = $("shopVipGrid");
+  if (ev2) {
+    var h3 = "";
+    for (var k = 0; k < SHOP_VIP.length; k++) {
+      var v = SHOP_VIP[k];
+      var can3 = (S.balance || 0) >= v.price;
+      h3 += '<div class="shop-item" style="--item-color:' + v.color + '">';
+      h3 += '<div class="shop-item-ico">' + v.icon + '</div>';
+      h3 += '<div class="shop-item-name">' + v.name + '</div>';
+      h3 += '<div class="shop-item-desc">' + v.desc + '</div>';
+      h3 += '<div class="shop-item-price">' + v.price + ' MYT</div>';
+      h3 += '<button class="shop-item-buy" ' + (can3 ? '' : 'disabled') + ' onclick="buyVip(\'' + v.id + '\')">' + (can3 ? t("buy") : t("poor_balance")) + '</button></div>';
+    }
+    ev2.innerHTML = h3;
+  }
+  renderActiveBoosters();
+}
+
+function renderActiveBoosters() {
+  var el = $("activeBoosters");
+  if (!el) return;
+  var h = "";
+  var now = Date.now();
+  for (var k in S_SHOP.tempBoosters) {
+    if (S_SHOP.tempBoosters[k] > now) {
+      var mins = Math.ceil((S_SHOP.tempBoosters[k] - now) / 60000);
+      h += '<div class="active-booster">' + k + ' (' + mins + 'm)</div>';
+    }
+  }
+  el.innerHTML = h || '<span style="font-size:10px;color:#a88888">' + t("no_active_boosters") + '</span>';
+}
+
+function buyBooster(id) {
+  var b = null;
+  for (var i = 0; i < SHOP_BOOSTERS.length; i++) if (SHOP_BOOSTERS[i].id === id) b = SHOP_BOOSTERS[i];
+  if (!b) return;
+  if ((S.balance || 0) < b.price) { toast("رصيد ضعيف", "err"); return; }
+  S.balance -= b.price;
+  S_SHOP.tempBoosters[id] = Date.now() + 3600000;
+  haptic("heavy");
+  toast("✅ " + b.name, "ok");
+  render();
+  renderShop();
+  saveLocal();
+}
+
+function buyCampaign(id) {
+  var c = null;
+  for (var i = 0; i < SHOP_CAMPAIGNS.length; i++) if (SHOP_CAMPAIGNS[i].id === id) c = SHOP_CAMPAIGNS[i];
+  if (!c) return;
+  if ((S.balance || 0) < c.price) { toast("رصيد ضعيف", "err"); return; }
+  S.balance -= c.price;
+  haptic("heavy");
+  toast("✅ " + c.name, "ok");
+  render();
+  renderShop();
+  saveLocal();
+}
+
+function buyVip(id) {
+  var v = null;
+  for (var i = 0; i < SHOP_VIP.length; i++) if (SHOP_VIP[i].id === id) v = SHOP_VIP[i];
+  if (!v) return;
+  if ((S.balance || 0) < v.price) { toast("رصيد ضعيف", "err"); return; }
+  S.balance -= v.price;
+  var dur = id === "vip_week" ? 7 * 24 * 3600000 : 30 * 24 * 3600000;
+  S_SHOP.vip = Date.now() + dur;
+  haptic("heavy");
+  toast("👑 VIP!", "ok");
+  render();
+  renderShop();
+  saveLocal();
+}
+
+/* ===== Modals ===== */
+function showBoosters() {
+  var c = $("boostContent");
+  if (!c) return;
+  var h = '<div class="stats" style="margin-bottom:14px">';
+  h += '<div class="stat"><div class="sl">Booster</div><div class="sv green">x' + S_SHOP.tapMult + '</div></div>';
+  h += '<div class="stat"><div class="sl">Max Energy</div><div class="sv red">' + (S.maxEnergy || 100) + '</div></div>';
+  h += '<div class="stat"><div class="sl">VIP</div><div class="sv gold">' + (S_SHOP.vip > Date.now() ? "✓" : "—") + '</div></div></div>';
+  h += '<p style="text-align:center;color:#a88888;font-size:12px;line-height:1.6">اشترِ Boosters من المتجر 🛒</p>';
+  c.innerHTML = h;
+  $("boostModal").classList.add("open");
+}
+
+function closeBoost() { $("boostModal").classList.remove("open"); }
+function openCampaign() { $("campModal").classList.add("open"); }
+function closeCampaign() { $("campModal").classList.remove("open"); }
+
+function createCampaign() {
+  var n = $("cName").value.trim();
+  var u = $("cUrl").value.trim();
+  var b = $("cBudget").value;
+  if (!n || !u || !b) { toast("املأ الحقول", "err"); return; }
+  toast("✅ تم: " + n, "ok");
+  closeCampaign();
+  $("cName").value = ""; $("cUrl").value = ""; $("cBudget").value = "";
+}
+
+/* ===== Render Main ===== */
+function watchAd(i) {
+  checkDay();
+  if (S.adsWatched >= CFG.TOTAL_ADS) { toast("🎉 أكملت 100", "ok"); return; }
+  if (i !== S.adsWatched) { toast("⚠️ بالترتيب", "err"); return; }
+  if (S.adBusy) return;
+  
+  S.adBusy = true;
+  var btn = document.querySelector('.adbtn[data-i="' + i + '"]');
+  if (btn) { btn.disabled = true; btn.textContent = "⏳"; }
+  
+  if (typeof window.show_11874578 !== 'function') {
+    console.error('[Ad] SDK missing');
+    toast('❌ SDK غير محمل', 'err');
+    S.adBusy = false;
+    if (btn) { btn.disabled = false; btn.textContent = "شاهد"; }
+    return;
+  }
+  
+  try {
+    var res = window.show_11874578();
+    if (res && typeof res.then === 'function') {
+      res.then(function() { grantReward(i, btn); })
+         .catch(function(e) { console.warn(e); grantReward(i, btn); });
+    } else {
+      setTimeout(function() { grantReward(i, btn); }, 3000);
+    }
+  } catch(e) {
+    console.error(e);
+    grantReward(i, btn);
+  }
+}
+
+function grantReward(i, btn) {
+  if (!S.adBusy) return;
+  S.adsWatched++;
+  S.pending += CFG.AD_REWARD;
+  S.adTotal += CFG.AD_REWARD;
+  if (typeof apiAd === 'function') apiAd();
+  if (typeof haptic === 'function') haptic('medium');
+  if (S.adsWatched === CFG.TOTAL_ADS) {
+    var b = CFG.COMPLETION_BONUS || 100;
+    S.pending += b; S.balance += b;
+    if (typeof confetti === 'function') confetti();
+    toast('🎉🎉 +' + b + ' MYT', 'ok');
+  } else {
+    toast('🎉 +0.10 (' + S.adsWatched + '/100)', 'ok');
+  }
+  if (typeof render === 'function') render();
+  if (typeof saveLocal === 'function') saveLocal();
+  S.adBusy = false;
+  if (btn) btn.textContent = "✓";
+}
+
+
+function render() {
+  checkDay();
+  if ($("bSt")) $("bSt").textContent = fmt((S.balance || 0) + (S.pending || 0));
+  if ($("cSt")) $("cSt").textContent = S.clicks;
+  if ($("eSt")) $("eSt").textContent = Math.floor(S.energy);
+  var maxE = S.maxEnergy || CFG.MAX_ENERGY;
+  if ($("enBar")) $("enBar").style.width = ((S.energy / maxE) * 100) + "%";
+  if ($("enTxt")) $("enTxt").textContent = Math.floor(S.energy) + "/" + maxE;
+  var total = (S.balance || 0) + (S.pending || 0);
+  var lvl = 1 + Math.floor(total / 1000);
+  if ($("lvlText")) $("lvlText").textContent = "Lvl " + lvl;
+  var cur = total - ((lvl - 1) * 1000);
+  if ($("lvlProg")) $("lvlProg").textContent = cur.toFixed(0) + " / 1000";
+  if ($("lvlBar")) $("lvlBar").style.width = (cur / 1000 * 100) + "%";
+  var cb = $("claimBtn");
+  if (cb) {
+    if (S.pending > 0) { cb.disabled = false; cb.textContent = "CLAIM " + fmt(S.pending) + " MYT"; }
+    else { cb.disabled = true; cb.textContent = "CLAIM"; }
+  }
+  if ($("adTot")) $("adTot").textContent = (S.adTotal || 0).toFixed(4) + " MYT";
+  if ($("adCnt")) $("adCnt").textContent = S.adsWatched + " / " + CFG.TOTAL_ADS;
+  var pct = Math.min(100, (S.adsWatched / CFG.TOTAL_ADS) * 100);
+  if ($("pFill")) $("pFill").style.width = pct + "%";
+  if ($("pTxt")) $("pTxt").textContent = Math.round(pct) + "%";
+  if ($("payTot")) $("payTot").textContent = fmt(total);
+  if ($("statRefs")) $("statRefs").textContent = S.refs || 0;
+  if ($("statDays")) $("statDays").textContent = (S.checkinDay || 0) + "/7";
+  if ($("statStreak")) $("statStreak").textContent = S.streak || 0;
+  if ($("statEarn")) $("statEarn").textContent = fmt(total);
+  if (S.userId && $("invLink")) {
+    $("invLink").textContent = "https://t.me/" + CFG.BOT + "?start=ref_" + S.userId;
+  }
+  renderAds();
+  renderCheckin();
+  renderShop();
+  renderAch();
+  if (typeof updateWalletUI === "function") updateWalletUI();
+}
+
+function renderAds() {
+  var el = $("adsList");
+  if (!el) return;
+  var h = "";
+  for (var i = 0; i < CFG.TOTAL_ADS; i++) {
+    var d = i < S.adsWatched;
+    var cw = i === S.adsWatched;
+    var st = d ? t("watched") : (cw ? t("press") : t("watch_prev"));
+    h += '<div class="adc ' + (d ? 'dn' : '') + '">';
+    h += '<div class="adi">' + (d ? '✅' : '🎬') + '</div>';
+    h += '<div class="adb"><div class="adt">إعلان ' + (i + 1) + '</div>';
+    h += '<div class="ads">' + st + '</div></div>';
+    h += '<div class="adr">+0.10</div>';
+    h += '<button class="adbtn ' + (d ? 'dn' : '') + '" data-i="' + i + '" ' + (d ? 'disabled' : '') + ' onclick="watchAd(' + i + ')">' + (d ? '✓' : t("watch")) + '</button>';
+    h += '</div>';
+  }
+  el.innerHTML = h;
+}
+
+var ACH_DEF = [
+  {id:"t1",icon:"🎯",name:"First Tap",desc:"Tap once"},
+  {id:"t100",icon:"👆",name:"100 Taps",desc:"Tap 100 times"},
+  {id:"t1000",icon:"💪",name:"1000 Taps",desc:"Tap 1000 times"},
+  {id:"t10000",icon:"🔥",name:"10000 Taps",desc:"Tap 10000 times"},
+  {id:"a1",icon:"🎬",name:"First Ad",desc:"Watch one ad"},
+  {id:"a50",icon:"🎥",name:"50 Ads",desc:"Watch 50 ads"},
+  {id:"a200",icon:"🏆",name:"200 Ads",desc:"Watch 200 ads"},
+  {id:"c1",icon:"📅",name:"First Checkin",desc:"Check in once"},
+  {id:"c7",icon:"🌟",name:"7 Days",desc:"Check in 7 days"},
+  {id:"b100",icon:"💰",name:"100 MYT",desc:"Earn 100 MYT"},
+  {id:"b1000",icon:"💎",name:"1000 MYT",desc:"Earn 1000 MYT"},
+  {id:"r1",icon:"👥",name:"First Friend",desc:"Invite 1 friend"},
+  {id:"r10",icon:"🥇",name:"10 Friends",desc:"Invite 10 friends"}
+];
+
+function renderAch() {
+  var el = $("achList");
+  if (!el) return;
+  var h = "";
+  for (var i = 0; i < ACH_DEF.length; i++) {
+    var a = ACH_DEF[i];
+    var done = (S.achievements || []).indexOf(a.id) !== -1;
+    h += '<div class="ach-item ' + (done ? 'done' : '') + '">';
+    h += '<div class="ach-ico">' + (done ? a.icon : '🔒') + '</div>';
+    h += '<div class="ach-info"><div class="ach-name">' + a.name + '</div>';
+    h += '<div class="ach-desc">' + a.desc + '</div></div>';
+    h += '<div class="ach-reward">' + (done ? '✓' : '—') + '</div></div>';
+  }
+  el.innerHTML = h;
+}
+
+/* ===== Copy / Share ===== */
+function copyLink() {
+  var l = "https://t.me/" + CFG.BOT + "?start=ref_" + S.userId;
+  try {
+    navigator.clipboard.writeText(l).then(function(){ toast("✅", "ok"); });
+  } catch(e) { toast("خطأ", "err"); }
+}
+
+function shareLink() {
+  var l = "https://t.me/" + CFG.BOT + "?start=ref_" + S.userId;
+  var text = "⛏️ MYTOKEN!";
+  try {
+    if (tg && tg.openTelegramLink) {
+      tg.openTelegramLink("https://t.me/share/url?url=" + encodeURIComponent(l) + "&text=" + encodeURIComponent(text));
+    }
+  } catch(e) {}
+}
+
+/* ===== Init ===== */
+function init() {
+  detectLang();
+  try {
+    if (tg) {
+      tg.ready();
+      tg.expand();
+      try { tg.setHeaderColor("#080303"); tg.setBackgroundColor("#080303"); } catch(e) {}
+      var u = tg.initDataUnsafe && tg.initDataUnsafe.user;
+      if (u) {
+        S.userId = u.id;
+        S.firstName = u.first_name || "User";
+        UK = CFG.KEY + "_" + u.id;
+      }
+    }
+  } catch(e) { console.log(e); }
+  loadLocal();
+  checkDay();
+  if (S.energy === undefined || S.energy === null) S.energy = CFG.MAX_ENERGY;
+  if (S.maxEnergy === undefined || S.maxEnergy === null) S.maxEnergy = CFG.MAX_ENERGY;
+  render();
+  applyLang();
+  apiLoad();
+  document.addEventListener("visibilitychange", function() {
+    if (document.visibilityState === "hidden") { apiTap(); saveLocal(); }
+    else { apiLoad(); }
+  });
+  setInterval(function(){ apiTap(); saveLocal(); }, 15000);
+  setInterval(apiLoad, 60000);
+}
+
+/* ===== Expose ===== */
+window.showPage = showPage;
+window.showPayTab = showPayTab;
+window.showShopTab = showShopTab;
+window.tapCoin = tapCoin;
+window.claimCoins = claimCoins;
+window.watchAd = watchAd;
+window.doCheckin = doCheckin;
+window.buyBooster = buyBooster;
+window.buyCampaign = buyCampaign;
+window.buyVip = buyVip;
+window.showBoosters = showBoosters;
+window.closeBoost = closeBoost;
+window.openCampaign = openCampaign;
+window.closeCampaign = closeCampaign;
+window.createCampaign = createCampaign;
+window.copyLink = copyLink;
+window.shareLink = shareLink;
+window.toggleLang = toggleLang;
+window.buyEnergy = buyEnergy;
+
+/* ===== Boot ===== */
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else { init(); }
+</script>
+<script src="wallet.js"></script>
+</body>
+</html>
+</script>
+</body>
+</html>

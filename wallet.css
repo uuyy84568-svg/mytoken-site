@@ -1,0 +1,224 @@
+/* ============================================================
+   MYTOKEN Wallet Styles v2.0
+   ============================================================ */
+.wallet-card {
+  background: linear-gradient(135deg, rgba(0,200,255,.12), rgba(0,255,136,.06));
+  border: 1px solid rgba(0,200,255,.35);
+  border-radius: 18px;
+  padding: 18px;
+  margin: 12px 0;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Cairo', Arial, sans-serif;
+}
+
+.wallet-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #00C8FF, #00FF88, transparent);
+  animation: walletShine 3s linear infinite;
+}
+
+@keyframes walletShine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.wallet-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.wallet-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #00C8FF, #0099CC);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+  box-shadow: 0 6px 20px rgba(0,200,255,.35);
+}
+
+.wallet-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.wallet-card-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #00C8FF;
+  margin-bottom: 3px;
+}
+
+.wallet-card-subtitle {
+  font-size: 11px;
+  color: #a88888;
+  line-height: 1.4;
+}
+
+.wallet-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 0, 0, .35);
+  border: 1px solid #2a1010;
+  border-radius: 12px;
+  padding: 11px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #a88888;
+  margin-bottom: 10px;
+  transition: all .3s ease;
+}
+
+.wallet-status::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #5c3030;
+  flex-shrink: 0;
+  transition: all .3s ease;
+}
+
+.wallet-status.on {
+  border-color: rgba(0, 255, 136, .5);
+  color: #00FF88;
+  background: rgba(0, 255, 136, .08);
+}
+
+.wallet-status.on::before {
+  background: #00FF88;
+  box-shadow: 0 0 12px #00FF88;
+  animation: walletPulse 2s infinite;
+}
+
+@keyframes walletPulse {
+  0%, 100% { box-shadow: 0 0 12px #00FF88; }
+  50% { box-shadow: 0 0 20px #00FF88, 0 0 30px rgba(0,255,136,.6); }
+}
+
+.wallet-address {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  direction: ltr;
+  text-align: left;
+  word-break: break-all;
+  color: #00C8FF;
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: rgba(0, 200, 255, .08);
+  border-radius: 10px;
+  border: 1px dashed rgba(0, 200, 255, .4);
+  line-height: 1.5;
+  display: none;
+}
+
+.wallet-address::before {
+  content: "👛 ";
+  font-size: 14px;
+}
+
+.wallet-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.wallet-btn {
+  flex: 1;
+  padding: 14px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  border: 0;
+  transition: all .15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+}
+
+.wallet-btn:active {
+  transform: scale(.96);
+}
+
+.wallet-btn-connect {
+  background: linear-gradient(135deg, #00C8FF, #0099CC);
+  color: #001a26;
+  box-shadow: 0 8px 24px rgba(0, 200, 255, .35);
+}
+
+.wallet-btn-connect:hover {
+  box-shadow: 0 10px 30px rgba(0, 200, 255, .5);
+}
+
+.wallet-btn-disconnect {
+  background: rgba(255, 107, 107, .12);
+  color: #FF6B6B;
+  border: 1px solid rgba(255, 107, 107, .45);
+  display: none;
+}
+
+.wallet-btn-copy {
+  background: rgba(0, 255, 136, .1);
+  color: #00FF88;
+  border: 1px solid rgba(0, 255, 136, .4);
+  display: none;
+  flex: 0 0 auto;
+  padding: 14px 18px;
+}
+
+.wallet-hint {
+  font-size: 10px;
+  color: #a88888;
+  line-height: 1.7;
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: rgba(255, 212, 71, .06);
+  border-radius: 10px;
+  border-left: 3px solid #FFD447;
+}
+
+.wallet-hint strong {
+  color: #FFD447;
+}
+
+.wallet-loading {
+  display: inline-block;
+  animation: walletSpin 1s linear infinite;
+}
+
+@keyframes walletSpin {
+  to { transform: rotate(360deg); }
+}
+
+.wallet-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 8px;
+  background: rgba(0, 255, 136, .15);
+  color: #00FF88;
+  font-size: 9px;
+  font-weight: 800;
+  margin-right: 6px;
+}
+
+.ton-logo {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}

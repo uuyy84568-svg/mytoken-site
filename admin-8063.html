@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Admin — MYTOKEN</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,sans-serif}
+body{background:#050505;color:#fff;padding:12px;min-height:100vh}
+.wrap{max-width:600px;margin:auto}
+.header{background:linear-gradient(145deg,#1a0505,#0a0202);border:1px solid #3a0f0f;border-radius:16px;padding:18px;text-align:center;margin-bottom:14px}
+.header h1{color:#ff4d4d;font-size:20px;margin-bottom:3px;text-shadow:0 0 15px rgba(255,77,77,.6)}
+.header p{color:#777;font-size:11px;letter-spacing:1px}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px}
+.tab{padding:11px 6px;background:#0f0f0f;border:1px solid #2a0a0a;border-radius:11px;color:#888;font-size:11px;font-weight:800;cursor:pointer;text-align:center;font-family:inherit}
+.tab.active{background:linear-gradient(145deg,#ff4d4d,#a01010);color:#fff;border-color:transparent;box-shadow:0 4px 18px rgba(255,77,77,.4)}
+.section{display:none}
+.section.active{display:block}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+.stat{background:linear-gradient(145deg,#141414,#0a0a0a);border:1px solid #2a0a0a;border-radius:14px;padding:14px 10px;text-align:center;position:relative;overflow:hidden}
+.stat::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--c,#ff4d4d),transparent)}
+.stat .num{font-size:24px;font-weight:900;color:var(--c,#ff4d4d);margin-bottom:4px;direction:ltr}
+.stat .lbl{font-size:10px;color:#888;font-weight:600}
+.stat.green{--c:#00ff88}
+.stat.gold{--c:#ffd447}
+.stat.blue{--c:#0ea5e9}
+.search-box{position:relative;margin-bottom:12px}
+.search-box input{width:100%;background:#080808;color:#fff;border:1px solid #2a0a0a;border-radius:12px;padding:12px;font-size:13px;font-family:inherit}
+.search-box input:focus{outline:none;border-color:#ff4d4d}
+.card{background:#0f0f0f;border:1px solid #2a0a0a;border-radius:14px;padding:16px;margin-bottom:12px}
+.card h3{font-size:14px;color:#ffd447;margin-bottom:14px;border-bottom:1px solid #222;padding-bottom:10px}
+.input{width:100%;background:#080808;color:#fff;border:1px solid #2a0a0a;border-radius:10px;padding:12px;font-size:13px;margin-bottom:10px;font-family:inherit}
+.input:focus{outline:none;border-color:#ff4d4d}
+.btn{width:100%;padding:13px;background:linear-gradient(145deg,#ff4d4d,#a01010);color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:900;cursor:pointer;margin-bottom:8px;font-family:inherit}
+.btn.green{background:linear-gradient(145deg,#00c96b,#008a4a)}
+.btn.dark{background:#1a1a1a;color:#aaa;border:1px solid #2a0a0a}
+.user-card{background:#0e0e0e;border:1px solid #1a1a1a;border-radius:13px;padding:13px;margin-bottom:9px}
+.user-top{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.user-avatar{width:38px;height:38px;border-radius:10px;background:linear-gradient(145deg,#ff4d4d,#a01010);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;flex-shrink:0}
+.user-info{flex:1;min-width:0}
+.user-info b{font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-info small{color:#666;font-size:10px;font-family:monospace;direction:ltr;display:block;margin-top:2px}
+.user-bal{color:#ffd447;font-weight:900;font-size:14px;direction:ltr}
+.user-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;font-size:10px}
+.meta-item{background:rgba(255,255,255,.02);border:1px solid #1a1a1a;border-radius:8px;padding:7px 4px;text-align:center}
+.meta-item b{display:block;color:#fff;font-size:12px;margin-bottom:1px;direction:ltr}
+.meta-item span{color:#666;font-size:9px}
+.meta-item.green b{color:#00ff88}
+.meta-item.gold b{color:#ffd447}
+.meta-item.blue b{color:#0ea5e9}
+.clan-row{display:flex;align-items:center;gap:10px;background:#080808;border:1px solid #1a1a1a;border-radius:12px;padding:12px;margin-bottom:8px}
+.clan-rank{width:34px;height:34px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-weight:900;color:#ffd447;flex-shrink:0}
+.clan-rank.gold{background:linear-gradient(145deg,#ffd447,#b8940b);color:#000}
+.clan-rank.silver{background:linear-gradient(145deg,#c9d3da,#8a959d);color:#000}
+.clan-rank.bronze{background:linear-gradient(145deg,#d99b63,#8a5f30);color:#000}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);background:#1a1a1a;border:1px solid #ff4d4d;padding:12px 20px;border-radius:11px;font-size:12px;font-weight:700;z-index:99999;transition:.3s;max-width:90%;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.ok{border-color:#00c96b;color:#00ff88}
+.toast.err{border-color:#ff4d4d;color:#ff6b6b}
+.refresh{background:#0f0f0f;border:1px solid #2a0a0a;color:#ffd447;border-radius:9px;padding:9px 15px;font-size:11px;font-weight:700;cursor:pointer;margin-bottom:10px;font-family:inherit}
+.empty{text-align:center;color:#555;padding:40px 20px;font-size:12px}
+.loading{text-align:center;color:#666;padding:30px;font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="header">
+<h1>🔐 لوحة الأدمن</h1>
+<p>MYTOKEN CONTROL PANEL</p>
+</div>
+
+<div class="tabs">
+<div class="tab active" onclick="switchTab('stats')">📊 إحصائيات</div>
+<div class="tab" onclick="switchTab('users')">👥 مستخدمين</div>
+<div class="tab" onclick="switchTab('give')">💰 منح</div>
+<div class="tab" onclick="switchTab('broadcast')">📢 إشعار</div>
+<div class="tab" onclick="switchTab('clans')">⚔️ فرق</div>
+<div class="tab" onclick="switchTab('tools')">🛠 أدوات</div>
+</div>
+
+<div id="stats" class="section active">
+<button class="refresh" onclick="loadStats()">🔄 تحديث</button>
+<div class="stats-grid">
+<div class="stat"><div class="num" id="s_totalUsers">0</div><div class="lbl">إجمالي المستخدمين</div></div>
+<div class="stat green"><div class="num" id="s_activeUsers">0</div><div class="lbl">نشطين اليوم</div></div>
+<div class="stat gold"><div class="num" id="s_totalBalance">0</div><div class="lbl">إجمالي الرصيد</div></div>
+<div class="stat blue"><div class="num" id="s_totalRefs">0</div><div class="lbl">إجمالي الإحالات</div></div>
+</div>
+</div>
+
+<div id="users" class="section">
+<button class="refresh" onclick="loadUsers()">🔄 تحديث</button>
+<div class="search-box"><input id="userSearch" placeholder="ابحث بالاسم أو ID..." oninput="filterUsers()"></div>
+<div id="usersList"></div>
+</div>
+
+<div id="give" class="section">
+<div class="card">
+<h3>💰 منح رصيد لمستخدم</h3>
+<input class="input" id="giveId" placeholder="رقم المستخدم (ID)" inputmode="numeric">
+<input class="input" id="giveAmount" placeholder="المبلغ" type="number">
+<button class="btn green" onclick="giveBalance()">✅ منح</button>
+</div>
+</div>
+
+<div id="broadcast" class="section">
+<div class="card">
+<h3>📢 إرسال رسالة جماعية</h3>
+<textarea class="input" id="broadcastText" rows="5" placeholder="اكتب الرسالة..."></textarea>
+<button class="btn green" onclick="sendBroadcast()">📤 إرسال للجميع</button>
+</div>
+</div>
+
+<div id="clans" class="section">
+<button class="refresh" onclick="loadClans()">🔄 تحديث</button>
+<div id="clansList"></div>
+</div>
+
+<div id="tools" class="section">
+<div class="card">
+<h3>🛠 أدوات</h3>
+<button class="btn dark" onclick="exportCSV()">📥 تصدير CSV</button>
+<button class="btn dark" onclick="loadStats();loadUsers()">🔄 تحديث كل شي</button>
+</div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API_BASE = 'https://mytoken-api.vercel.app';
+const ADMIN_ID = 8063963886;
+let ALL_USERS = [];
+
+function toast(msg, type){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + (type||'');
+  clearTimeout(t._t);
+  t._t = setTimeout(function(){ t.className='toast'; }, 2500);
+}
+
+function esc(s){
+  if(s===undefined||s===null) return '';
+  return String(s).replace(/[<>&"']/g,function(c){
+    return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+
+function fmt(n){
+  n = Number(n)||0;
+  if(n>=1e6) return (n/1e6).toFixed(2)+'M';
+  if(n>=1e3) return (n/1e3).toFixed(2)+'K';
+  return n.toFixed ? n.toFixed(2) : n;
+}
+
+async function api(endpoint, data){
+  try{
+    const res = await fetch(API_BASE + endpoint, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(Object.assign({admin_id:ADMIN_ID}, data||{}))
+    });
+    return await res.json();
+  }catch(e){ console.error(e); return null; }
+}
+
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById(name).classList.add('active');
+  if(name==='stats') loadStats();
+  if(name==='users') loadUsers();
+  if(name==='clans') loadClans();
+}
+
+async function loadStats(){
+  const data = await api('/api/admin/stats');
+  if(data && data.ok){
+    document.getElementById('s_totalUsers').textContent = fmt(data.total_users||0);
+    document.getElementById('s_activeUsers').textContent = fmt(data.active_users||0);
+    document.getElementById('s_totalBalance').textContent = fmt(data.total_balance||0);
+    document.getElementById('s_totalRefs').textContent = fmt(data.total_refs||0);
+  }
+}
+
+async function loadUsers(){
+  const list = document.getElementById('usersList');
+  list.innerHTML = '<div class="loading">⏳ جاري التحميل...</div>';
+  const data = await api('/api/admin/users');
+  if(data && data.ok && data.users){
+    ALL_USERS = data.users;
+    renderUsers(ALL_USERS);
+  } else {
+    list.innerHTML = '<div class="empty">لا يوجد مستخدمين</div>';
+  }
+}
+
+function renderUsers(users){
+  const list = document.getElementById('usersList');
+  if(!users.length){
+    list.innerHTML = '<div class="empty">لا نتائج</div>';
+    return;
+  }
+  let html = '';
+  users.forEach(function(u){
+    const initial = (u.first_name||'?').charAt(0).toUpperCase();
+    html += '<div class="user-card">';
+    html += '<div class="user-top">';
+    html += '<div class="user-avatar">'+esc(initial)+'</div>';
+    html += '<div class="user-info"><b>'+esc(u.first_name||'User')+'</b>';
+    html += '<small>ID: '+esc(u.user_id||'—')+'</small></div>';
+    html += '<div class="user-bal">'+fmt(u.balance||0)+'</div>';
+    html += '</div>';
+    html += '<div class="user-meta">';
+    html += '<div class="meta-item gold"><b>'+(u.level||1)+'</b><span>مستوى</span></div>';
+    html += '<div class="meta-item blue"><b>'+(u.refs||0)+'</b><span>إحالات</span></div>';
+    html += '<div class="meta-item green"><b>'+(u.ads||u.ads_watched||0)+'</b><span>إعلانات</span></div>';
+    html += '<div class="meta-item"><b>'+(u.checkin||u.checkinDay||0)+'</b><span>تسجيل</span></div>';
+    html += '<div class="meta-item"><b>'+(u.taps||u.clicks||0)+'</b><span>نقرات</span></div>';
+    html += '<div class="meta-item '+(u.wallet?'green':'')+'"><b>'+(u.wallet?'✓':'—')+'</b><span>محفظة</span></div>';
+    html += '</div></div>';
+  });
+  list.innerHTML = html;
+}
+
+function filterUsers(){
+  const q = (document.getElementById('userSearch').value||'').trim().toLowerCase();
+  if(!q){ renderUsers(ALL_USERS); return; }
+  const filtered = ALL_USERS.filter(function(u){
+    return String(u.user_id||'').includes(q) || (u.first_name||'').toLowerCase().includes(q);
+  });
+  renderUsers(filtered);
+}
+
+async function giveBalance(){
+  const id = document.getElementById('giveId').value.trim();
+  const amount = parseFloat(document.getElementById('giveAmount').value);
+  if(!id || !amount || amount<=0){ toast('⚠️ املأ البيانات','err'); return; }
+  toast('⏳ جاري المنح...','');
+  const data = await api('/api/admin/give', {target_id:id, amount:amount});
+  if(data && data.ok){
+    toast('✅ تم! الرصيد الجديد: '+fmt(data.new_balance),'ok');
+    document.getElementById('giveId').value='';
+    document.getElementById('giveAmount').value='';
+  } else {
+    toast('❌ فشل: '+((data&&data.error)||'خطأ'),'err');
+  }
+}
+
+async function sendBroadcast(){
+  const text = document.getElementById('broadcastText').value.trim();
+  if(!text){ toast('⚠️ اكتب الرسالة','err'); return; }
+  if(!confirm('إرسال للجميع؟')) return;
+  toast('⏳ جاري الإرسال...','');
+  const data = await api('/api/admin/broadcast', {text:text});
+  if(data && data.ok){
+    toast('✅ أُرسلت لـ '+(data.sent||0)+' مستخدم','ok');
+    document.getElementById('broadcastText').value='';
+  } else {
+    toast('❌ فشل','err');
+  }
+}
+
+async function loadClans(){
+  const list = document.getElementById('clansList');
+  list.innerHTML = '<div class="loading">⏳ جاري التحميل...</div>';
+  const data = await api('/api/clan/ranking');
+  if(data && data.ok && data.clans && data.clans.length){
+    let html = '';
+    data.clans.forEach(function(c, i){
+      const rank = i+1;
+      const rankClass = rank===1?'gold':rank===2?'silver':rank===3?'bronze':'';
+      html += '<div class="clan-row">';
+      html += '<div class="clan-rank '+rankClass+'">'+rank+'</div>';
+      html += '<div style="flex:1;min-width:0"><b style="font-size:13px;display:block">'+esc(c.name)+'</b>';
+      html += '<small style="color:#666;font-size:10px">كود: '+esc(c.code)+' • '+(c.members||0)+' عضو</small></div>';
+      html += '<div style="color:#ffd447;font-weight:900;font-size:13px">'+fmt(c.total)+'</div>';
+      html += '</div>';
+    });
+    list.innerHTML = html;
+  } else {
+    list.innerHTML = '<div class="empty">لا توجد فرق بعد</div>';
+  }
+}
+
+function exportCSV(){
+  if(!ALL_USERS.length){ toast('⚠️ لا يوجد بيانات','err'); return; }
+  let csv = 'ID,Name,Balance,Level,Refs,Ads,Checkin,Taps,Wallet\n';
+  ALL_USERS.forEach(function(u){
+    csv += [u.user_id, '"'+(u.first_name||'').replace(/"/g,'""')+'"', u.balance||0, u.level||1, u.refs||0, u.ads||0, u.checkin||0, u.taps||0, u.wallet?'Yes':'No'].join(',')+'\n';
+  });
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'mytoken_users_'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('✅ تم التصدير','ok');
+}
+
+loadStats();
+</script>
+</body>
+</html>

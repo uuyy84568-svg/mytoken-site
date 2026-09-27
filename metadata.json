@@ -1,0 +1,7 @@
+{
+  "name": "MYTOKEN",
+  "symbol": "MYT",
+  "description": "MYTOKEN - Mining on TON. Earn MYT by tapping and watching ads.",
+  "image": "https://mytoken-app-2026.netlify.app/icon.png",
+  "decimals": "9"
+}
