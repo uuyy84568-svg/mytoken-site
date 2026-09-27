@@ -703,103 +703,119 @@ input:focus{border-color:rgba(230,57,70,.7)}
 
 <!-- ===== صفحة الحساب ===== -->
 <div class="pg" id="pgWel">
-  <div class="card">
     <div class="title" data-i18n="account_title">👤 حسابك</div>
-  </div>
 
-  <div class="wb">
-    <div class="wbi">⛏️</div>
-    <div class="wbt" data-i18n="welcome_back">مرحباً بك</div>
-    <div class="wbs" data-i18n="welcome_desc">اجمع MYT وانشر الرابط لدعوة أصدقائك</div>
-  </div>
-  <!-- Wallet Widget (Account) -->
-  >
-
-
-
-    >
-
-  >
-
-  <!-- Wallet Card (Account Page) -->
-  <div class="wallet-card" id="walletAccountCard">
-    <div class="wallet-card-header">
-      <div class="wallet-card-icon">👛</div>
-      <div class="wallet-card-info">
-        <div class="wallet-card-title">محفظة TON</div>
-        <div class="wallet-card-subtitle">اربط محفظتك لسحب أرباحك</div>
-      </div>
+    <div class="card">
+        <div class="line"><span>🆔 User ID</span><span class="lv" id="profUserId">-</span></div>
     </div>
-    <div class="wallet-status" id="walletStatus">
-      <span id="walletStatusText">غير متصل</span>
-    </div>
-    <div class="wallet-address" id="walletAddress">—</div>
-    <div class="wallet-actions">
-      <button class="wallet-btn wallet-btn-connect" id="walletConnectBtn" type="button" onclick="window.MYTWallet && window.MYTWallet.connect();return false;">
-        <svg class="ton-logo" viewBox="0 0 56 56" fill="none">
-          <circle cx="28" cy="28" r="28" fill="white" fill-opacity="0.15"/>
-          <path d="M37.56 18H18.44c-3.34 0-5.44 3.56-3.75 6.46l11.28 19.28c.86 1.46 2.96 1.46 3.82 0l11.5-19.28C43 21.56 40.9 18 37.56 18z" fill="white"/>
-          <path d="M25.5 34.5l-5-8.5h7.5v8.5z" fill="#0098EA"/>
-        </svg>
-        <span>Connect Wallet</span>
-      </button>
-      <button class="wallet-btn wallet-btn-disconnect" id="walletDisconnectBtn" type="button" onclick="window.MYTWallet && window.MYTWallet.disconnect();return false;">
-        <span>✖️ قطع الاتصال</span>
-      </button>
-      <button class="wallet-btn wallet-btn-copy" id="walletCopyBtn" type="button" onclick="window.MYTWallet && window.MYTWallet.copyAddress();return false;">
-        <span>📋</span>
-      </button>
-    </div>
-    <div class="wallet-hint">
-      <strong>💡 أمان تام:</strong> لا نطلب أبداً كلمات الاسترداد.
-    </div>
-  </div>
 
-<div class="switch-row">
-    <div class="switch-info">
-      <div class="switch-title">🌍 <span data-i18n="language">اللغة</span></div>
-      <div class="switch-sub">English / العربية</div>
+    <div class="card" style="margin-top:12px">
+        <div class="line"><span>✅ توثيق الحساب</span><span class="lv" id="profVerify">غير موثق</span></div>
+        <button class="btn btn-blue" style="margin-top:10px" onclick="MTp.openWallet()">توثيق</button>
     </div>
-    <button id="langBtn" onclick="toggleLang()" style="padding:10px 14px;background:linear-gradient(135deg,#0a6fb1,#0a4d7a);color:#fff;border:0;border-radius:10px;font-weight:800;cursor:pointer;font-size:12px">🇬🇧 English</button>
-  </div>
 
-  <div class="inv">
-    <div class="inv-lbl" data-i18n="referral_link">YOUR REFERRAL LINK</div>
-    <div class="inv-link" id="invLink">—</div>
-  </div>
-
-  <button class="btn btn-blue" onclick="copyLink()" data-i18n="copy_link">📋 نسخ الرابط</button>
-  <button class="btn btn-gray" onclick="shareLink()" data-i18n="share">📤 مشاركة</button>
-
-  <div class="card" style="margin-top:12px">
-    <div class="title" style="font-size:14px;margin-bottom:10px" data-i18n="your_stats">📊 إحصائياتك</div>
-    <div class="line">
-      <span data-i18n="referrals">👥 الإحالات</span>
-      <span class="lv" id="statRefs">0</span>
+    <div class="card" style="margin-top:12px">
+        <div class="switch-row">
+            <div class="switch-info">
+                <div class="switch-title">🔊 تأثيرات الصوت</div>
+                <div class="switch-sub" id="profSoundLbl">On</div>
+            </div>
+            <button class="btn btn-blue" style="padding:8px 16px;width:auto" id="profSoundBtn" onclick="MTp.toggleSound()">On</button>
+        </div>
     </div>
-    <div class="line">
-      <span data-i18n="checkin_days">📅 أيام التسجيل</span>
-      <span class="lv" id="statDays">0/7</span>
-    </div>
-    <div class="line">
-      <span data-i18n="streak">🔥 السلسلة اليومية</span>
-      <span class="lv" id="statStreak">0</span>
-    </div>
-    <div class="line">
-      <span data-i18n="earnings_total">💰 إجمالي الأرباح</span>
-      <span class="lv" id="statEarn">0.0000</span>
-    </div>
-  </div>
 
-  <div class="card" style="margin-top:12px">
-    <div class="title" style="font-size:14px;margin-bottom:10px">🏆 الإنجازات</div>
-    <div class="ach-list" id="achList"></div>
-  </div>
-</div>
+    <div class="card" style="margin-top:12px">
+        <div class="line"><span>💎 VIP</span><span class="lv">قريباً</span></div>
+        <button class="btn btn-blue" style="margin-top:10px" onclick="MTp.vip()">Open</button>
+    </div>
 
-</div><!-- نهاية .container -->
+    <div class="card" style="margin-top:12px">
+        <div class="title" style="font-size:14px;margin-bottom:10px">💰 Assets</div>
+        <div class="line"><span>💵 الرصيد</span><span class="lv" id="profBalance">0 MYT</span></div>
+        <div class="line"><span>💲 بالدولار</span><span class="lv" id="profUsd">$0.00</span></div>
+        <div class="line"><span>⏳ معلق</span><span class="lv" id="profPending">0 MYT</span></div>
+    </div>
 
-<!-- ===== القائمة السفلية ===== -->
+    <div class="card" style="margin-top:12px">
+        <div class="title" style="font-size:14px;margin-bottom:10px">👛 Holding Wallet</div>
+        <div class="wallet-status" id="walletStatus"><span id="walletStatusText">غير مربوط</span></div>
+        <div class="wallet-address" id="walletAddress">-</div>
+        <div class="wallet-actions" style="margin-top:10px;display:flex;gap:8px">
+            <button class="wallet-btn wallet-btn-connect" id="walletConnectBtn" onclick="MTp.openWallet()">ربط المحفظة</button>
+            <button class="wallet-btn wallet-btn-copy" id="walletCopyBtn" onclick="MTp.copyWallet()" style="display:none">📋</button>
+            <button class="wallet-btn wallet-btn-disconnect" id="walletDisconnectBtn" onclick="MTp.disconnectWallet()" style="display:none">❌</button>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+        <div class="line"><span>🏦 Pool Wallet</span><span class="lv" style="color:#00d97e" id="profPool">0 MYT</span></div>
+        <div class="line"><span>📊 الحد الأدنى للسحب</span><span class="lv">1,000 MYT</span></div>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+        <div class="title" style="font-size:14px;margin-bottom:10px">🎮 Controls</div>
+        <button class="btn btn-blue" style="margin-bottom:8px" onclick="MTp.withdraw()">📤 سحب</button>
+        <button class="btn btn-gray" onclick="MTp.history()">📜 السجل</button>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+        <div class="title" style="font-size:14px;margin-bottom:10px">📊 إحصائياتك</div>
+        <div class="line"><span>👥 الإحالات</span><span class="lv" id="statRefs">0</span></div>
+        <div class="line"><span>📅 أيام التسجيل</span><span class="lv" id="statDays">0/7</span></div>
+        <div class="line"><span>🔥 السلسلة</span><span class="lv" id="statStreak">0</span></div>
+    </div>
+
+    <div class="inv" style="margin-top:12px">
+        <div class="inv-lbl" data-i18n="referral_link">رابط الإحالة</div>
+        <div class="inv-link" id="invLink">-</div>
+    </div>
+    <button class="btn btn-blue" onclick="copyLink()" data-i18n="copy_link">📋 نسخ الرابط</button>
+    <button class="btn btn-gray" onclick="shareLink()" data-i18n="share">📤 مشاركة</button>
+
+    <div class="switch-row" style="margin-top:12px">
+        <div class="switch-info">
+            <div class="switch-title">🌐 <span data-i18n="language">اللغة</span></div>
+            <div class="switch-sub">English / العربية</div>
+        </div>
+        <button id="langBtn" onclick="toggleLang()" style="padding:10px 14px;background:linear-gradient(135deg,#0a6fb1,#0a4d7a);color:#fff;border:0;border-radius:10px;font-weight:800;cursor:pointer;font-size:12px">GB English</button>
+    </div>
+
+    <script>
+    window.MTp = {
+        soundOn: true,
+        toggleSound: function(){
+            this.soundOn = !this.soundOn;
+            var b = document.getElementById('profSoundBtn');
+            var l = document.getElementById('profSoundLbl');
+            if(b) b.textContent = this.soundOn ? 'On' : 'Off';
+            if(l) l.textContent = this.soundOn ? 'On' : 'Off';
+        },
+        vip: function(){ alert('\u2b50 VIP \u0642\u0631\u064a\u0628\u0627\u064b!'); },
+        openWallet: function(){
+            if(window.MYTWallet && window.MYTWallet.connect){ window.MYTWallet.connect(); }
+            else if(window.MYTWallet && window.MYTWallet.showModal){ window.MYTWallet.showModal(); }
+            else { alert('\u0627\u0636\u063a\u0637 \u0632\u0631 \u0631\u0628\u0637 \u0627\u0644\u0645\u062d\u0641\u0638\u0629'); }
+        },
+        copyWallet: function(){ if(window.MYTWallet && window.MYTWallet.copyAddress){ window.MYTWallet.copyAddress(); } },
+        disconnectWallet: function(){ if(window.MYTWallet && window.MYTWallet.disconnect){ window.MYTWallet.disconnect(); } },
+        withdraw: function(){
+            var balEl = document.getElementById('profBalance');
+            var bal = parseFloat((balEl ? balEl.textContent : '0').replace(/[^0-9.]/g,'')) || 0;
+            if(bal < 1000){ alert('\u274C \u0627\u0644\u062d\u062f \u0627\u0644\u0623\u062f\u0646\u0649 1,000 MYT'); return; }
+            var amt = prompt('\u0623\u062f\u062e\u0644 \u0627\u0644\u0643\u0645\u064a\u0629 (\u0627\u0644\u062d\u062f \u0627\u0644\u0623\u062f\u0646\u0649 1000):');
+            if(!amt) return;
+            amt = parseFloat(amt);
+            if(!amt || amt < 1000){ alert('\u274C \u0627\u0644\u062d\u062f \u0627\u0644\u0623\u062f\u0646\u0649 1,000'); return; }
+            if(amt > bal){ alert('\u274C \u0631\u0635\u064a\u062f\u0643 ' + bal + ' MYT \u0641\u0642\u0637'); return; }
+            alert('\u2705 \u062a\u0645 \u0625\u0646\u0634\u0627\u0621 \u0637\u0644\u0628 \u0633\u062d\u0628 ' + amt + ' MYT');
+        },
+        history: function(){ alert('\U0001F4DC \u0644\u0627 \u062a\u0648\u062c\u062f \u0633\u062d\u0648\u0628\u0627\u062a \u0628\u0639\u062f'); }
+    };
+    </script>
+
+    </div>
+    </div>
+
 <div class="nav">
   <button class="ni" onclick="showPage('Wel')" data-page="Wel">
     <span class="ni-ic">👤</span>
