@@ -703,82 +703,128 @@ input:focus{border-color:rgba(230,57,70,.7)}
 
 <!-- ===== صفحة الحساب ===== -->
 <div class="pg" id="pgWel">
-    <div class="title" data-i18n="account_title">👤 حسابك</div>
+    <div style="text-align:center;font-size:26px;font-weight:900;color:#fff;margin:10px 0 22px;letter-spacing:.5px" data-i18n="account_title">حسابك</div>
 
-    <div class="card">
-        <div class="line"><span>🆔 User ID</span><span class="lv" id="profUserId">-</span></div>
-    </div>
-
-    <div class="card" style="margin-top:12px">
-        <div class="line"><span>✅ توثيق الحساب</span><span class="lv" id="profVerify">غير موثق</span></div>
-        <button class="btn btn-blue" style="margin-top:10px" onclick="MTp.openWallet()">توثيق</button>
-    </div>
-
-    <div class="card" style="margin-top:12px">
-        <div class="switch-row">
-            <div class="switch-info">
-                <div class="switch-title">🔊 تأثيرات الصوت</div>
-                <div class="switch-sub" id="profSoundLbl">On</div>
-            </div>
-            <button class="btn btn-blue" style="padding:8px 16px;width:auto" id="profSoundBtn" onclick="MTp.toggleSound()">On</button>
+    <div class="mtok-card">
+        <div class="mtok-row">
+            <div class="mtok-ico">👤</div>
+            <div class="mtok-info"><div class="mtok-t">User ID</div><div class="mtok-d" id="profUserId" style="font-family:monospace;direction:ltr;text-align:right">-</div></div>
         </div>
     </div>
 
-    <div class="card" style="margin-top:12px">
-        <div class="line"><span>💎 VIP</span><span class="lv">قريباً</span></div>
-        <button class="btn btn-blue" style="margin-top:10px" onclick="MTp.vip()">Open</button>
-    </div>
-
-    <div class="card" style="margin-top:12px">
-        <div class="title" style="font-size:14px;margin-bottom:10px">💰 Assets</div>
-        <div class="line"><span>💵 الرصيد</span><span class="lv" id="profBalance">0 MYT</span></div>
-        <div class="line"><span>💲 بالدولار</span><span class="lv" id="profUsd">$0.00</span></div>
-        <div class="line"><span>⏳ معلق</span><span class="lv" id="profPending">0 MYT</span></div>
-    </div>
-
-    <div class="card" style="margin-top:12px">
-        <div class="title" style="font-size:14px;margin-bottom:10px">👛 Holding Wallet</div>
-        <div class="wallet-status" id="walletStatus"><span id="walletStatusText">غير مربوط</span></div>
-        <div class="wallet-address" id="walletAddress">-</div>
-        <div class="wallet-actions" style="margin-top:10px;display:flex;gap:8px">
-            <button class="wallet-btn wallet-btn-connect" id="walletConnectBtn" onclick="MTp.openWallet()">ربط المحفظة</button>
-            <button class="wallet-btn wallet-btn-copy" id="walletCopyBtn" onclick="MTp.copyWallet()" style="display:none">📋</button>
-            <button class="wallet-btn wallet-btn-disconnect" id="walletDisconnectBtn" onclick="MTp.disconnectWallet()" style="display:none">❌</button>
+    <div class="mtok-card">
+        <div class="mtok-row">
+            <div class="mtok-ico" id="profVerifyIco">❌</div>
+            <div class="mtok-info"><div class="mtok-t">توثيق الحساب</div><div class="mtok-d" id="profVerify">غير موثق</div></div>
+            <button class="mtok-btn" onclick="MTp.openWallet()" data-i18n="verify">Verify</button>
+        </div>
+        <div class="mtok-row">
+            <div class="mtok-ico">🔊</div>
+            <div class="mtok-info"><div class="mtok-t">تأثيرات الصوت</div><div class="mtok-d" id="profSoundLbl">On</div></div>
+            <button class="mtok-btn" onclick="MTp.toggleSound()" id="profSoundBtn">On</button>
         </div>
     </div>
 
-    <div class="card" style="margin-top:12px">
-        <div class="line"><span>🏦 Pool Wallet</span><span class="lv" style="color:#00d97e" id="profPool">0 MYT</span></div>
-        <div class="line"><span>📊 الحد الأدنى للسحب</span><span class="lv">1,000 MYT</span></div>
-    </div>
-
-    <div class="card" style="margin-top:12px">
-        <div class="title" style="font-size:14px;margin-bottom:10px">🎮 Controls</div>
-        <button class="btn btn-blue" style="margin-bottom:8px" onclick="MTp.withdraw()">📤 سحب</button>
-        <button class="btn btn-gray" onclick="MTp.history()">📜 السجل</button>
-    </div>
-
-    <div class="card" style="margin-top:12px">
-        <div class="title" style="font-size:14px;margin-bottom:10px">📊 إحصائياتك</div>
-        <div class="line"><span>👥 الإحالات</span><span class="lv" id="statRefs">0</span></div>
-        <div class="line"><span>📅 أيام التسجيل</span><span class="lv" id="statDays">0/7</span></div>
-        <div class="line"><span>🔥 السلسلة</span><span class="lv" id="statStreak">0</span></div>
-    </div>
-
-    <div class="inv" style="margin-top:12px">
-        <div class="inv-lbl" data-i18n="referral_link">رابط الإحالة</div>
-        <div class="inv-link" id="invLink">-</div>
-    </div>
-    <button class="btn btn-blue" onclick="copyLink()" data-i18n="copy_link">📋 نسخ الرابط</button>
-    <button class="btn btn-gray" onclick="shareLink()" data-i18n="share">📤 مشاركة</button>
-
-    <div class="switch-row" style="margin-top:12px">
-        <div class="switch-info">
-            <div class="switch-title">🌐 <span data-i18n="language">اللغة</span></div>
-            <div class="switch-sub">English / العربية</div>
+    <div class="mtok-card">
+        <div class="mtok-row">
+            <div class="mtok-ico gold">💎</div>
+            <div class="mtok-info"><div class="mtok-t">VIP</div><div class="mtok-d">مضاعف 2x · مكافآت أعلى</div></div>
+            <button class="mtok-btn" onclick="MTp.vip()">Open</button>
         </div>
-        <button id="langBtn" onclick="toggleLang()" style="padding:10px 14px;background:linear-gradient(135deg,#0a6fb1,#0a4d7a);color:#fff;border:0;border-radius:10px;font-weight:800;cursor:pointer;font-size:12px">GB English</button>
     </div>
+
+    <div class="mtok-sec">Assets</div>
+    <div class="mtok-card">
+        <div class="mtok-row">
+            <div class="mtok-ico gold">💰</div>
+            <div class="mtok-info"><div class="mtok-t">Assets</div><div class="mtok-d" id="profUsd">$0.00</div></div>
+            <div class="mtok-val" id="profBalance">0 MYT</div>
+        </div>
+        <div class="mtok-row">
+            <div class="mtok-ico">💳</div>
+            <div class="mtok-info"><div class="mtok-t">Holding Wallet</div><div class="mtok-d" id="walletAddress" style="font-family:monospace;direction:ltr;text-align:right">-</div></div>
+            <button class="mtok-btn" onclick="MTp.openWallet()" id="walletConnectBtn">Link</button>
+        </div>
+        <div class="mtok-row">
+            <div class="mtok-ico green">🏦</div>
+            <div class="mtok-info"><div class="mtok-t">Pool Wallet</div><div class="mtok-d">الرصيد القابل للسحب</div></div>
+            <div class="mtok-val green" id="profPool">0 MYT</div>
+        </div>
+    </div>
+
+    <div class="mtok-sec">Controls</div>
+    <div class="mtok-card">
+        <div class="mtok-row">
+            <div class="mtok-ico">📤</div>
+            <div class="mtok-info"><div class="mtok-t">Withdraw</div><div class="mtok-d">حول الرصيد إلى محفظتك</div></div>
+            <button class="mtok-btn" onclick="MTp.withdraw()">Withdraw</button>
+        </div>
+        <div class="mtok-row">
+            <div class="mtok-ico">📜</div>
+            <div class="mtok-info"><div class="mtok-t">History</div><div class="mtok-d">سحوباتك السابقة</div></div>
+            <button class="mtok-btn ghost" onclick="MTp.history()">Open</button>
+        </div>
+    </div>
+
+    <div class="mtok-sec">Stats</div>
+    <div class="mtok-card">
+        <div class="mtok-row">
+            <div class="mtok-ico">👥</div>
+            <div class="mtok-info"><div class="mtok-t">Referrals</div><div class="mtok-d">أصدقاء دعوتهم</div></div>
+            <div class="mtok-val" id="statRefs">0</div>
+        </div>
+        <div class="mtok-row">
+            <div class="mtok-ico">📅</div>
+            <div class="mtok-info"><div class="mtok-t">Check-in Days</div><div class="mtok-d">أيام التسجيل</div></div>
+            <div class="mtok-val" id="statDays">0/7</div>
+        </div>
+        <div class="mtok-row">
+            <div class="mtok-ico">⚡</div>
+            <div class="mtok-info"><div class="mtok-t">Level</div><div class="mtok-d">المستوى</div></div>
+            <div class="mtok-val" id="statStreak">Lv1</div>
+        </div>
+    </div>
+
+    <div class="mtok-sec">Referral</div>
+    <div class="mtok-card">
+        <div class="mtok-row" style="display:block">
+            <div class="mtok-t" style="margin-bottom:8px">YOUR REFERRAL LINK</div>
+            <div class="mtok-d" id="invLink" style="word-break:break-all;margin-bottom:12px">-</div>
+        </div>
+    </div>
+    <button class="mtok-btn-full" onclick="copyLink()">📋 نسخ الرابط</button>
+    <button class="mtok-btn-full ghost" onclick="shareLink()">📤 مشاركة</button>
+
+    <div class="mtok-card" style="margin-top:12px">
+        <div class="mtok-row">
+            <div class="mtok-ico">🌐</div>
+            <div class="mtok-info"><div class="mtok-t">اللغة</div><div class="mtok-d">English / العربية</div></div>
+            <button class="mtok-btn" id="langBtn" onclick="toggleLang()">English</button>
+        </div>
+    </div>
+
+    <div style="height:20px"></div>
+
+    <style>
+    .mtok-card{background:linear-gradient(145deg,rgba(30,10,10,.85),rgba(15,5,5,.95));border:1px solid rgba(220,50,50,.12);border-radius:16px;margin-bottom:12px;overflow:hidden}
+    .mtok-row{display:flex;align-items:center;padding:14px 15px;gap:13px;position:relative}
+    .mtok-row:not(:last-child)::after{content:'';position:absolute;bottom:0;right:15px;left:15px;height:1px;background:rgba(220,50,50,.08)}
+    .mtok-ico{width:44px;height:44px;border-radius:12px;background:rgba(220,50,50,.1);border:1px solid rgba(220,50,50,.18);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+    .mtok-ico.gold{background:rgba(245,184,0,.12);border-color:rgba(245,184,0,.3)}
+    .mtok-ico.green{background:rgba(0,217,126,.12);border-color:rgba(0,217,126,.3)}
+    .mtok-info{flex:1;min-width:0}
+    .mtok-t{font-size:14px;font-weight:800;color:#fff;margin-bottom:2px}
+    .mtok-d{font-size:12px;color:#8a7a7a;line-height:1.3}
+    .mtok-val{font-size:16px;font-weight:900;color:#f5b800;white-space:nowrap}
+    .mtok-val.green{color:#00d97e}
+    .mtok-btn{background:linear-gradient(135deg,#f5b800,#d99e00);color:#1a0f00;border:none;padding:9px 18px;border-radius:11px;font-size:12px;font-weight:900;font-family:'Cairo',sans-serif;cursor:pointer;white-space:nowrap;box-shadow:0 4px 12px rgba(245,184,0,.3)}
+    .mtok-btn:active{transform:scale(.96)}
+    .mtok-btn.ghost{background:transparent;color:#f5b800;border:1.5px solid rgba(245,184,0,.4);box-shadow:none}
+    .mtok-btn-full{width:100%;background:linear-gradient(135deg,#f5b800,#d99e00);color:#1a0f00;border:none;padding:14px;border-radius:13px;font-size:14px;font-weight:900;font-family:'Cairo',sans-serif;cursor:pointer;margin-bottom:8px;box-shadow:0 4px 14px rgba(245,184,0,.3)}
+    .mtok-btn-full:active{transform:scale(.98)}
+    .mtok-btn-full.ghost{background:transparent;color:#f5b800;border:1.5px solid rgba(245,184,0,.4);box-shadow:none}
+    .mtok-sec{font-size:13px;font-weight:900;color:#f5b800;margin:20px 4px 10px;letter-spacing:.5px}
+    </style>
 
     <script>
     window.MTp = {
@@ -796,13 +842,11 @@ input:focus{border-color:rgba(230,57,70,.7)}
             else if(window.MYTWallet && window.MYTWallet.showModal){ window.MYTWallet.showModal(); }
             else { alert('\u0627\u0636\u063a\u0637 \u0632\u0631 \u0631\u0628\u0637 \u0627\u0644\u0645\u062d\u0641\u0638\u0629'); }
         },
-        copyWallet: function(){ if(window.MYTWallet && window.MYTWallet.copyAddress){ window.MYTWallet.copyAddress(); } },
-        disconnectWallet: function(){ if(window.MYTWallet && window.MYTWallet.disconnect){ window.MYTWallet.disconnect(); } },
         withdraw: function(){
             var balEl = document.getElementById('profBalance');
             var bal = parseFloat((balEl ? balEl.textContent : '0').replace(/[^0-9.]/g,'')) || 0;
             if(bal < 1000){ alert('\u274C \u0627\u0644\u062d\u062f \u0627\u0644\u0623\u062f\u0646\u0649 1,000 MYT'); return; }
-            var amt = prompt('\u0623\u062f\u062e\u0644 \u0627\u0644\u0643\u0645\u064a\u0629 (\u0627\u0644\u062d\u062f \u0627\u0644\u0623\u062f\u0646\u0649 1000):');
+            var amt = prompt('\u0623\u062f\u062e\u0644 \u0627\u0644\u0643\u0645\u064a\u0629 (\u0627\u0644\u062d\u062f 1000):');
             if(!amt) return;
             amt = parseFloat(amt);
             if(!amt || amt < 1000){ alert('\u274C \u0627\u0644\u062d\u062f \u0627\u0644\u0623\u062f\u0646\u0649 1,000'); return; }
@@ -813,7 +857,6 @@ input:focus{border-color:rgba(230,57,70,.7)}
     };
     </script>
 
-    </div>
     </div>
 
 <div class="nav">
