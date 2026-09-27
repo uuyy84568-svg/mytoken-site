@@ -496,102 +496,6 @@ input:focus{border-color:rgba(230,57,70,.7)}
 <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 <link rel="stylesheet" href="wallet.css">
 <script src="//libtl.com/sdk.js" data-zone="11874578" data-sdk="show_11874578"></script>
-
-<style id="wallet-prominent">
-/* زر ربط المحفظة بارز وذهبي */
-#walletConnectBtn, .wallet-btn-connect {
-    background: linear-gradient(135deg, #f5b800, #d99e00) !important;
-    color: #1a0f00 !important;
-    border: none !important;
-    font-weight: 900 !important;
-    font-size: 15px !important;
-    padding: 14px 24px !important;
-    border-radius: 14px !important;
-    box-shadow: 0 6px 20px rgba(245,184,0,.4) !important;
-    width: 100% !important;
-    margin-top: 10px !important;
-    font-family: Cairo, sans-serif !important;
-    cursor: pointer !important;
-}
-#walletConnectBtn:active, .wallet-btn-connect:active {
-    transform: scale(.97) !important;
-}
-/* قسم المحفظة بارز */
-#walletAccountCard, .wallet-card {
-    border: 2px solid rgba(245,184,0,.35) !important;
-    box-shadow: 0 0 30px rgba(245,184,0,.15) !important;
-}
-.wallet-status {
-    font-size: 13px !important;
-    font-weight: 800 !important;
-    padding: 8px 12px !important;
-    border-radius: 10px !important;
-    background: rgba(0,0,0,.3) !important;
-    text-align: center !important;
-}
-.wallet-address {
-    font-family: monospace !important;
-    font-size: 11px !important;
-    color: #8a7a7a !important;
-    text-align: center !important;
-    direction: ltr !important;
-    word-break: break-all !important;
-    padding: 6px !important;
-}
-</style>
-
-<style id="wallet-fix2">
-.wallet-card, #walletAccountCard {
-    padding: 16px !important;
-}
-.wallet-address {
-    display: block !important;
-    font-family: monospace !important;
-    font-size: 11px !important;
-    color: #8a7a7a !important;
-    text-align: center !important;
-    direction: ltr !important;
-    word-break: break-all !important;
-    padding: 10px 8px !important;
-    background: rgba(0,0,0,.3) !important;
-    border-radius: 10px !important;
-    margin: 8px 0 !important;
-    min-height: 20px !important;
-    max-height: none !important;
-}
-.wallet-status {
-    font-size: 13px !important;
-    font-weight: 800 !important;
-    padding: 8px 12px !important;
-    border-radius: 10px !important;
-    background: rgba(0,0,0,.3) !important;
-    text-align: center !important;
-    margin-bottom: 10px !important;
-}
-.wallet-actions {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 8px !important;
-    margin-top: 8px !important;
-    clear: both !important;
-}
-.wallet-btn-connect, #walletConnectBtn {
-    width: 100% !important;
-    background: linear-gradient(135deg, #f5b800, #d99e00) !important;
-    color: #1a0f00 !important;
-    border: none !important;
-    font-weight: 900 !important;
-    font-size: 15px !important;
-    padding: 14px !important;
-    border-radius: 12px !important;
-    box-shadow: 0 6px 20px rgba(245,184,0,.4) !important;
-    font-family: Cairo, sans-serif !important;
-    cursor: pointer !important;
-}
-.wallet-btn-copy, .wallet-btn-disconnect {
-    display: none !important;
-}
-</style>
 </head>
 <body>
 <div class="container">
@@ -618,7 +522,7 @@ input:focus{border-color:rgba(230,57,70,.7)}
 
   <div class="level">
     <div class="level-head">
-      <span class="lvl" id="lvlText" data-i18n="level_short">Lvl 1</span>
+      <span class="lvl" id="lvlText">Lvl 1</span>
       <span class="val" id="lvlProg">0 / 1000</span>
     </div>
     <div class="level-bg">
@@ -644,11 +548,11 @@ input:focus{border-color:rgba(230,57,70,.7)}
 
     >
 
-  <button class="btn btn-red" id="claimBtn" onclick="claimCoins()" disabled><span data-i18n="claim">CLAIM</span></button>
+  <button class="btn btn-red" id="claimBtn" onclick="claimCoins()" disabled>CLAIM</button>
 
   <div class="btn-row">
-    <button class="btn btn-blue btn-sm" onclick="buyEnergy()" data-i18n="buy_energy">⚡ +50</button>
-    <button class="btn btn-yellow btn-sm" onclick="showBoosters()" data-i18n="boosters">🚀 Boosters</button>
+    <button class="btn btn-blue btn-sm" onclick="buyEnergy()">⚡ +50</button>
+    <button class="btn btn-yellow btn-sm" onclick="showBoosters()">🚀 Boosters</button>
   </div>
 </div>
 
@@ -799,133 +703,103 @@ input:focus{border-color:rgba(230,57,70,.7)}
 
 <!-- ===== صفحة الحساب ===== -->
 <div class="pg" id="pgWel">
-    <div style="text-align:center;font-size:26px;font-weight:900;color:#fff;margin:10px 0 22px;letter-spacing:.5px" data-i18n="account_title">حسابك</div>
+  <div class="card">
+    <div class="title" data-i18n="account_title">👤 حسابك</div>
+  </div>
 
-    <div class="mtok-card">
-        <div class="mtok-row">
-            <div class="mtok-ico">👤</div>
-            <div class="mtok-info"><div class="mtok-t">معرف المستخدم</div><div class="mtok-d" id="profUserId" style="font-family:monospace;direction:ltr;text-align:right">-</div></div>
-        </div>
+  <div class="wb">
+    <div class="wbi">⛏️</div>
+    <div class="wbt" data-i18n="welcome_back">مرحباً بك</div>
+    <div class="wbs" data-i18n="welcome_desc">اجمع MYT وانشر الرابط لدعوة أصدقائك</div>
+  </div>
+  <!-- Wallet Widget (Account) -->
+  >
+
+
+
+    >
+
+  >
+
+  <!-- Wallet Card (Account Page) -->
+  <div class="wallet-card" id="walletAccountCard">
+    <div class="wallet-card-header">
+      <div class="wallet-card-icon">👛</div>
+      <div class="wallet-card-info">
+        <div class="wallet-card-title">محفظة TON</div>
+        <div class="wallet-card-subtitle">اربط محفظتك لسحب أرباحك</div>
+      </div>
     </div>
-
-    <div class="mtok-card">
-        <div class="mtok-row">
-            <div class="mtok-ico" id="profVerifyIco">❌</div>
-            <div class="mtok-info"><div class="mtok-t">توثيق الحساب</div><div class="mtok-d" id="profVerify">غير موثق</div></div>
-            <button class="mtok-btn" onclick="MTp.openWallet()" data-i18n="verify">توثيق</button>
-        </div>
-        <div class="mtok-row">
-            <div class="mtok-ico">🔊</div>
-            <div class="mtok-info"><div class="mtok-t">تأثيرات الصوت</div><div class="mtok-d" id="profSoundLbl">On</div></div>
-            <button class="mtok-btn" onclick="MTp.toggleSound()" id="profSoundBtn">On</button>
-        </div>
+    <div class="wallet-status" id="walletStatus">
+      <span id="walletStatusText">غير متصل</span>
     </div>
-
-    <div class="mtok-card">
-        <div class="mtok-row">
-            <div class="mtok-ico gold">💎</div>
-            <div class="mtok-info"><div class="mtok-t">VIP</div><div class="mtok-d">مضاعف 2x · مكافآت أعلى</div></div>
-            <button class="mtok-btn" onclick="MTp.vip()">فتح</button>
-        </div>
+    <div class="wallet-address" id="walletAddress">—</div>
+    <div class="wallet-actions">
+      <button class="wallet-btn wallet-btn-connect" id="walletConnectBtn" type="button" onclick="window.MYTWallet && window.MYTWallet.connect();return false;">
+        <svg class="ton-logo" viewBox="0 0 56 56" fill="none">
+          <circle cx="28" cy="28" r="28" fill="white" fill-opacity="0.15"/>
+          <path d="M37.56 18H18.44c-3.34 0-5.44 3.56-3.75 6.46l11.28 19.28c.86 1.46 2.96 1.46 3.82 0l11.5-19.28C43 21.56 40.9 18 37.56 18z" fill="white"/>
+          <path d="M25.5 34.5l-5-8.5h7.5v8.5z" fill="#0098EA"/>
+        </svg>
+        <span>Connect Wallet</span>
+      </button>
+      <button class="wallet-btn wallet-btn-disconnect" id="walletDisconnectBtn" type="button" onclick="window.MYTWallet && window.MYTWallet.disconnect();return false;">
+        <span>✖️ قطع الاتصال</span>
+      </button>
+      <button class="wallet-btn wallet-btn-copy" id="walletCopyBtn" type="button" onclick="window.MYTWallet && window.MYTWallet.copyAddress();return false;">
+        <span>📋</span>
+      </button>
     </div>
-
-    <div class="mtok-sec">الأصول</div>
-    <div class="mtok-card">
-        <div class="mtok-row">
-            <div class="mtok-ico gold">💰</div>
-            <div class="mtok-info"><div class="mtok-t">الأصول</div><div class="mtok-d" id="profUsd">$0.00</div></div>
-            <div class="mtok-val" id="profBalance">0 MYT</div>
-        </div>
-        <div class="mtok-row">
-            <div class="mtok-ico">💳</div>
-            <div class="mtok-info"><div class="mtok-t">محفظة الاستلام</div><div class="mtok-d" id="walletAddress" style="font-family:monospace;direction:ltr;text-align:right">-</div></div>
-            <button class="mtok-btn" onclick="MTp.openWallet()" id="walletConnectBtn">ربط</button>
-        </div>
-        <div class="mtok-row">
-            <div class="mtok-ico green">🏦</div>
-            <div class="mtok-info"><div class="mtok-t">محفظة السحب</div><div class="mtok-d">الرصيد القابل للسحب</div></div>
-            <div class="mtok-val green" id="profPool">0 MYT</div>
-        </div>
+    <div class="wallet-hint">
+      <strong>💡 أمان تام:</strong> لا نطلب أبداً كلمات الاسترداد.
     </div>
+  </div>
 
-    <div class="mtok-sec">التحكم</div>
-    <div class="mtok-card">
-        <div class="mtok-row">
-            <div class="mtok-ico">📤</div>
-            <div class="mtok-info"><div class="mtok-t">سحب</div><div class="mtok-d">حول الرصيد إلى محفظتك</div></div>
-            <button class="mtok-btn" onclick="MTp.withdraw()">سحب</button>
-        </div>
-        <div class="mtok-row">
-            <div class="mtok-ico">📜</div>
-            <div class="mtok-info"><div class="mtok-t">السجل</div><div class="mtok-d">سحوباتك السابقة</div></div>
-            <button class="mtok-btn ghost" onclick="MTp.history()">فتح</button>
-        </div>
+<div class="switch-row">
+    <div class="switch-info">
+      <div class="switch-title">🌍 <span data-i18n="language">اللغة</span></div>
+      <div class="switch-sub">English / العربية</div>
     </div>
+    <button id="langBtn" onclick="toggleLang()" style="padding:10px 14px;background:linear-gradient(135deg,#0a6fb1,#0a4d7a);color:#fff;border:0;border-radius:10px;font-weight:800;cursor:pointer;font-size:12px">🇬🇧 English</button>
+  </div>
 
-    <div class="mtok-sec">الإحصائيات</div>
-    <div class="mtok-card">
-        <div class="mtok-row">
-            <div class="mtok-ico">👥</div>
-            <div class="mtok-info"><div class="mtok-t">الإحالات</div><div class="mtok-d">أصدقاء دعوتهم</div></div>
-            <div class="mtok-val" id="statRefs">0</div>
-        </div>
-        <div class="mtok-row">
-            <div class="mtok-ico">📅</div>
-            <div class="mtok-info"><div class="mtok-t">أيام التسجيل</div><div class="mtok-d">أيام التسجيل</div></div>
-            <div class="mtok-val" id="statDays">0/7</div>
-        </div>
-        <div class="mtok-row">
-            <div class="mtok-ico">⚡</div>
-            <div class="mtok-info"><div class="mtok-t">المستوى</div><div class="mtok-d">المستوى</div></div>
-            <div class="mtok-val" id="statStreak">Lv1</div>
-        </div>
+  <div class="inv">
+    <div class="inv-lbl" data-i18n="referral_link">YOUR REFERRAL LINK</div>
+    <div class="inv-link" id="invLink">—</div>
+  </div>
+
+  <button class="btn btn-blue" onclick="copyLink()" data-i18n="copy_link">📋 نسخ الرابط</button>
+  <button class="btn btn-gray" onclick="shareLink()" data-i18n="share">📤 مشاركة</button>
+
+  <div class="card" style="margin-top:12px">
+    <div class="title" style="font-size:14px;margin-bottom:10px" data-i18n="your_stats">📊 إحصائياتك</div>
+    <div class="line">
+      <span data-i18n="referrals">👥 الإحالات</span>
+      <span class="lv" id="statRefs">0</span>
     </div>
-
-    <div class="mtok-sec">الإحالة</div>
-    <div class="mtok-card">
-        <div class="mtok-row" style="display:block">
-            <div class="mtok-t" style="margin-bottom:8px">رابط الإحالة</div>
-            <div class="mtok-d" id="invLink" style="word-break:break-all;margin-bottom:12px">-</div>
-        </div>
+    <div class="line">
+      <span data-i18n="checkin_days">📅 أيام التسجيل</span>
+      <span class="lv" id="statDays">0/7</span>
     </div>
-    <button class="mtok-btn-full" onclick="copyLink()">📋 نسخ الرابط</button>
-    <button class="mtok-btn-full ghost" onclick="shareLink()">📤 مشاركة</button>
-
-    <div class="mtok-card" style="margin-top:12px">
-        <div class="mtok-row">
-            <div class="mtok-ico">🌐</div>
-            <div class="mtok-info"><div class="mtok-t">اللغة</div><div class="mtok-d">English / العربية</div></div>
-            <button class="mtok-btn" id="langBtn" onclick="toggleLang()">English</button>
-        </div>
+    <div class="line">
+      <span data-i18n="streak">🔥 السلسلة اليومية</span>
+      <span class="lv" id="statStreak">0</span>
     </div>
-
-    <div style="height:20px"></div>
-
-    <style>
-    .mtok-card{background:linear-gradient(145deg,rgba(30,10,10,.85),rgba(15,5,5,.95));border:1px solid rgba(220,50,50,.12);border-radius:16px;margin-bottom:12px;overflow:hidden}
-    .mtok-row{display:flex;align-items:center;padding:14px 15px;gap:13px;position:relative}
-    .mtok-row:not(:last-child)::after{content:'';position:absolute;bottom:0;right:15px;left:15px;height:1px;background:rgba(220,50,50,.08)}
-    .mtok-ico{width:44px;height:44px;border-radius:12px;background:rgba(220,50,50,.1);border:1px solid rgba(220,50,50,.18);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-    .mtok-ico.gold{background:rgba(245,184,0,.12);border-color:rgba(245,184,0,.3)}
-    .mtok-ico.green{background:rgba(0,217,126,.12);border-color:rgba(0,217,126,.3)}
-    .mtok-info{flex:1;min-width:0}
-    .mtok-t{font-size:14px;font-weight:800;color:#fff;margin-bottom:2px}
-    .mtok-d{font-size:12px;color:#8a7a7a;line-height:1.3}
-    .mtok-val{font-size:16px;font-weight:900;color:#f5b800;white-space:nowrap}
-    .mtok-val.green{color:#00d97e}
-    .mtok-btn{background:linear-gradient(135deg,#f5b800,#d99e00);color:#1a0f00;border:none;padding:9px 18px;border-radius:11px;font-size:12px;font-weight:900;font-family:'Cairo',sans-serif;cursor:pointer;white-space:nowrap;box-shadow:0 4px 12px rgba(245,184,0,.3)}
-    .mtok-btn:active{transform:scale(.96)}
-    .mtok-btn.ghost{background:transparent;color:#f5b800;border:1.5px solid rgba(245,184,0,.4);box-shadow:none}
-    .mtok-btn-full{width:100%;background:linear-gradient(135deg,#f5b800,#d99e00);color:#1a0f00;border:none;padding:14px;border-radius:13px;font-size:14px;font-weight:900;font-family:'Cairo',sans-serif;cursor:pointer;margin-bottom:8px;box-shadow:0 4px 14px rgba(245,184,0,.3)}
-    .mtok-btn-full:active{transform:scale(.98)}
-    .mtok-btn-full.ghost{background:transparent;color:#f5b800;border:1.5px solid rgba(245,184,0,.4);box-shadow:none}
-    .mtok-sec{font-size:13px;font-weight:900;color:#f5b800;margin:20px 4px 10px;letter-spacing:.5px}
-    </style>
-
-    
-
+    <div class="line">
+      <span data-i18n="earnings_total">💰 إجمالي الأرباح</span>
+      <span class="lv" id="statEarn">0.0000</span>
     </div>
+  </div>
 
+  <div class="card" style="margin-top:12px">
+    <div class="title" style="font-size:14px;margin-bottom:10px">🏆 الإنجازات</div>
+    <div class="ach-list" id="achList"></div>
+  </div>
+</div>
+
+</div><!-- نهاية .container -->
+
+<!-- ===== القائمة السفلية ===== -->
 <div class="nav">
   <button class="ni" onclick="showPage('Wel')" data-page="Wel">
     <span class="ni-ic">👤</span>
@@ -1000,7 +874,7 @@ var CFG = {
   MAX_ENERGY: 100,
   TAP_REWARD: 0.001,
   KEY: "mytoken_v30",
-  BOT: "MyTokenMiningProBot"
+  BOT: "OOOOBBBBBBOT"
 };
 
 var CHECKIN = [0.20, 0.50, 1, 2, 5, 10, 100];
@@ -1073,9 +947,7 @@ var LANG = {
     buy: "اشترِ", owned: "✓ نشط", poor_balance: "رصيد ضعيف",
     account_title: "حسابك", welcome_back: "مرحباً بك",
     welcome_desc: "اجمع MYT وانشر الرابط لدعوة أصدقائك",
-    referral_link: "رابط الإحالة", copy_link: "📋 نسخ الرابط",
-    nav_account: "حسابك", nav_mining: "التعدين", nav_tasks: "المهام", nav_payment: "الدفع", nav_shop: "المتجر",
-    claim: "استلام", boosters: "معززات", buy_energy: "شراء طاقة", level_short: "مستوى",
+    referral_link: "YOUR REFERRAL LINK", copy_link: "📋 نسخ الرابط",
     share: "📤 مشاركة", your_stats: "📊 إحصائياتك",
     referrals: "👥 الإحالات", checkin_days: "📅 أيام التسجيل",
     streak: "🔥 السلسلة اليومية", earnings_total: "💰 إجمالي الأرباح",
@@ -1101,7 +973,7 @@ var LANG = {
     buy: "Buy", owned: "✓ Active", poor_balance: "Low Balance",
     account_title: "Account", welcome_back: "Welcome Back",
     welcome_desc: "Earn MYT and share your link to invite friends",
-    referral_link: "رابط الإحالة", copy_link: "📋 Copy Link",
+    referral_link: "YOUR REFERRAL LINK", copy_link: "📋 Copy Link",
     share: "📤 Share", your_stats: "📊 Your Stats",
     referrals: "👥 Referrals", checkin_days: "📅 Checkin Days",
     streak: "🔥 Daily Streak", earnings_total: "💰 Total Earned",
@@ -1750,23 +1622,7 @@ if (document.readyState === "loading") {
 } else { init(); }
 </script>
 <script src="wallet.js"></script>
-
-
-
-<div id="mtokWalletModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:99999;align-items:center;justify-content:center;padding:20px">
-    <div style="background:linear-gradient(145deg,#1a0a0a,#0d0505);border:1px solid rgba(245,184,0,.35);border-radius:22px;padding:24px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(245,184,0,.2)">
-        <h3 style="color:#f5b800;font-size:18px;text-align:center;margin:0 0 8px;font-weight:900">💼 ربط محفظة TON</h3>
-        <p style="color:#8a7a7a;font-size:12px;text-align:center;margin:0 0 18px">الصق عنوان محفظتك (يبدأ بـ UQ أو EQ)</p>
-        <input type="text" id="mtokWalletInput" placeholder="UQ..." dir="ltr" style="width:100%;padding:14px;background:rgba(0,0,0,.5);border:1.5px solid rgba(245,184,0,.2);border-radius:12px;color:#fff;font-size:13px;outline:none;font-family:monospace;text-align:left;box-sizing:border-box">
-        <div id="mtokWalletErr" style="color:#ff4757;font-size:12px;margin-top:8px;display:none;text-align:center"></div>
-        <div style="display:flex;gap:10px;margin-top:18px">
-            <button onclick="mtokCloseWallet()" style="flex:1;padding:13px;background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.15);border-radius:12px;font-size:13px;font-weight:800;font-family:Cairo,sans-serif;cursor:pointer">إلغاء</button>
-            <button onclick="mtokSaveWallet()" style="flex:1;padding:13px;background:linear-gradient(135deg,#f5b800,#d99e00);color:#1a0f00;border:none;border-radius:12px;font-size:13px;font-weight:900;font-family:Cairo,sans-serif;cursor:pointer;box-shadow:0 4px 14px rgba(245,184,0,.3)">حفظ</button>
-        </div>
-    </div>
-</div>
 </body>
-
 </html>
 </script>
 </body>
