@@ -1622,6 +1622,21 @@ if (document.readyState === "loading") {
 } else { init(); }
 </script>
 <script src="wallet.js"></script>
+
+<div id="mtokWithdrawModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(8px);z-index:99999;align-items:center;justify-content:center;padding:20px">
+    <div style="background:linear-gradient(145deg,#1a0a0a,#0d0505);border:1px solid rgba(245,184,0,.35);border-radius:22px;padding:24px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(245,184,0,.2)">
+        <h3 style="color:#f5b800;font-size:18px;text-align:center;margin:0 0 8px;font-weight:900">📤 سحب الأموال</h3>
+        <div id="mtokWithdrawInfo" style="text-align:center;color:#8a7a7a;font-size:12px;margin-bottom:16px">
+            جاري التحميل...
+        </div>
+        <input type="number" id="mtokWithdrawInput" placeholder="أدخل الكمية MYT" dir="ltr" style="width:100%;padding:14px;background:rgba(0,0,0,.5);border:1.5px solid rgba(245,184,0,.2);border-radius:12px;color:#fff;font-size:15px;outline:none;font-family:monospace;text-align:center;box-sizing:border-box">
+        <div id="mtokWithdrawErr" style="color:#ff4757;font-size:12px;margin-top:8px;display:none;text-align:center"></div>
+        <div style="display:flex;gap:10px;margin-top:18px">
+            <button onclick="mtokCloseWithdraw()" style="flex:1;padding:13px;background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.15);border-radius:12px;font-size:13px;font-weight:800;font-family:Cairo,sans-serif;cursor:pointer">إلغاء</button>
+            <button onclick="mtokSubmitWithdraw()" style="flex:1;padding:13px;background:linear-gradient(135deg,#f5b800,#d99e00);color:#1a0f00;border:none;border-radius:12px;font-size:13px;font-weight:900;font-family:Cairo,sans-serif;cursor:pointer;box-shadow:0 4px 14px rgba(245,184,0,.3)">تأكيد السحب</button>
+        </div>
+    </div>
+</div>
 </body>
 </html>
 </script>
