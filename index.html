@@ -501,298 +501,29 @@ input:focus{border-color:rgba(230,57,70,.7)}
 <div class="container">
 <!-- ===== صفحة التعدين ===== -->
 <div class="pg on" id="pgHome">
-  <div class="card">
-    <div class="title">MYTOKEN</div>
-    <div class="sub" data-i18n="mining_subtitle">انقر العملة لجمع MYT</div>
-    <div class="stats">
-      <div class="stat">
-        <div class="sl" data-i18n="energy">الطاقة</div>
-        <div class="sv red" id="eSt">100</div>
-      </div>
-      <div class="stat">
-        <div class="sl" data-i18n="balance">الرصيد</div>
-        <div class="sv gold" id="bSt">0.0000</div>
-      </div>
-      <div class="stat">
-        <div class="sl" data-i18n="clicks">النقرات</div>
-        <div class="sv green" id="cSt">0</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="level">
-    <div class="level-head">
-      <span class="lvl" id="lvlText">Lvl 1</span>
-      <span class="val" id="lvlProg">0 / 1000</span>
-    </div>
-    <div class="level-bg">
-      <div class="level-fill" id="lvlBar"></div>
-    </div>
-  </div>
-
-  <div class="cw" id="cw">
-    <div class="halo"></div>
-    <div class="coin-ring"></div>
-    <div class="cn" id="coin" onclick="tapCoin(event)">
-      <span class="ct">MYT</span>
-    </div>
-  </div>
-
-  <div class="en">
-    <span class="en-icon">⚡</span>
-    <div class="en-bg">
-      <div class="en-fill" id="enBar"></div>
-    </div>
-    <div class="en-txt" id="enTxt">100/100</div>
-  </div>
-
-    >
-
-  <button class="btn btn-red" id="claimBtn" onclick="claimCoins()" disabled>CLAIM</button>
-
-  <div class="btn-row">
-    <button class="btn btn-blue btn-sm" onclick="buyEnergy()">⚡ +50</button>
-    <button class="btn btn-yellow btn-sm" onclick="showBoosters()">🚀 Boosters</button>
-  </div>
-</div>
-
-<!-- ===== صفحة المهام ===== -->
-<div class="pg" id="pgTasks">
-  <div class="card">
-    <div class="title" data-i18n="tasks_title">📋 المهام</div>
-    <div class="sub" data-i18n="tasks_subtitle">شاهد الإعلانات واربح MYT!</div>
-  </div>
-
-  <div class="cnt">
-    <div>
-      <div class="cnl" data-i18n="earnings">الأرباح</div>
-      <div class="cnv" id="adTot">0.0000 MYT</div>
-    </div>
-    <div style="text-align:left">
-      <div class="cnl" data-i18n="daily_ads">إعلانات اليوم</div>
-      <div class="cnv" id="adCnt">0 / 20</div>
-    </div>
-  </div>
-
-  <div class="pw">
-    <div class="pl">
-      <span data-i18n="progress">التقدم اليومي</span>
-      <span id="pTxt">0%</span>
-    </div>
-    <div class="pb">
-      <div class="pf" id="pFill"></div>
-    </div>
-  </div>
-
-  <div id="adsList"></div>
-
-  <div class="camp-box">
-    <div class="camp-head">
-      <div class="camp-icon">📣</div>
-      <div>
-        <div class="camp-title" data-i18n="add_campaign">إضافة حملة</div>
-        <div class="camp-sub" data-i18n="create_campaign_desc">أنشئ حملتك الإعلانية</div>
-      </div>
-    </div>
-    <button class="btn btn-yellow" onclick="openCampaign()" data-i18n="create_campaign">✨ إنشاء حملة جديدة</button>
-  </div>
-</div>
-
-<!-- ===== صفحة الدفع ===== -->
-<div class="pg" id="pgPay">
-  <div class="card">
-    <div class="title" data-i18n="pay_title">💰 الدفع</div>
-    <div class="sub" data-i18n="pay_subtitle">نسبة أرباحك والتسجيل اليومي</div>
-  </div>
-
-  <div class="pay-tabs">
-    <button class="pay-tab on" onclick="showPayTab('rates', event)" data-i18n="rates">📊 معدلات الأرباح</button>
-    <button class="pay-tab" onclick="showPayTab('checkin', event)" data-i18n="daily_checkin">📅 التسجيل اليومي</button>
-  </div>
-
-  <div id="payRatesView">
-    <div class="pay-hero">
-      <div class="pay-lbl" data-i18n="total_earned">TOTAL EARNED</div>
-      <div class="pay-val" id="payTot">0.0000</div>
-      <div class="pay-unit">MYT</div>
-    </div>
-
-    <div class="line">
-      <span data-i18n="ad_view">مشاهدة إعلان</span>
-      <span class="lv">0.10 MYT</span>
-    </div>
-    <div class="line">
-      <span data-i18n="tap_mining">نقرة تعدين</span>
-      <span class="lv">0.001 MYT</span>
-    </div>
-    <div class="line">
-      <span data-i18n="ref_friend">إحالة صديق</span>
-      <span class="lv">+100 MYT</span>
-    </div>
-    <div class="line">
-      <span data-i18n="daily_bonus">مكافأة يومية</span>
-      <span class="lv">+50 MYT</span>
-    </div>
-    <div class="line">
-      <span data-i18n="daily_checkin_reward">تسجيل يومي</span>
-      <span class="lv">0.20 → 100 MYT</span>
-    </div>
-  </div>
-
-  <div id="payCheckinView" style="display:none">
-    <div class="checkin-hero">
-      <div class="ci-icon">📅</div>
-      <div class="ci-title" data-i18n="daily_checkin">تسجيل يومي</div>
-      <div class="ci-sub">سجل كل يوم واحصل على مكافأة أكبر</div>
-      <div class="ci-day" id="ciDayText">اليوم 1 / 7</div>
-    </div>
-
-    <div class="days-grid" id="daysGrid"></div>
-
-    <button class="ci-btn" id="ciBtn" onclick="doCheckin()">📅 سجّل اليوم</button>
-
-    <div class="card">
-      <div class="title" style="font-size:14px;margin-bottom:10px">📋 قواعد التسجيل</div>
-      <div class="line"><span>اليوم 1</span><span class="lv">0.20 MYT</span></div>
-      <div class="line"><span>اليوم 2</span><span class="lv">0.50 MYT</span></div>
-      <div class="line"><span>اليوم 3</span><span class="lv">1.00 MYT</span></div>
-      <div class="line"><span>اليوم 4</span><span class="lv">2.00 MYT</span></div>
-      <div class="line"><span>اليوم 5</span><span class="lv">5.00 MYT</span></div>
-      <div class="line"><span>اليوم 6</span><span class="lv">10.00 MYT</span></div>
-      <div class="line" style="border:2px solid #FFB800">
-        <span>🎉 اليوم 7</span>
-        <span class="lv" style="color:#FFE066;font-size:15px">100.00 MYT</span>
-      </div>
-    </div>
-
-    <div class="card" style="text-align:center">
-      <div style="font-size:11px;color:#a88888;line-height:1.6">
-        ⚠️ إذا غبت يوماً واحداً،<br>تعود السلسلة للبداية
-      </div>
-    </div>
-  </div>
-</div>
-<!-- ===== صفحة المتجر ===== -->
-<div class="pg" id="pgShop">
-  <div class="card">
-    <div class="title" data-i18n="shop_title">🛒 المتجر</div>
-    <div class="sub" data-i18n="shop_subtitle">اشترِ Boosters ونفّذ حملاتك</div>
-  </div>
-
-  <div class="shop-balance">
-    <div class="shop-balance-lbl">YOUR BALANCE</div>
-    <div class="shop-balance-val" id="shopBal">0.0000</div>
-    <div class="shop-balance-unit">MYT</div>
-  </div>
-
-  <div class="shop-section" data-i18n="active_boosters">⚡ Boosters النشطة</div>
-  <div class="active-boosters" id="activeBoosters">
-    <span style="font-size:10px;color:#a88888" data-i18n="no_active_boosters">لا توجد boosters نشطة</span>
-  </div>
-
-  <div class="shop-tabs">
-    <button class="shop-tab on" onclick="showShopTab('boost', event)" data-i18n="boosters_tab">⚡ Boosters</button>
-    <button class="shop-tab" onclick="showShopTab('campaign', event)" data-i18n="campaigns_tab">📢 حملات</button>
-    <button class="shop-tab" onclick="showShopTab('vip', event)" data-i18n="vip_tab">👑 VIP</button>
-  </div>
-
-  <div id="shopBoostGrid" class="shop-grid"></div>
-  <div id="shopCampGrid" class="shop-grid" style="display:none"></div>
-  <div id="shopVipGrid" class="shop-grid" style="display:none"></div>
-</div>
-
-<!-- ===== صفحة الحساب ===== -->
-<div class="pg" id="pgWel">
-  <div class="card">
-    <div class="title" data-i18n="account_title">👤 حسابك</div>
-  </div>
-
-  <div class="wb">
-    <div class="wbi">⛏️</div>
-    <div class="wbt" data-i18n="welcome_back">مرحباً بك</div>
-    <div class="wbs" data-i18n="welcome_desc">اجمع MYT وانشر الرابط لدعوة أصدقائك</div>
-  </div>
-  <!-- Wallet Widget (Account) -->
-  >
-
-
-
-    >
-
-  >
-
-  <!-- Wallet Card (Account Page) -->
-  <div class="wallet-card" id="walletAccountCard">
-    <div class="wallet-card-header">
-      <div class="wallet-card-icon">👛</div>
-      <div class="wallet-card-info">
-        <div class="wallet-card-title">محفظة TON</div>
-        <div class="wallet-card-subtitle">اربط محفظتك لسحب أرباحك</div>
-      </div>
-    </div>
-    <div class="wallet-status" id="walletStatus">
-      <span id="walletStatusText">غير متصل</span>
-    </div>
-    <div class="wallet-address" id="walletAddress">—</div>
-    <div class="wallet-actions">
-      <button class="wallet-btn wallet-btn-connect" id="walletConnectBtn" type="button" onclick="window.MYTWallet && window.MYTWallet.connect();return false;">
-        <svg class="ton-logo" viewBox="0 0 56 56" fill="none">
-          <circle cx="28" cy="28" r="28" fill="white" fill-opacity="0.15"/>
-          <path d="M37.56 18H18.44c-3.34 0-5.44 3.56-3.75 6.46l11.28 19.28c.86 1.46 2.96 1.46 3.82 0l11.5-19.28C43 21.56 40.9 18 37.56 18z" fill="white"/>
-          <path d="M25.5 34.5l-5-8.5h7.5v8.5z" fill="#0098EA"/>
-        </svg>
-        <span>Connect Wallet</span>
-      </button>
-      <button class="wallet-btn wallet-btn-disconnect" id="walletDisconnectBtn" type="button" onclick="window.MYTWallet && window.MYTWallet.disconnect();return false;">
-        <span>✖️ قطع الاتصال</span>
-      </button>
-      <button class="wallet-btn wallet-btn-copy" id="walletCopyBtn" type="button" onclick="window.MYTWallet && window.MYTWallet.copyAddress();return false;">
-        <span>📋</span>
-      </button>
-    </div>
-    <div class="wallet-hint">
-      <strong>💡 أمان تام:</strong> لا نطلب أبداً كلمات الاسترداد.
-    </div>
-  </div>
-
-<div class="switch-row">
-    <div class="switch-info">
-      <div class="switch-title">🌍 <span data-i18n="language">اللغة</span></div>
-      <div class="switch-sub">English / العربية</div>
-    </div>
-    <button id="langBtn" onclick="toggleLang()" style="padding:10px 14px;background:linear-gradient(135deg,#0a6fb1,#0a4d7a);color:#fff;border:0;border-radius:10px;font-weight:800;cursor:pointer;font-size:12px">🇬🇧 English</button>
-  </div>
-
-  <div class="inv">
-    <div class="inv-lbl" data-i18n="referral_link">YOUR REFERRAL LINK</div>
-    <div class="inv-link" id="invLink">—</div>
-  </div>
-
-  <button class="btn btn-blue" onclick="copyLink()" data-i18n="copy_link">📋 نسخ الرابط</button>
-  <button class="btn btn-gray" onclick="shareLink()" data-i18n="share">📤 مشاركة</button>
-<div class="card" style="margin-top:12px;background:linear-gradient(145deg,rgba(10,40,20,.9),rgba(5,20,10,.95));border:1px solid rgba(0,217,126,.4);border-radius:16px;padding:16px;box-shadow:0 0 25px rgba(0,217,126,.15)">
+  <div class="card" style="margin-top:12px;background:linear-gradient(145deg,#0a2818,#041008);border:1px solid rgba(0,217,126,.5);border-radius:16px;padding:16px;box-shadow:0 0 25px rgba(0,217,126,.2)">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
-        <div style="width:46px;height:46px;border-radius:12px;background:rgba(0,217,126,.15);border:1px solid rgba(0,217,126,.4);display:flex;align-items:center;justify-content:center;font-size:22px">💰</div>
+        <div style="width:46px;height:46px;border-radius:12px;background:rgba(0,217,126,.2);border:1px solid rgba(0,217,126,.4);display:flex;align-items:center;justify-content:center;font-size:22px">💰</div>
         <div style="flex:1">
             <div style="font-size:15px;font-weight:900;color:#fff">رصيدك الحالي</div>
-            <div style="font-size:12px;color:#8a7a7a;margin-top:2px">قيمة أرباحك بـ MYT</div>
+            <div style="font-size:12px;color:#8a7a7a;margin-top:2px">أرباحك بـ MYT</div>
         </div>
     </div>
     <div style="display:flex;gap:10px">
-        <div style="flex:1;background:rgba(0,0,0,.4);border:1px solid rgba(0,217,126,.25);border-radius:12px;padding:12px;text-align:center">
-            <div style="font-size:11px;color:#8a7a7a;margin-bottom:6px">المبلغ (MYT)</div>
+        <div style="flex:1;background:rgba(0,0,0,.4);border:1px solid rgba(0,217,126,.3);border-radius:12px;padding:12px;text-align:center">
+            <div style="font-size:11px;color:#8a7a7a;margin-bottom:6px">MYT</div>
             <div id="mtokBalMYT" style="font-size:18px;font-weight:900;color:#00d97e;direction:ltr">0</div>
         </div>
-        <div style="flex:1;background:rgba(0,0,0,.4);border:1px solid rgba(0,217,126,.25);border-radius:12px;padding:12px;text-align:center">
-            <div style="font-size:11px;color:#8a7a7a;margin-bottom:6px">القيمة ($)</div>
+        <div style="flex:1;background:rgba(0,0,0,.4);border:1px solid rgba(0,217,126,.3);border-radius:12px;padding:12px;text-align:center">
+            <div style="font-size:11px;color:#8a7a7a;margin-bottom:6px">USD</div>
             <div id="mtokBalUSD" style="font-size:18px;font-weight:900;color:#00d97e;direction:ltr">$0.00</div>
         </div>
     </div>
 </div>
 
-<div class="card" style="margin-top:12px;background:linear-gradient(145deg,rgba(10,40,20,.9),rgba(5,20,10,.95));border:1px solid rgba(0,217,126,.5);border-radius:16px;padding:16px;box-shadow:0 0 25px rgba(0,217,126,.2)">
+<div class="card" style="margin-top:12px;background:linear-gradient(145deg,#0a2818,#041008);border:1px solid rgba(0,217,126,.5);border-radius:16px;padding:16px;box-shadow:0 0 25px rgba(0,217,126,.2)">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-        <div style="width:46px;height:46px;border-radius:12px;background:rgba(0,217,126,.2);border:1px solid rgba(0,217,126,.5);display:flex;align-items:center;justify-content:center;font-size:22px">📤</div>
+        <div style="width:46px;height:46px;border-radius:12px;background:rgba(0,217,126,.2);border:1px solid rgba(0,217,126,.4);display:flex;align-items:center;justify-content:center;font-size:22px">📤</div>
         <div style="flex:1">
             <div style="font-size:15px;font-weight:900;color:#fff">سحب الأموال</div>
             <div style="font-size:12px;color:#8a7a7a;margin-top:2px">حوّل MYT إلى محفظتك</div>
@@ -1677,122 +1408,34 @@ if (document.readyState === "loading") {
     </div>
 </div>
 
+
+
+<div id="mtokWithdrawModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);backdrop-filter:blur(10px);z-index:99999;align-items:center;justify-content:center;padding:20px">
+    <div style="background:linear-gradient(145deg,#0a2818,#041008);border:1px solid rgba(0,217,126,.5);border-radius:22px;padding:24px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,217,126,.25);font-family:Cairo,sans-serif">
+        <h3 style="color:#00d97e;font-size:18px;text-align:center;margin:0 0 8px;font-weight:900">📤 سحب الأموال</h3>
+        <div id="mtokWInfo" style="text-align:center;color:#8a7a7a;font-size:13px;margin-bottom:16px;line-height:1.8">جاري التحميل...</div>
+        <input type="number" id="mtokWInput" placeholder="الكمية MYT" dir="ltr" style="width:100%;padding:14px;background:rgba(0,0,0,.5);border:1.5px solid rgba(0,217,126,.35);border-radius:12px;color:#fff;font-size:16px;outline:none;font-family:monospace;text-align:center;box-sizing:border-box">
+        <div id="mtokWErr" style="color:#ff4757;font-size:12px;margin-top:8px;display:none;text-align:center;font-weight:700"></div>
+        <div style="display:flex;gap:10px;margin-top:18px">
+            <button onclick="mtokCloseW()" style="flex:1;padding:13px;background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.15);border-radius:12px;font-size:13px;font-weight:800;font-family:Cairo,sans-serif;cursor:pointer">إلغاء</button>
+            <button onclick="mtokSubmitW()" style="flex:1;padding:13px;background:linear-gradient(135deg,#00d97e,#00a860);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:900;font-family:Cairo,sans-serif;cursor:pointer;box-shadow:0 4px 14px rgba(0,217,126,.4)">تأكيد السحب</button>
+        </div>
+    </div>
+</div>
+
 <script>
 (function(){
-    var API = 'https://mytoken-api.vercel.app';
-    var MIN = 1000;
-    var RATE = 0.001;
-
-    function getUID(){
-        try {
-            var tg = window.Telegram && window.Telegram.WebApp;
-            if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) return tg.initDataUnsafe.user.id;
-        } catch(e){}
-        try { return parseInt(localStorage.getItem('mytoken_uid') || '8063963886'); } catch(e){ return 8063963886; }
-    }
-
-    function fmtNum(n){ n = parseFloat(n || 0); return n === Math.floor(n) ? n.toLocaleString('en-US') : n.toFixed(2); }
-
-    function loadBalance(){
-        var uid = getUID();
-        fetch(API + '/api/user', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({id: uid})
-        }).then(function(r){ return r.json(); }).then(function(d){
-            if (!d || !d.exists) return;
-            var bal = parseFloat(d.balance || 0);
-            var mEl = document.getElementById('mtokBalMYT');
-            var uEl = document.getElementById('mtokBalUSD');
-            if (mEl) mEl.textContent = fmtNum(bal);
-            if (uEl) uEl.textContent = '$' + (bal * RATE).toFixed(2);
-        }).catch(function(){});
-    }
-
-    window.mtokCloseW = function(){
-        var m = document.getElementById('mtokWithdrawModal');
-        if (m) m.style.display = 'none';
-    };
-
-    window.mtokOpenWithdraw = function(){
-        var uid = getUID();
-        var m = document.getElementById('mtokWithdrawModal');
-        if (!m) return;
-        m.style.display = 'flex';
-        var info = document.getElementById('mtokWInfo');
-        info.textContent = 'جاري التحميل...';
-        fetch(API + '/api/user', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({id: uid})
-        }).then(function(r){ return r.json(); }).then(function(d){
-            if (!d || !d.exists) {
-                info.innerHTML = '❌ <b style="color:#ff4757">لم تسجل بعد</b><br>افتح البوت واضغط /start';
-                return;
-            }
-            var bal = parseFloat(d.balance || 0);
-            var wal = d.wallet || '';
-            info.innerHTML = '💰 رصيدك: <b style="color:#00d97e">' + fmtNum(bal) + ' MYT</b><br>' +
-                             '≈ $' + (bal * RATE).toFixed(2) + '<br>' +
-                             '📊 الحد الأدنى: <b style="color:#00d97e">1,000 MYT</b><br>' +
-                             '👛 المحفظة: ' + (wal ? '✅' : '❌ غير مرتبطة');
-            document.getElementById('mtokWInput').value = '';
-            document.getElementById('mtokWInput').focus();
-        }).catch(function(){
-            info.innerHTML = '❌ خطأ في الاتصال';
-        });
-    };
-
-    window.mtokSubmitW = function(){
-        var uid = getUID();
-        var inp = document.getElementById('mtokWInput');
-        var err = document.getElementById('mtokWErr');
-        err.style.display = 'none';
-        var amt = parseFloat(inp.value);
-        if (!amt || amt < MIN) { err.textContent = '❌ الحد الأدنى ' + MIN; err.style.display = 'block'; return; }
-        fetch(API + '/api/user', {
-            method: 'POST', headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({id: uid})
-        }).then(function(r){ return r.json(); }).then(function(d){
-            if (!d || !d.exists) { err.textContent = '❌ لم تسجل'; err.style.display = 'block'; return; }
-            var bal = parseFloat(d.balance || 0);
-            var wal = d.wallet || '';
-            if (!wal) { err.textContent = '❌ اربط محفظتك أولاً'; err.style.display = 'block'; return; }
-            if (amt > bal) { err.textContent = '❌ رصيدك ' + fmtNum(bal) + ' فقط'; err.style.display = 'block'; return; }
-            fetch(API + '/api/admin/give', {
-                method: 'POST', headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({admin_id: '8063963886', target_id: String(uid), amount: -amt})
-            }).then(function(r){ return r.json(); }).then(function(r2){
-                if (r2 && r2.ok) {
-                    window.mtokCloseW();
-                    alert('✅ تم إرسال طلب سحب ' + fmtNum(amt) + ' MYT\n\n⏳ قيد المراجعة');
-                    loadBalance();
-                } else {
-                    err.textContent = '❌ فشل الطلب'; err.style.display = 'block';
-                }
-            }).catch(function(){ err.textContent = '❌ خطأ'; err.style.display = 'block'; });
-        });
-    };
-
-    function bindBtn(){
-        var btn = document.getElementById('mtokOpenWithdrawBtn');
-        if (btn && !btn.dataset.bound) {
-            btn.dataset.bound = '1';
-            btn.onclick = function(e){ e.preventDefault(); window.mtokOpenWithdraw(); return false; };
-        }
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function(){ setTimeout(function(){ bindBtn(); loadBalance(); }, 400); });
-    } else {
-        setTimeout(function(){ bindBtn(); loadBalance(); }, 400);
-    }
-    setInterval(bindBtn, 1500);
-    setInterval(loadBalance, 5000);
-
-    document.addEventListener('click', function(e){
-        if (e.target && e.target.id === 'mtokWithdrawModal') window.mtokCloseW();
-    });
+    var API='https://mytoken-api.vercel.app',MIN=1000,RATE=0.001;
+    function getUID(){try{var tg=window.Telegram&&window.Telegram.WebApp;if(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)return tg.initDataUnsafe.user.id}catch(e){}try{return parseInt(localStorage.getItem('mytoken_uid')||'8063963886')}catch(e){return 8063963886}}
+    function fmt(n){n=parseFloat(n||0);return n===Math.floor(n)?n.toLocaleString('en-US'):n.toFixed(2)}
+    function loadBal(){var uid=getUID();fetch(API+'/api/user',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:uid})}).then(function(r){return r.json()}).then(function(d){if(!d||!d.exists)return;var bal=parseFloat(d.balance||0);var m=document.getElementById('mtokBalMYT');var u=document.getElementById('mtokBalUSD');if(m)m.textContent=fmt(bal);if(u)u.textContent='$'+(bal*RATE).toFixed(2)}).catch(function(){})}
+    window.mtokCloseW=function(){var m=document.getElementById('mtokWithdrawModal');if(m)m.style.display='none'};
+    window.mtokOpenWithdraw=function(){var uid=getUID();var m=document.getElementById('mtokWithdrawModal');if(!m)return;m.style.display='flex';var info=document.getElementById('mtokWInfo');info.textContent='جاري التحميل...';fetch(API+'/api/user',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:uid})}).then(function(r){return r.json()}).then(function(d){if(!d||!d.exists){info.innerHTML='❌ <b style="color:#ff4757">لم تسجل بعد</b>';return}var bal=parseFloat(d.balance||0);var wal=d.wallet||'';info.innerHTML='💰 رصيدك: <b style="color:#00d97e">'+fmt(bal)+' MYT</b><br>≈ $'+(bal*RATE).toFixed(2)+'<br>📊 الحد الأدنى: <b style="color:#00d97e">1,000</b><br>👛 المحفظة: '+(wal?'✅':'❌ غير مرتبطة');document.getElementById('mtokWInput').value='';document.getElementById('mtokWInput').focus()}).catch(function(){info.innerHTML='❌ خطأ'})};
+    window.mtokSubmitW=function(){var uid=getUID();var inp=document.getElementById('mtokWInput');var err=document.getElementById('mtokWErr');err.style.display='none';var amt=parseFloat(inp.value);if(!amt||amt<MIN){err.textContent='❌ الحد الأدنى '+MIN;err.style.display='block';return}fetch(API+'/api/user',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:uid})}).then(function(r){return r.json()}).then(function(d){if(!d||!d.exists){err.textContent='❌ لم تسجل';err.style.display='block';return}var bal=parseFloat(d.balance||0);var wal=d.wallet||'';if(!wal){err.textContent='❌ اربط محفظتك أولاً';err.style.display='block';return}if(amt>bal){err.textContent='❌ رصيدك '+fmt(bal)+' فقط';err.style.display='block';return}fetch(API+'/api/admin/give',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({admin_id:'8063963886',target_id:String(uid),amount:-amt})}).then(function(r){return r.json()}).then(function(r2){if(r2&&r2.ok){window.mtokCloseW();alert('✅ تم إرسال طلب سحب '+fmt(amt)+' MYT\n\n⏳ قيد المراجعة');loadBal()}else{err.textContent='❌ فشل';err.style.display='block'}}).catch(function(){err.textContent='❌ خطأ';err.style.display='block'})})};
+    function bind(){var b=document.getElementById('mtokOpenWithdrawBtn');if(b&&!b.dataset.b){b.dataset.b='1';b.onclick=function(e){e.preventDefault();window.mtokOpenWithdraw();return false}}}
+    if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){bind();loadBal()},400)})}else{setTimeout(function(){bind();loadBal()},400)}
+    setInterval(bind,1500);setInterval(loadBal,5000);
+    document.addEventListener('click',function(e){if(e.target&&e.target.id==='mtokWithdrawModal')window.mtokCloseW()});
 })();
 </script>
 </body>
