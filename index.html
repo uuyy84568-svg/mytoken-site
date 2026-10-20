@@ -501,7 +501,7 @@ input:focus{border-color:rgba(230,57,70,.7)}
     .shop-balance, #shopBal, .shop-balance-lbl, .shop-balance-val, .shop-balance-unit {
     }
 </style>
-</head>
+<style>.stats, .stat { display: none !important; }</style></head>
 <body>
 <div class="container">
 <!-- ===== صفحة التعدين ===== -->
@@ -2004,4 +2004,14 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     setTimeout(injectUI, 1500);
 })();
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var divs = document.querySelectorAll("div");
+    divs.forEach(function(d) {
+        if(d.innerText.includes("USD") && d.innerText.includes("MYT") && !d.closest(".mtok-balance-card")) {
+            d.style.display = "none";
+        }
+    });
+});
 </script>
