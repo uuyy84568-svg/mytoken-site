@@ -496,6 +496,11 @@ input:focus{border-color:rgba(230,57,70,.7)}
 <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 <link rel="stylesheet" href="wallet.css">
 <script src="//libtl.com/sdk.js" data-zone="11874578" data-sdk="show_11874578"></script>
+
+<style id="hide-old-ui">
+    .shop-balance, #shopBal, .shop-balance-lbl, .shop-balance-val, .shop-balance-unit {
+    }
+</style>
 </head>
 <body>
 <div class="container">
@@ -679,11 +684,7 @@ input:focus{border-color:rgba(230,57,70,.7)}
     <div class="sub" data-i18n="shop_subtitle">اشترِ Boosters ونفّذ حملاتك</div>
   </div>
 
-  <div class="shop-balance">
-    <div class="shop-balance-lbl">YOUR BALANCE</div>
-    <div class="shop-balance-val" id="shopBal">0.0000</div>
-    <div class="shop-balance-unit">MYT</div>
-  </div>
+  
 
   <div class="shop-section" data-i18n="active_boosters">⚡ Boosters النشطة</div>
   <div class="active-boosters" id="activeBoosters">
@@ -1786,8 +1787,50 @@ if (document.readyState === "loading") {
     if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', function(){setTimeout(start, 500)}); }
     else { setTimeout(start, 500); }
 })();
-</script></body>
+</script>
+<script>
+window.addEventListener('load', function() {
+    var el = document.getElementById('shopBal');
+    if (el) {
+        var container = el.closest('.shop-balance') || el.parentElement.parentElement;
+        if (container) { container.style.display = 'none'; }
+    }
+});
+</script>
+
+<script id="remove-old-buttons">
+document.addEventListener('DOMContentLoaded', function() {
+    var elements = document.querySelectorAll('*');
+    elements.forEach(function(el) {
+            el.style.display = 'none';
+            el.remove();
+        }
+    });
+});
+</script>
+</body>
 </html>
+</script>
+
+<script>
+window.addEventListener('load', function() {
+    var el = document.getElementById('shopBal');
+    if (el) {
+        var container = el.closest('.shop-balance') || el.parentElement.parentElement;
+        if (container) { container.style.display = 'none'; }
+    }
+});
+</script>
+
+<script id="remove-old-buttons">
+document.addEventListener('DOMContentLoaded', function() {
+    var elements = document.querySelectorAll('*');
+    elements.forEach(function(el) {
+            el.style.display = 'none';
+            el.remove();
+        }
+    });
+});
 </script>
 </body>
 </html>
