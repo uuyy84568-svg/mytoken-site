@@ -501,51 +501,286 @@ input:focus{border-color:rgba(230,57,70,.7)}
 <div class="container">
 <!-- ===== صفحة التعدين ===== -->
 <div class="pg on" id="pgHome">
-  
-
-
-    <div style="display:flex;gap:10px">
-        <div style="flex:1;background:rgba(0,0,0,.5);border:1px solid rgba(0,217,126,.4);border-radius:12px;padding:12px;text-align:center">
-            <div style="font-size:11px;color:#8a7a7a;margin-bottom:6px">MYT</div>
-            <div id="mtokBalMYT" style="font-size:18px;font-weight:900;color:#00d97e;direction:ltr">0</div>
-        </div>
-        <div style="flex:1;background:rgba(0,0,0,.5);border:1px solid rgba(0,217,126,.4);border-radius:12px;padding:12px;text-align:center">
-            <div style="font-size:11px;color:#8a7a7a;margin-bottom:6px">USD</div>
-            <div id="mtokBalUSD" style="font-size:18px;font-weight:900;color:#00d97e;direction:ltr">$0.00</div>
-        </div>
+  <div class="card">
+    <div class="title">MYTOKEN</div>
+    <div class="sub" data-i18n="mining_subtitle">انقر العملة لجمع MYT</div>
+    <div class="stats">
+      <div class="stat">
+        <div class="sl" data-i18n="energy">الطاقة</div>
+        <div class="sv red" id="eSt">100</div>
+      </div>
+      <div class="stat">
+        <div class="sl" data-i18n="balance">الرصيد</div>
+        <div class="sv gold" id="bSt">0.0000</div>
+      </div>
+      <div class="stat">
+        <div class="sl" data-i18n="clicks">النقرات</div>
+        <div class="sv green" id="cSt">0</div>
+      </div>
     </div>
+  </div>
+
+  <div class="level">
+    <div class="level-head">
+      <span class="lvl" id="lvlText">Lvl 1</span>
+      <span class="val" id="lvlProg">0 / 1000</span>
+    </div>
+    <div class="level-bg">
+      <div class="level-fill" id="lvlBar"></div>
+    </div>
+  </div>
+
+  <div class="cw" id="cw">
+    <div class="halo"></div>
+    <div class="coin-ring"></div>
+    <div class="cn" id="coin" onclick="tapCoin(event)">
+      <span class="ct">MYT</span>
+    </div>
+  </div>
+
+  <div class="en">
+    <span class="en-icon">⚡</span>
+    <div class="en-bg">
+      <div class="en-fill" id="enBar"></div>
+    </div>
+    <div class="en-txt" id="enTxt">100/100</div>
+  </div>
+
+    >
+
+  <button class="btn btn-red" id="claimBtn" onclick="claimCoins()" disabled>CLAIM</button>
+
+  <div class="btn-row">
+    <button class="btn btn-blue btn-sm" onclick="buyEnergy()">⚡ +50</button>
+    <button class="btn btn-yellow btn-sm" onclick="showBoosters()">🚀 Boosters</button>
+  </div>
 </div>
 
-<div class="card" id="mtokBalCard" style="margin-top:12px;background:linear-gradient(145deg,#0a2818,#041008);border:1px solid rgba(0,217,126,.6);border-radius:16px;padding:16px;box-shadow:0 0 25px rgba(0,217,126,.25)">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
-        <div style="width:46px;height:46px;border-radius:12px;background:rgba(0,217,126,.2);border:1px solid rgba(0,217,126,.5);display:flex;align-items:center;justify-content:center;font-size:22px">💰</div>
-        <div style="flex:1">
-            <div style="font-size:15px;font-weight:900;color:#fff">رصيدك الحالي</div>
-            <div style="font-size:12px;color:#8a7a7a;margin-top:2px">أرباحك بـ MYT</div>
-        </div>
+<!-- ===== صفحة المهام ===== -->
+<div class="pg" id="pgTasks">
+  <div class="card">
+    <div class="title" data-i18n="tasks_title">📋 المهام</div>
+    <div class="sub" data-i18n="tasks_subtitle">شاهد الإعلانات واربح MYT!</div>
+  </div>
+
+  <div class="cnt">
+    <div>
+      <div class="cnl" data-i18n="earnings">الأرباح</div>
+      <div class="cnv" id="adTot">0.0000 MYT</div>
     </div>
-    <div style="display:flex;gap:10px">
-        <div style="flex:1;background:rgba(0,0,0,.5);border:1px solid rgba(0,217,126,.4);border-radius:12px;padding:12px;text-align:center">
-            <div style="font-size:11px;color:#8a7a7a;margin-bottom:6px">MYT</div>
-            <div id="mtokBalMYT" style="font-size:18px;font-weight:900;color:#00d97e;direction:ltr">0</div>
-        </div>
-        <div style="flex:1;background:rgba(0,0,0,.5);border:1px solid rgba(0,217,126,.4);border-radius:12px;padding:12px;text-align:center">
-            <div style="font-size:11px;color:#8a7a7a;margin-bottom:6px">USD</div>
-            <div id="mtokBalUSD" style="font-size:18px;font-weight:900;color:#00d97e;direction:ltr">$0.00</div>
-        </div>
+    <div style="text-align:left">
+      <div class="cnl" data-i18n="daily_ads">إعلانات اليوم</div>
+      <div class="cnv" id="adCnt">0 / 20</div>
     </div>
+  </div>
+
+  <div class="pw">
+    <div class="pl">
+      <span data-i18n="progress">التقدم اليومي</span>
+      <span id="pTxt">0%</span>
+    </div>
+    <div class="pb">
+      <div class="pf" id="pFill"></div>
+    </div>
+  </div>
+
+  <div id="adsList"></div>
+
+  <div class="camp-box">
+    <div class="camp-head">
+      <div class="camp-icon">📣</div>
+      <div>
+        <div class="camp-title" data-i18n="add_campaign">إضافة حملة</div>
+        <div class="camp-sub" data-i18n="create_campaign_desc">أنشئ حملتك الإعلانية</div>
+      </div>
+    </div>
+    <button class="btn btn-yellow" onclick="openCampaign()" data-i18n="create_campaign">✨ إنشاء حملة جديدة</button>
+  </div>
 </div>
 
-<div class="card" style="margin-top:12px;background:linear-gradient(145deg,#0a2818,#041008);border:1px solid rgba(0,217,126,.6);border-radius:16px;padding:16px;box-shadow:0 0 25px rgba(0,217,126,.25)">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-        <div style="width:46px;height:46px;border-radius:12px;background:rgba(0,217,126,.2);border:1px solid rgba(0,217,126,.5);display:flex;align-items:center;justify-content:center;font-size:22px">📤</div>
-        <div style="flex:1">
-            <div style="font-size:15px;font-weight:900;color:#fff">سحب الأموال</div>
-            <div style="font-size:12px;color:#8a7a7a;margin-top:2px">حوّل MYT إلى محفظتك</div>
-        </div>
+<!-- ===== صفحة الدفع ===== -->
+<div class="pg" id="pgPay">
+  <div class="card">
+    <div class="title" data-i18n="pay_title">💰 الدفع</div>
+    <div class="sub" data-i18n="pay_subtitle">نسبة أرباحك والتسجيل اليومي</div>
+  </div>
+
+  <div class="pay-tabs">
+    <button class="pay-tab on" onclick="showPayTab('rates', event)" data-i18n="rates">📊 معدلات الأرباح</button>
+    <button class="pay-tab" onclick="showPayTab('checkin', event)" data-i18n="daily_checkin">📅 التسجيل اليومي</button>
+  </div>
+
+  <div id="payRatesView">
+    <div class="pay-hero">
+      <div class="pay-lbl" data-i18n="total_earned">TOTAL EARNED</div>
+      <div class="pay-val" id="payTot">0.0000</div>
+      <div class="pay-unit">MYT</div>
     </div>
-    <button id="mtokOpenWithdrawBtn" style="width:100%;background:linear-gradient(135deg,#00d97e,#00a860);color:#fff;border:none;padding:14px;border-radius:12px;font-size:15px;font-weight:900;font-family:Cairo,sans-serif;cursor:pointer;box-shadow:0 6px 20px rgba(0,217,126,.4)">📤 سحب</button>
+
+    <div class="line">
+      <span data-i18n="ad_view">مشاهدة إعلان</span>
+      <span class="lv">0.10 MYT</span>
+    </div>
+    <div class="line">
+      <span data-i18n="tap_mining">نقرة تعدين</span>
+      <span class="lv">0.001 MYT</span>
+    </div>
+    <div class="line">
+      <span data-i18n="ref_friend">إحالة صديق</span>
+      <span class="lv">+100 MYT</span>
+    </div>
+    <div class="line">
+      <span data-i18n="daily_bonus">مكافأة يومية</span>
+      <span class="lv">+50 MYT</span>
+    </div>
+    <div class="line">
+      <span data-i18n="daily_checkin_reward">تسجيل يومي</span>
+      <span class="lv">0.20 → 100 MYT</span>
+    </div>
+  </div>
+
+  <div id="payCheckinView" style="display:none">
+    <div class="checkin-hero">
+      <div class="ci-icon">📅</div>
+      <div class="ci-title" data-i18n="daily_checkin">تسجيل يومي</div>
+      <div class="ci-sub">سجل كل يوم واحصل على مكافأة أكبر</div>
+      <div class="ci-day" id="ciDayText">اليوم 1 / 7</div>
+    </div>
+
+    <div class="days-grid" id="daysGrid"></div>
+
+    <button class="ci-btn" id="ciBtn" onclick="doCheckin()">📅 سجّل اليوم</button>
+
+    <div class="card">
+      <div class="title" style="font-size:14px;margin-bottom:10px">📋 قواعد التسجيل</div>
+      <div class="line"><span>اليوم 1</span><span class="lv">0.20 MYT</span></div>
+      <div class="line"><span>اليوم 2</span><span class="lv">0.50 MYT</span></div>
+      <div class="line"><span>اليوم 3</span><span class="lv">1.00 MYT</span></div>
+      <div class="line"><span>اليوم 4</span><span class="lv">2.00 MYT</span></div>
+      <div class="line"><span>اليوم 5</span><span class="lv">5.00 MYT</span></div>
+      <div class="line"><span>اليوم 6</span><span class="lv">10.00 MYT</span></div>
+      <div class="line" style="border:2px solid #FFB800">
+        <span>🎉 اليوم 7</span>
+        <span class="lv" style="color:#FFE066;font-size:15px">100.00 MYT</span>
+      </div>
+    </div>
+
+    <div class="card" style="text-align:center">
+      <div style="font-size:11px;color:#a88888;line-height:1.6">
+        ⚠️ إذا غبت يوماً واحداً،<br>تعود السلسلة للبداية
+      </div>
+    </div>
+  </div>
 </div>
+<!-- ===== صفحة المتجر ===== -->
+<div class="pg" id="pgShop">
+  <div class="card">
+    <div class="title" data-i18n="shop_title">🛒 المتجر</div>
+    <div class="sub" data-i18n="shop_subtitle">اشترِ Boosters ونفّذ حملاتك</div>
+  </div>
+
+  <div class="shop-balance">
+    <div class="shop-balance-lbl">YOUR BALANCE</div>
+    <div class="shop-balance-val" id="shopBal">0.0000</div>
+    <div class="shop-balance-unit">MYT</div>
+  </div>
+
+  <div class="shop-section" data-i18n="active_boosters">⚡ Boosters النشطة</div>
+  <div class="active-boosters" id="activeBoosters">
+    <span style="font-size:10px;color:#a88888" data-i18n="no_active_boosters">لا توجد boosters نشطة</span>
+  </div>
+
+  <div class="shop-tabs">
+    <button class="shop-tab on" onclick="showShopTab('boost', event)" data-i18n="boosters_tab">⚡ Boosters</button>
+    <button class="shop-tab" onclick="showShopTab('campaign', event)" data-i18n="campaigns_tab">📢 حملات</button>
+    <button class="shop-tab" onclick="showShopTab('vip', event)" data-i18n="vip_tab">👑 VIP</button>
+  </div>
+
+  <div id="shopBoostGrid" class="shop-grid"></div>
+  <div id="shopCampGrid" class="shop-grid" style="display:none"></div>
+  <div id="shopVipGrid" class="shop-grid" style="display:none"></div>
+</div>
+
+<!-- ===== صفحة الحساب ===== -->
+<div class="pg" id="pgWel">
+  <div class="card">
+    <div class="title" data-i18n="account_title">👤 حسابك</div>
+  </div>
+
+  <div class="wb">
+    <div class="wbi">⛏️</div>
+    <div class="wbt" data-i18n="welcome_back">مرحباً بك</div>
+    <div class="wbs" data-i18n="welcome_desc">اجمع MYT وانشر الرابط لدعوة أصدقائك</div>
+  </div>
+  <!-- Wallet Widget (Account) -->
+  >
+
+
+
+    >
+
+  >
+
+  <!-- Wallet Card (Account Page) -->
+  <div class="wallet-card" id="walletAccountCard">
+    <div class="wallet-card-header">
+      <div class="wallet-card-icon">👛</div>
+      <div class="wallet-card-info">
+        <div class="wallet-card-title">محفظة TON</div>
+        <div class="wallet-card-subtitle">اربط محفظتك لسحب أرباحك</div>
+      </div>
+    </div>
+    <div class="wallet-status" id="walletStatus">
+      <span id="walletStatusText">غير متصل</span>
+    </div>
+    <div class="wallet-address" id="walletAddress">—</div>
+    <div class="wallet-actions">
+      <button class="wallet-btn wallet-btn-connect" id="walletConnectBtn" type="button" onclick="window.MYTWallet && window.MYTWallet.connect();return false;">
+        <svg class="ton-logo" viewBox="0 0 56 56" fill="none">
+          <circle cx="28" cy="28" r="28" fill="white" fill-opacity="0.15"/>
+          <path d="M37.56 18H18.44c-3.34 0-5.44 3.56-3.75 6.46l11.28 19.28c.86 1.46 2.96 1.46 3.82 0l11.5-19.28C43 21.56 40.9 18 37.56 18z" fill="white"/>
+          <path d="M25.5 34.5l-5-8.5h7.5v8.5z" fill="#0098EA"/>
+        </svg>
+        <span>Connect Wallet</span>
+      </button>
+      <button class="wallet-btn wallet-btn-disconnect" id="walletDisconnectBtn" type="button" onclick="window.MYTWallet && window.MYTWallet.disconnect();return false;">
+        <span>✖️ قطع الاتصال</span>
+      </button>
+      <button class="wallet-btn wallet-btn-copy" id="walletCopyBtn" type="button" onclick="window.MYTWallet && window.MYTWallet.copyAddress();return false;">
+        <span>📋</span>
+      </button>
+    </div>
+    <div class="wallet-hint">
+      <strong>💡 أمان تام:</strong> لا نطلب أبداً كلمات الاسترداد.
+    </div>
+  </div>
+
+<div class="switch-row">
+    <div class="switch-info">
+      <div class="switch-title">🌍 <span data-i18n="language">اللغة</span></div>
+      <div class="switch-sub">English / العربية</div>
+    </div>
+    <button id="langBtn" onclick="toggleLang()" style="padding:10px 14px;background:linear-gradient(135deg,#0a6fb1,#0a4d7a);color:#fff;border:0;border-radius:10px;font-weight:800;cursor:pointer;font-size:12px">🇬🇧 English</button>
+  </div>
+
+  <div class="inv">
+    <div class="inv-lbl" data-i18n="referral_link">YOUR REFERRAL LINK</div>
+    <div class="inv-link" id="invLink">—</div>
+  </div>
+
+  <button class="btn btn-blue" onclick="copyLink()" data-i18n="copy_link">📋 نسخ الرابط</button>
+  <button class="btn btn-gray" onclick="shareLink()" data-i18n="share">📤 مشاركة</button>
+
+  <div class="card" style="margin-top:12px">
+    <div class="title" style="font-size:14px;margin-bottom:10px" data-i18n="your_stats">📊 إحصائياتك</div>
+    <div class="line">
+      <span data-i18n="referrals">👥 الإحالات</span>
+      <span class="lv" id="statRefs">0</span>
+    </div>
+    <div class="line">
+      <span data-i18n="checkin_days">📅 أيام التسجيل</span>
+      <span class="lv" id="statDays">0/7</span>
+    </div>
     <div class="line">
       <span data-i18n="streak">🔥 السلسلة اليومية</span>
       <span class="lv" id="statStreak">0</span>
@@ -1387,250 +1622,343 @@ if (document.readyState === "loading") {
 } else { init(); }
 </script>
 <script src="wallet.js"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script>
+<script id="mtokFinal">
 (function(){
-    var API='https://mytoken-api.vercel.app',MIN=1000,RATE=0.001;
+    'use strict';
+    var API = 'https://mytoken-api.vercel.app';
+    var RATE = 0.001;
+    var FALLBACK = 8063963886;
 
-    function getUID(){
+    function uid(){
         try{var tg=window.Telegram&&window.Telegram.WebApp;if(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)return tg.initDataUnsafe.user.id}catch(e){}
-        try{return parseInt(localStorage.getItem('mytoken_uid')||'8063963886')}catch(e){return 8063963886}
+        try{return parseInt(localStorage.getItem('mytoken_uid')||FALLBACK)}catch(e){return FALLBACK}
     }
     function fmt(n){n=parseFloat(n||0);return n===Math.floor(n)?n.toLocaleString('en-US'):n.toFixed(2)}
 
-    function createGreenUI(){
-        // ابحث عن بطاقة سحب الأموال الحالية
-        var allCards = document.querySelectorAll('.card');
-        var withdrawCard = null;
-        for(var i=0;i<allCards.length;i++){
-            if(allCards[i].textContent.indexOf('سحب الأموال')>-1){withdrawCard=allCards[i];break}
-        }
-        if(!withdrawCard)return;
-        if(document.getElementById('mtokGreenUI'))return;
+    function makeBalanceCard(){
+        var d = document.createElement('div');
+        d.id = 'mtokBalCard';
+        d.style.cssText = 'margin:12px 0;background:linear-gradient(145deg,#0a2818,#041008);border:1.5px solid rgba(0,217,126,.6);border-radius:16px;padding:16px;box-shadow:0 0 25px rgba(0,217,126,.3);font-family:Cairo,Tahoma,sans-serif;color:#fff;box-sizing:border-box';
+        d.innerHTML =
+            '<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">'+
+                '<div style="width:46px;height:46px;border-radius:12px;background:rgba(0,217,126,.2);border:1px solid rgba(0,217,126,.5);display:flex;align-items:center;justify-content:center;font-size:22px">💰</div>'+
+                '<div style="flex:1"><div style="font-size:15px;font-weight:900;color:#fff">رصيدك الحالي</div>'+
+                '<div style="font-size:12px;color:#8a7a7a;margin-top:2px">أرباحك بـ MYT</div></div>'+
+            '</div>'+
+            '<div style="display:flex;gap:10px">'+
+                '<div style="flex:1;background:rgba(0,0,0,.5);border:1px solid rgba(0,217,126,.4);border-radius:12px;padding:12px;text-align:center">'+
+                    '<div style="font-size:11px;color:#8a7a7a;margin-bottom:6px">MYT</div>'+
+                    '<div id="mtokBalMYT" style="font-size:18px;font-weight:900;color:#00d97e;direction:ltr">0</div>'+
+                '</div>'+
+                '<div style="flex:1;background:rgba(0,0,0,.5);border:1px solid rgba(0,217,126,.4);border-radius:12px;padding:12px;text-align:center">'+
+                    '<div style="font-size:11px;color:#8a7a7a;margin-bottom:6px">USD</div>'+
+                    '<div id="mtokBalUSD" style="font-size:18px;font-weight:900;color:#00d97e;direction:ltr">$0.00</div>'+
+                '</div>'+
+            '</div>';
+        return d;
+    }
 
-        // 1) بطاقة الرصيد الخضراء
-        var balCard = document.createElement('div');
-        balCard.id='mtokGreenUI';
-        balCard.className='card';
-        balCard.style.cssText='margin-top:12px;background:linear-gradient(145deg,#0a2818,#041008);border:1px solid rgba(0,217,126,.6);border-radius:16px;padding:16px;box-shadow:0 0 25px rgba(0,217,126,.25)';
-        balCard.innerHTML='<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div style="width:46px;height:46px;border-radius:12px;background:rgba(0,217,126,.2);border:1px solid rgba(0,217,126,.5);display:flex;align-items:center;justify-content:center;font-size:22px">💰</div><div style="flex:1"><div style="font-size:15px;font-weight:900;color:#fff">رصيدك الحالي</div><div style="font-size:12px;color:#8a7a7a;margin-top:2px">أرباحك بـ MYT</div></div></div><div style="display:flex;gap:10px"><div style="flex:1;background:rgba(0,0,0,.5);border:1px solid rgba(0,217,126,.4);border-radius:12px;padding:12px;text-align:center"><div style="font-size:11px;color:#8a7a7a;margin-bottom:6px">MYT</div><div id="mtokBalMYT" style="font-size:18px;font-weight:900;color:#00d97e;direction:ltr">0</div></div><div style="flex:1;background:rgba(0,0,0,.5);border:1px solid rgba(0,217,126,.4);border-radius:12px;padding:12px;text-align:center"><div style="font-size:11px;color:#8a7a7a;margin-bottom:6px">USD</div><div id="mtokBalUSD" style="font-size:18px;font-weight:900;color:#00d97e;direction:ltr">$0.00</div></div></div>';
-
-        // 2) حوّل بطاقة السحب للأخضر
-        withdrawCard.style.cssText='margin-top:12px;background:linear-gradient(145deg,#0a2818,#041008);border:1px solid rgba(0,217,126,.6);border-radius:16px;padding:16px;box-shadow:0 0 25px rgba(0,217,126,.25)';
-        
-        // ابحث عن الزر داخل بطاقة السحب وحوّله للأخضر
-        var btns = withdrawCard.querySelectorAll('button');
-        for(var j=0;j<btns.length;j++){
-            var t=(btns[j].textContent||'').trim();
-            if(t.indexOf('سحب')>-1){
-                btns[j].id='mtokOpenWithdrawBtn';
-                btns[j].textContent='📤 سحب';
-                btns[j].style.cssText='width:100%;background:linear-gradient(135deg,#00d97e,#00a860);color:#fff;border:none;padding:14px;border-radius:12px;font-size:15px;font-weight:900;font-family:Cairo,sans-serif;cursor:pointer;box-shadow:0 6px 20px rgba(0,217,126,.4)';
-            }
-        }
-        // غيّر ألوان الأيقونة
-        var icons = withdrawCard.querySelectorAll('div');
-        for(var k=0;k<icons.length;k++){
-            if(icons[k].style && icons[k].style.background && icons[k].style.background.indexOf('245,184,0')>-1){
-                icons[k].style.background='rgba(0,217,126,.2)';
-                icons[k].style.borderColor='rgba(0,217,126,.5)';
-            }
-        }
-
-        // ضع بطاقة الرصيد قبل بطاقة السحب
-        withdrawCard.parentNode.insertBefore(balCard, withdrawCard);
-
-        // اربط الزر
-        var mainBtn = document.getElementById('mtokOpenWithdrawBtn');
-        if(mainBtn){
-            mainBtn.onclick=function(e){e.preventDefault();window.mtokOpenWithdraw();return false};
-        }
+    function makeWithdrawCard(){
+        var d = document.createElement('div');
+        d.id = 'mtokWithdrawCard';
+        d.style.cssText = 'margin:12px 0;background:linear-gradient(145deg,#0a2818,#041008);border:1.5px solid rgba(0,217,126,.6);border-radius:16px;padding:16px;box-shadow:0 0 25px rgba(0,217,126,.3);font-family:Cairo,Tahoma,sans-serif;color:#fff;box-sizing:border-box';
+        d.innerHTML =
+            '<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">'+
+                '<div style="width:46px;height:46px;border-radius:12px;background:rgba(0,217,126,.2);border:1px solid rgba(0,217,126,.5);display:flex;align-items:center;justify-content:center;font-size:22px">📤</div>'+
+                '<div style="flex:1"><div style="font-size:15px;font-weight:900;color:#fff">سحب الأموال</div>'+
+                '<div style="font-size:12px;color:#8a7a7a;margin-top:2px">حوّل MYT إلى محفظتك</div></div>'+
+            '</div>'+
+            '<button id="mtokWBtn" style="width:100%;background:linear-gradient(135deg,#00d97e,#00a860);color:#fff;border:none;padding:14px;border-radius:12px;font-size:15px;font-weight:900;font-family:Cairo,sans-serif;cursor:pointer;box-shadow:0 6px 20px rgba(0,217,126,.4)">📤 سحب</button>';
+        return d;
     }
 
     function loadBal(){
-        var uid=getUID();
-        fetch(API+'/api/user',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:uid})})
-        .then(function(r){return r.json()}).then(function(d){
+        fetch(API+'/api/user',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:uid()})})
+        .then(function(r){return r.json()})
+        .then(function(d){
             if(!d||!d.exists)return;
             var bal=parseFloat(d.balance||0);
             var m=document.getElementById('mtokBalMYT');
             var u=document.getElementById('mtokBalUSD');
             if(m)m.textContent=fmt(bal);
             if(u)u.textContent='$'+(bal*RATE).toFixed(2);
+            var rl = document.getElementById('invLink');
+            if(rl && (rl.textContent==='-' || !rl.textContent || rl.textContent.indexOf('http')<0)){
+                rl.textContent = 'https://t.me/MyTokenMiningProBot?start=ref_' + uid();
+            }
         }).catch(function(){});
     }
 
-    // النافذة
-    var modalHtml='<div id="mtokWithdrawModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);backdrop-filter:blur(10px);z-index:99999;align-items:center;justify-content:center;padding:20px"><div style="background:linear-gradient(145deg,#0a2818,#041008);border:1px solid rgba(0,217,126,.5);border-radius:22px;padding:24px;max-width:420px;width:100%;font-family:Cairo,sans-serif"><h3 style="color:#00d97e;font-size:18px;text-align:center;margin:0 0 8px;font-weight:900">📤 سحب الأموال</h3><div id="mtokWInfo" style="text-align:center;color:#8a7a7a;font-size:13px;margin-bottom:16px;line-height:1.8">...</div><input type="number" id="mtokWInput" placeholder="الكمية MYT" dir="ltr" style="width:100%;padding:14px;background:rgba(0,0,0,.5);border:1.5px solid rgba(0,217,126,.35);border-radius:12px;color:#fff;font-size:16px;outline:none;font-family:monospace;text-align:center;box-sizing:border-box"><div id="mtokWErr" style="color:#ff4757;font-size:12px;margin-top:8px;display:none;text-align:center;font-weight:700"></div><div style="display:flex;gap:10px;margin-top:18px"><button onclick="mtokCloseW()" style="flex:1;padding:13px;background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.15);border-radius:12px;font-size:13px;font-weight:800;font-family:Cairo,sans-serif;cursor:pointer">إلغاء</button><button onclick="mtokSubmitW()" style="flex:1;padding:13px;background:linear-gradient(135deg,#00d97e,#00a860);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:900;font-family:Cairo,sans-serif;cursor:pointer">تأكيد السحب</button></div></div></div>';
-
-    window.mtokCloseW=function(){var m=document.getElementById('mtokWithdrawModal');if(m)m.style.display='none'};
-    window.mtokOpenWithdraw=function(){
-        var uid=getUID(),m=document.getElementById('mtokWithdrawModal');
-        if(!m){document.body.insertAdjacentHTML('beforeend',modalHtml);m=document.getElementById('mtokWithdrawModal')}
-        m.style.display='flex';
-        var info=document.getElementById('mtokWInfo');
-        info.textContent='...';
-        fetch(API+'/api/user',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:uid})})
-        .then(function(r){return r.json()}).then(function(d){
-            if(!d||!d.exists){info.innerHTML='❌ لم تسجل';return}
-            var bal=parseFloat(d.balance||0),wal=d.wallet||'';
-            info.innerHTML='💰 رصيدك: <b style="color:#00d97e">'+fmt(bal)+' MYT</b><br>≈ $'+(bal*RATE).toFixed(2)+'<br>📊 الحد الأدنى: <b style="color:#00d97e">1,000</b><br>👛 المحفظة: '+(wal?'✅':'❌ غير مرتبطة');
-            document.getElementById('mtokWInput').value='';
-            document.getElementById('mtokWInput').focus();
-        });
-    };
-    window.mtokSubmitW=function(){
-        var uid=getUID(),inp=document.getElementById('mtokWInput'),err=document.getElementById('mtokWErr');
-        err.style.display='none';
-        var amt=parseFloat(inp.value);
-        if(!amt||amt<MIN){err.textContent='❌ الحد الأدنى '+MIN;err.style.display='block';return}
-        fetch(API+'/api/user',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:uid})})
-        .then(function(r){return r.json()}).then(function(d){
-            if(!d||!d.exists){err.textContent='❌ لم تسجل';err.style.display='block';return}
-            var bal=parseFloat(d.balance||0),wal=d.wallet||'';
-            if(!wal){err.textContent='❌ اربط محفظتك أولاً';err.style.display='block';return}
-            if(amt>bal){err.textContent='❌ رصيدك '+fmt(bal)+' فقط';err.style.display='block';return}
-            fetch(API+'/api/admin/give',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({admin_id:'8063963886',target_id:String(uid),amount:-amt})})
-            .then(function(r){return r.json()}).then(function(r2){
-                if(r2&&r2.ok){window.mtokCloseW();alert('✅ تم إرسال طلب سحب '+fmt(amt)+' MYT');loadBal()}
-                else{err.textContent='❌ فشل';err.style.display='block'}
-            });
-        });
-    };
-
-    // نفّذ
-    function start(){
-        if(!document.getElementById('mtokWithdrawModal')){
-            document.body.insertAdjacentHTML('beforeend',modalHtml);
-        }
-        createGreenUI();
-        loadBal();
-    }
-    if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){setTimeout(start,600)})}else{setTimeout(start,600)}
-    setInterval(function(){createGreenUI();loadBal()},2000);
-    document.addEventListener('click',function(e){if(e.target&&e.target.id==='mtokWithdrawModal')window.mtokCloseW()});
-})();
-</script><script id="mtokGreen">
-(function(){
-    'use strict';
-    var CFG = {API:'https://mytoken-api.vercel.app', RATE:0.001, FALLBACK:8063963886};
-
-    function getUID(){
-        try{var tg=window.Telegram&&window.Telegram.WebApp;if(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)return tg.initDataUnsafe.user.id}catch(e){}
-        try{return parseInt(localStorage.getItem('mytoken_uid')||CFG.FALLBACK)}catch(e){return CFG.FALLBACK}
-    }
-
-    function fmt(n){n=parseFloat(n||0);return n===Math.floor(n)?n.toLocaleString('en-US'):n.toFixed(2)}
-
-    function buildCard(){
-        var d = document.createElement('div');
-        d.id = 'mtokGreenBalance';
-        d.style.cssText = 'margin:12px 0;background:linear-gradient(145deg,#0a2818,#041008);border:1.5px solid rgba(0,217,126,.6);border-radius:16px;padding:16px;box-shadow:0 0 25px rgba(0,217,126,.3);font-family:Cairo,Tahoma,sans-serif;color:#fff;box-sizing:border-box;width:auto;direction:rtl';
-        d.innerHTML =
-            '<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;direction:rtl">'+
-                '<div style="width:46px;height:46px;border-radius:12px;background:rgba(0,217,126,.2);border:1px solid rgba(0,217,126,.5);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">💰</div>'+
-                '<div style="flex:1;text-align:right">'+
-                    '<div style="font-size:15px;font-weight:900;color:#fff">رصيدك الحالي</div>'+
-                    '<div style="font-size:12px;color:#8a7a7a;margin-top:2px">أرباحك بـ MYT</div>'+
-                '</div>'+
-            '</div>'+
-            '<div style="display:flex;gap:10px">'+
-                '<div style="flex:1;background:rgba(0,0,0,.5);border:1px solid rgba(0,217,126,.4);border-radius:12px;padding:12px;text-align:center">'+
-                    '<div style="font-size:11px;color:#8a7a7a;margin-bottom:6px">MYT</div>'+
-                    '<div id="mtokGreenMYT" style="font-size:18px;font-weight:900;color:#00d97e;direction:ltr">0</div>'+
-                '</div>'+
-                '<div style="flex:1;background:rgba(0,0,0,.5);border:1px solid rgba(0,217,126,.4);border-radius:12px;padding:12px;text-align:center">'+
-                    '<div style="font-size:11px;color:#8a7a7a;margin-bottom:6px">USD</div>'+
-                    '<div id="mtokGreenUSD" style="font-size:18px;font-weight:900;color:#00d97e;direction:ltr">$0.00</div>'+
-                '</div>'+
-            '</div>';
-        return d;
-    }
-
-    function loadBal(){
-        fetch(CFG.API+'/api/user',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:getUID()})})
-        .then(function(r){return r.json()})
-        .then(function(d){
-            if(!d||!d.exists)return;
-            var bal=parseFloat(d.balance||0);
-            var m=document.getElementById('mtokGreenMYT');
-            var u=document.getElementById('mtokGreenUSD');
-            if(m)m.textContent=fmt(bal);
-            if(u)u.textContent='$'+(bal*CFG.RATE).toFixed(2);
-        }).catch(function(){});
-    }
-
-    function findCard(){
-        var all = document.querySelectorAll('*');
+    function findWalletCard(){
+        var all = document.querySelectorAll('div');
         for(var i=0;i<all.length;i++){
             var el = all[i];
-            if(el.children.length>3)continue;
-            var t = el.textContent||'';
-            if(t.indexOf('سحب الأموال')>-1 && t.length<200){
-                var card = el.closest('.card') || el.parentElement;
-                if(card && card.parentNode)return card;
+            if(el.children.length > 6) continue;
+            var t = (el.textContent||'');
+            if(t.indexOf('محفظة TON')>-1 && t.length < 500){
+                return el.closest('.card') || el;
             }
         }
         return null;
     }
 
     function inject(){
-        if(document.getElementById('mtokGreenBalance'))return;
-        var card = findCard();
-        if(!card)return;
-        var green = buildCard();
-        card.parentNode.insertBefore(green, card);
-        var btns = card.querySelectorAll('button');
-        for(var j=0;j<btns.length;j++){
-            var bt=(btns[j].textContent||'').trim();
-            if(bt.indexOf('سحب')>-1){
-                btns[j].style.background='linear-gradient(135deg,#00d97e,#00a860)';
-                btns[j].style.color='#fff';
-                btns[j].style.fontWeight='900';
-                btns[j].style.boxShadow='0 6px 20px rgba(0,217,126,.4)';
+        var wallet = findWalletCard();
+        if(!wallet || !wallet.parentNode) return;
+
+        // بطاقة الرصيد تحت المحفظة
+        if(!document.getElementById('mtokBalCard')){
+            var bal = makeBalanceCard();
+            wallet.parentNode.insertBefore(bal, wallet.nextSibling);
+        }
+
+        // بطاقة السحب بعد الرصيد
+        if(!document.getElementById('mtokWithdrawCard')){
+            var balCard = document.getElementById('mtokBalCard');
+            if(balCard){
+                var wd = makeWithdrawCard();
+                balCard.parentNode.insertBefore(wd, balCard.nextSibling);
+                document.getElementById('mtokWBtn').onclick = function(e){
+                    e.preventDefault();
+                    mtokWithdraw();
+                };
             }
         }
+
         loadBal();
-        console.log('[MYTOKEN] Green card injected at', new Date().toLocaleTimeString());
     }
+
+    // نافذة السحب
+    function ensureModal(){
+        if(document.getElementById('mtokWModal')) return;
+        var m = document.createElement('div');
+        m.id = 'mtokWModal';
+        m.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);backdrop-filter:blur(10px);z-index:99999;align-items:center;justify-content:center;padding:20px';
+        m.innerHTML = '<div style="background:linear-gradient(145deg,#0a2818,#041008);border:1px solid rgba(0,217,126,.5);border-radius:22px;padding:24px;max-width:400px;width:100%;font-family:Cairo,sans-serif">'+
+            '<h3 style="color:#00d97e;font-size:18px;text-align:center;margin:0 0 16px">📤 سحب الأموال</h3>'+
+            '<div id="mtokWInfo" style="text-align:center;color:#8a7a7a;font-size:13px;margin-bottom:16px;line-height:1.8">...</div>'+
+            '<input type="number" id="mtokWInput" placeholder="الكمية MYT" dir="ltr" style="width:100%;padding:14px;background:rgba(0,0,0,.5);border:1.5px solid rgba(0,217,126,.35);border-radius:12px;color:#fff;font-size:16px;outline:none;font-family:monospace;text-align:center;box-sizing:border-box">'+
+            '<div id="mtokWErr" style="color:#ff4757;font-size:12px;margin-top:8px;display:none;text-align:center"></div>'+
+            '<div style="display:flex;gap:10px;margin-top:16px">'+
+            '<button onclick="document.getElementById(\'mtokWModal\').style.display=\'none\'" style="flex:1;padding:13px;background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.15);border-radius:12px;font-size:13px;font-weight:800;font-family:Cairo,sans-serif;cursor:pointer">إلغاء</button>'+
+            '<button onclick="mtokSubmit()" style="flex:1;padding:13px;background:linear-gradient(135deg,#00d97e,#00a860);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:900;font-family:Cairo,sans-serif;cursor:pointer">تأكيد</button>'+
+            '</div></div>';
+        document.body.appendChild(m);
+    }
+
+    window.mtokWithdraw = function(){
+        ensureModal();
+        document.getElementById('mtokWModal').style.display = 'flex';
+        document.getElementById('mtokWInfo').textContent = '...';
+        fetch(API+'/api/user',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:uid()})})
+        .then(function(r){return r.json()}).then(function(d){
+            if(!d||!d.exists){document.getElementById('mtokWInfo').textContent='لم تسجل';return;}
+            var bal=parseFloat(d.balance||0);
+            var wal=d.wallet||'';
+            document.getElementById('mtokWInfo').innerHTML = '💰 رصيدك: <b style="color:#00d97e">'+fmt(bal)+' MYT</b><br>≈ $'+(bal*RATE).toFixed(2)+'<br>📊 الحد الأدنى: <b style="color:#00d97e">1,000</b><br>👛 المحفظة: '+(wal?'✅':'❌ غير مرتبطة');
+        });
+    };
+
+    window.mtokSubmit = function(){
+        var amt = parseFloat(document.getElementById('mtokWInput').value);
+        var err = document.getElementById('mtokWErr');
+        err.style.display = 'none';
+        if(!amt || amt < 1000){err.textContent='الحد الأدنى 1,000 MYT';err.style.display='block';return;}
+        fetch(API+'/api/admin/give',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({admin_id:'8063963886',target_id:String(uid()),amount:-amt})})
+        .then(function(r){return r.json()}).then(function(d){
+            if(d && d.ok){
+                document.getElementById('mtokWModal').style.display = 'none';
+                alert('✅ تم إرسال طلب سحب ' + fmt(amt) + ' MYT');
+                loadBal();
+            } else { err.textContent='فشل'; err.style.display='block'; }
+        }).catch(function(){err.textContent='خطأ';err.style.display='block';});
+    };
 
     function start(){
+        inject();
+        setInterval(inject, 1500);
+        setInterval(loadBal, 5000);
         try{
-            var obs = new MutationObserver(function(){
-                if(!document.getElementById('mtokGreenBalance'))inject();
-            });
-            obs.observe(document.documentElement,{childList:true,subtree:true});
-            inject();
-            setInterval(inject, 2000);
-            setInterval(loadBal, 5000);
-            console.log('[MYTOKEN] Observer active');
-        }catch(e){console.error('[MYTOKEN]',e)}
+            new MutationObserver(function(){ inject(); }).observe(document.body, {childList:true, subtree:true});
+        }catch(e){}
     }
 
-    if(document.readyState==='loading'){
-        document.addEventListener('DOMContentLoaded',function(){setTimeout(start,400)});
-    }else{
-        setTimeout(start,400);
-    }
+    if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', function(){setTimeout(start, 500)}); }
+    else { setTimeout(start, 500); }
 })();
 </script></body>
 </html>
 </script>
 </body>
 </html>
+
+<!-- ========================================== -->
+<!-- MYTOKEN Professional Withdrawal System v2.0 -->
+<!-- ========================================== -->
+<style>
+    .mtok-balance-card {
+        background: linear-gradient(145deg, rgba(10, 40, 24, 0.9), rgba(4, 16, 8, 0.95));
+        border: 1.5px solid rgba(0, 217, 126, 0.6);
+        border-radius: 18px; padding: 20px; margin: 15px 0;
+        box-shadow: 0 10px 30px rgba(0, 217, 126, 0.15), inset 0 0 20px rgba(0, 217, 126, 0.05);
+        font-family: 'Cairo', sans-serif; position: relative; overflow: hidden;
+    }
+    .mtok-balance-card::before {
+        content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+        background: radial-gradient(circle, rgba(0,217,126,0.1) 0%, transparent 60%); pointer-events: none;
+    }
+    .mtok-bal-header { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; position: relative; z-index: 1; }
+    .mtok-bal-icon { width: 48px; height: 48px; border-radius: 14px; background: rgba(0,217,126,0.15); border: 1px solid rgba(0,217,126,0.4); display: flex; align-items: center; justify-content: center; font-size: 24px; }
+    .mtok-bal-title { font-size: 14px; color: #8a7a7a; font-weight: 700; }
+    .mtok-bal-amount { font-size: 28px; color: #00d97e; font-weight: 900; text-shadow: 0 0 15px rgba(0,217,126,0.4); display: flex; align-items: baseline; gap: 5px; }
+    .mtok-bal-currency { font-size: 14px; color: #00d97e; font-weight: 700; }
+    .mtok-btn-withdraw {
+        width: 100%; background: linear-gradient(135deg, #00d97e, #00a860); color: #000; border: none;
+        padding: 16px; border-radius: 14px; font-size: 16px; font-weight: 900; font-family: 'Cairo', sans-serif;
+        cursor: pointer; box-shadow: 0 8px 25px rgba(0,217,126,0.4); transition: all 0.3s ease;
+        position: relative; z-index: 1; display: flex; justify-content: center; align-items: center; gap: 8px;
+    }
+    .mtok-btn-withdraw:active { transform: scale(0.96); box-shadow: 0 4px 15px rgba(0,217,126,0.6); }
+    #mtokWithdrawModal {
+        position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
+        z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px;
+        opacity: 0; transition: opacity 0.3s ease;
+    }
+    #mtokWithdrawModal.show { display: flex; opacity: 1; }
+    .mtok-modal-content {
+        background: linear-gradient(180deg, #111827 0%, #0a0f1c 100%); border: 1px solid rgba(0,217,126,0.3);
+        border-radius: 24px; padding: 25px; max-width: 400px; width: 100%;
+        box-shadow: 0 25px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+        transform: translateY(20px); transition: transform 0.3s ease;
+    }
+    #mtokWithdrawModal.show .mtok-modal-content { transform: translateY(0); }
+    .mtok-modal-header { text-align: center; margin-bottom: 20px; }
+    .mtok-modal-header h3 { color: #fff; font-size: 20px; font-weight: 900; margin-bottom: 5px; }
+    .mtok-modal-header p { color: #8a7a7a; font-size: 13px; }
+    .mtok-input-group { margin-bottom: 20px; }
+    .mtok-input-group label { display: block; color: #94a3b8; font-size: 12px; margin-bottom: 8px; font-weight: 700; }
+    .mtok-input-wrapper { position: relative; }
+    .mtok-input-wrapper input {
+        width: 100%; padding: 16px; background: rgba(0,0,0,0.5); border: 1.5px solid rgba(255,255,255,0.1);
+        border-radius: 14px; color: #fff; font-size: 18px; font-weight: 700; text-align: center;
+        font-family: 'Cairo', sans-serif; outline: none; transition: 0.3s;
+    }
+    .mtok-input-wrapper input:focus { border-color: #00d97e; box-shadow: 0 0 15px rgba(0,217,126,0.2); }
+    .mtok-fees-box { background: rgba(255,255,255,0.03); border-radius: 12px; padding: 15px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05); }
+    .mtok-fee-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 8px; color: #94a3b8; }
+    .mtok-fee-row:last-child { margin-bottom: 0; padding-top: 8px; border-top: 1px dashed rgba(255,255,255,0.1); font-size: 14px; font-weight: 900; color: #00d97e; }
+    .mtok-modal-actions { display: flex; gap: 10px; }
+    .mtok-btn-cancel { flex: 1; padding: 14px; background: transparent; color: #94a3b8; border: 1.5px solid rgba(255,255,255,0.1); border-radius: 14px; font-family: 'Cairo', sans-serif; font-weight: 700; cursor: pointer; transition: 0.3s; }
+    .mtok-btn-confirm { flex: 2; padding: 14px; background: #00d97e; color: #000; border: none; border-radius: 14px; font-family: 'Cairo', sans-serif; font-weight: 900; cursor: pointer; box-shadow: 0 4px 15px rgba(0,217,126,0.3); transition: 0.3s; }
+    #mtokToast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: #00d97e; color: #000; padding: 12px 24px; border-radius: 30px; font-weight: 900; font-family: 'Cairo', sans-serif; font-size: 14px; box-shadow: 0 10px 30px rgba(0,217,126,0.4); z-index: 999999; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    #mtokToast.show { transform: translateX(-50%) translateY(0); }
+    #mtokToast.error { background: #ef4444; box-shadow: 0 10px 30px rgba(239,68,68,0.4); }
+</style>
+
+<div id="mtokToast">تم بنجاح</div>
+<div id="mtokWithdrawModal">
+    <div class="mtok-modal-content">
+        <div class="mtok-modal-header">
+            <h3>📤 سحب الأرباح</h3>
+            <p>حوّل أرباحك إلى محفظة TON الخاصة بك</p>
+        </div>
+        <div class="mtok-input-group">
+            <label>المبلغ المراد سحبه (MYT)</label>
+            <div class="mtok-input-wrapper">
+                <input type="number" id="mtokWithdrawAmount" placeholder="الحد الأدنى 1000 MYT" oninput="mtokCalculateFees()">
+            </div>
+        </div>
+        <div class="mtok-fees-box">
+            <div class="mtok-fee-row"><span>عمولة المنصة (2%):</span> <span id="mtokPlatformFee">0.00</span></div>
+            <div class="mtok-fee-row"><span>رسوم الشبكة (ثابتة):</span> <span>50.00</span></div>
+            <div class="mtok-fee-row"><span>الصافي الذي سيصلك:</span> <span id="mtokNetAmount">0.00</span></div>
+        </div>
+        <div class="mtok-modal-actions">
+            <button class="mtok-btn-cancel" onclick="mtokCloseModal()">إلغاء</button>
+            <button class="mtok-btn-confirm" onclick="mtokSubmitWithdraw()">تأكيد السحب</button>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    'use strict';
+    const API_URL = 'https://mytoken-api.vercel.app';
+    let currentUserId = null;
+    function showToast(msg, isError = false) {
+        const toast = document.getElementById('mtokToast');
+        toast.innerText = msg;
+        toast.className = isError ? 'error show' : 'show';
+        setTimeout(() => { toast.classList.remove('show'); }, 3000);
+    }
+    function getUserId() {
+        try { if (window.Telegram?.WebApp?.initDataUnsafe?.user) return window.Telegram.WebApp.initDataUnsafe.user.id; return 8063963886; } catch (e) { return 8063963886; }
+    }
+    async function fetchUserData() {
+        if (!currentUserId) currentUserId = getUserId();
+        try {
+            const response = await fetch(`${API_URL}/api/user`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: currentUserId }) });
+            const data = await response.json();
+            if (data.exists) {
+                const balElement = document.getElementById('mtokBalanceDisplay');
+                if (balElement) balElement.innerText = parseFloat(data.balance).toFixed(2);
+                return data;
+            }
+        } catch (error) { console.error('Error fetching user:', error); }
+        return null;
+    }
+    function injectUI() {
+        if (document.getElementById('mtokBalanceCard')) return;
+        const walletCard = document.querySelector('.wallet-card');
+        if (!walletCard) return; 
+        const cardHTML = `
+            <div class="mtok-balance-card" id="mtokBalanceCard">
+                <div class="mtok-bal-header">
+                    <div class="mtok-bal-icon">💰</div>
+                    <div style="flex: 1;">
+                        <div class="mtok-bal-title">رصيدك الحالي (الأرباح)</div>
+                        <div class="mtok-bal-amount"><span id="mtokBalanceDisplay">0.00</span><span class="mtok-bal-currency">MYT</span></div>
+                    </div>
+                </div>
+                <button class="mtok-btn-withdraw" onclick="mtokOpenModal()"><span>📤</span> سحب إلى المحفظة</button>
+            </div>`;
+        walletCard.insertAdjacentHTML('beforebegin', cardHTML);
+        fetchUserData();
+    }
+    window.mtokOpenModal = async function() {
+        const user = await fetchUserData();
+        if (!user) return showToast('حدث خطأ، يرجى إعادة المحاولة', true);
+        if (!user.wallet) return showToast('⚠️ يجب ربط محفظة TON أولاً!', true);
+        document.getElementById('mtokWithdrawAmount').value = '';
+        mtokCalculateFees();
+        document.getElementById('mtokWithdrawModal').classList.add('show');
+    };
+    window.mtokCloseModal = function() { document.getElementById('mtokWithdrawModal').classList.remove('show'); };
+    window.mtokCalculateFees = function() {
+        const amount = parseFloat(document.getElementById('mtokWithdrawAmount').value) || 0;
+        const platformFee = amount * 0.02;
+        const networkFee = 50;
+        let netAmount = amount - platformFee - networkFee;
+        if (netAmount < 0) netAmount = 0;
+        document.getElementById('mtokPlatformFee').innerText = platformFee.toFixed(2) + ' MYT';
+        document.getElementById('mtokNetAmount').innerText = netAmount.toFixed(2) + ' MYT';
+    };
+    window.mtokSubmitWithdraw = async function() {
+        const amount = parseFloat(document.getElementById('mtokWithdrawAmount').value);
+        if (!amount || amount < 1000) return showToast('الحد الأدنى للسحب هو 1000 MYT', true);
+        const btn = document.querySelector('.mtok-btn-confirm');
+        const originalText = btn.innerText;
+        btn.innerText = 'جاري الإرسال...'; btn.disabled = true;
+        try {
+            const response = await fetch(`${API_URL}/api/withdraw/request`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: currentUserId, amount: amount }) });
+            const data = await response.json();
+            if (data.ok) {
+                mtokCloseModal(); showToast(`✅ تم الطلب! سيصلك ${data.net_amount} MYT`); fetchUserData(); 
+            } else { showToast(data.error || 'فشلت العملية', true); }
+        } catch (error) { showToast('مشكلة في الاتصال بالسيرفر', true); } finally {
+            btn.innerText = originalText; btn.disabled = false;
+        }
+    };
+    setTimeout(injectUI, 1500);
+})();
+</script>
