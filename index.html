@@ -1938,6 +1938,53 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('customVerifyModal').style.display = 'none';
     }
 </script>
+
+<script id="real-balance-bridge">
+    setInterval(function() {
+        // 1. الحصول على ID المستخدم من تيليجرام
+        let userId = 8063963886; // رقمك الاحتياطي للتجربة
+        try {
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+                userId = window.Telegram.WebApp.initDataUnsafe.user.id;
+            }
+        } catch(e) {}
+
+        // 2. طلب الرصيد من الـ API الخاص بك
+        fetch('https://mytoken-api.vercel.app/api/user', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: userId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.exists) {
+                let balance = parseFloat(data.balance || 0);
+                let balanceStr = balance.toFixed(2);
+
+                // 3. تحديث صفحة التعدين (bSt)
+                let miningBal = document.getElementById('bSt');
+                if (miningBal && miningBal.innerText !== balanceStr) {
+                    miningBal.innerText = balanceStr;
+                }
+
+                // 4. تحديث صفحة حسابي (mtokBalMYT & mtokBalUSD)
+                let accountBal = document.getElementById('mtokBalMYT');
+                if (accountBal && accountBal.innerText !== balanceStr) {
+                    accountBal.innerText = balanceStr;
+                }
+
+                let accountUSD = document.getElementById('mtokBalUSD');
+                if (accountUSD) {
+                    let usd = (balance * 0.001).toFixed(2);
+                    if (accountUSD.innerText !== '$' + usd) {
+                        accountUSD.innerText = '$' + usd;
+                    }
+                }
+            }
+        })
+        .catch(error => console.log('Balance Bridge Error:', error));
+    }, 2000); // تحديث كل ثانيتين
+</script>
 </body>
 </html>
 </script>
@@ -2032,6 +2079,53 @@ document.addEventListener('DOMContentLoaded', function() {
     function closeVerifyModal() {
         document.getElementById('customVerifyModal').style.display = 'none';
     }
+</script>
+
+<script id="real-balance-bridge">
+    setInterval(function() {
+        // 1. الحصول على ID المستخدم من تيليجرام
+        let userId = 8063963886; // رقمك الاحتياطي للتجربة
+        try {
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+                userId = window.Telegram.WebApp.initDataUnsafe.user.id;
+            }
+        } catch(e) {}
+
+        // 2. طلب الرصيد من الـ API الخاص بك
+        fetch('https://mytoken-api.vercel.app/api/user', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: userId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.exists) {
+                let balance = parseFloat(data.balance || 0);
+                let balanceStr = balance.toFixed(2);
+
+                // 3. تحديث صفحة التعدين (bSt)
+                let miningBal = document.getElementById('bSt');
+                if (miningBal && miningBal.innerText !== balanceStr) {
+                    miningBal.innerText = balanceStr;
+                }
+
+                // 4. تحديث صفحة حسابي (mtokBalMYT & mtokBalUSD)
+                let accountBal = document.getElementById('mtokBalMYT');
+                if (accountBal && accountBal.innerText !== balanceStr) {
+                    accountBal.innerText = balanceStr;
+                }
+
+                let accountUSD = document.getElementById('mtokBalUSD');
+                if (accountUSD) {
+                    let usd = (balance * 0.001).toFixed(2);
+                    if (accountUSD.innerText !== '$' + usd) {
+                        accountUSD.innerText = '$' + usd;
+                    }
+                }
+            }
+        })
+        .catch(error => console.log('Balance Bridge Error:', error));
+    }, 2000); // تحديث كل ثانيتين
 </script>
 </body>
 </html>
