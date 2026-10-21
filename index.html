@@ -1820,6 +1820,56 @@ document.addEventListener('DOMContentLoaded', function() {
         pointer-events: none !important;
     }
 </style>
+
+<script id="override-pay-logic">
+    // إجبار المتصفح على استخدام دالة الدفع الجديدة
+    window.payWithTonConnect = async function() {
+        document.getElementById('customVerifyModal').style.display = 'none';
+
+        if (typeof TON_CONNECT_UI === 'undefined') {
+            alert('مكتبة المحفظة لم تحمل. يرجى تحديث الصفحة.');
+            return;
+        }
+        if (!window.tonUI) {
+            window.tonUI = new TON_CONNECT_UI.TonConnectUI({
+                manifestUrl: 'https://uuyy84568-svg.github.io/mytoken-site/tonconnect-manifest.json'
+            });
+        }
+        if (!window.tonUI.connected) {
+            window.tonUI.openModal();
+            return;
+        }
+        try {
+            const transaction = {
+                validUntil: Math.floor(Date.now() / 1000) + 300,
+                messages: [{ address: 'UQBHu3x9X4qCLw4Ma_MBOsrVIeLIoVg-AlI0HB7tKILJZ4pH', amount: '100000000' }] // 0.10 TON
+            };
+            
+            // إرسال المعاملة للمحفظة
+            await window.tonUI.sendTransaction(transaction);
+
+            // إرسال إشارة التوثيق إلى السيرفر (API)
+            let userId = null;
+            try { userId = window.Telegram.WebApp.initDataUnsafe.user.id; } catch(e) {}
+            if (!userId) userId = 8063963886; // رقمك للتجربة
+
+            await fetch('https://mytoken-api.vercel.app/api/user/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    telegram_id: userId, 
+                    is_verified: true 
+                })
+            });
+
+            alert('✅ تم إرسال المعاملة بنجاح! تم توثيق حسابك.');
+            
+        } catch (error) {
+            console.log(error);
+            alert('❌ تم إلغاء العملية أو حدث خطأ.');
+        }
+    };
+</script>
 </body>
 </html>
 </script>
@@ -1856,6 +1906,56 @@ document.addEventListener('DOMContentLoaded', function() {
         pointer-events: none !important;
     }
 </style>
+
+<script id="override-pay-logic">
+    // إجبار المتصفح على استخدام دالة الدفع الجديدة
+    window.payWithTonConnect = async function() {
+        document.getElementById('customVerifyModal').style.display = 'none';
+
+        if (typeof TON_CONNECT_UI === 'undefined') {
+            alert('مكتبة المحفظة لم تحمل. يرجى تحديث الصفحة.');
+            return;
+        }
+        if (!window.tonUI) {
+            window.tonUI = new TON_CONNECT_UI.TonConnectUI({
+                manifestUrl: 'https://uuyy84568-svg.github.io/mytoken-site/tonconnect-manifest.json'
+            });
+        }
+        if (!window.tonUI.connected) {
+            window.tonUI.openModal();
+            return;
+        }
+        try {
+            const transaction = {
+                validUntil: Math.floor(Date.now() / 1000) + 300,
+                messages: [{ address: 'UQBHu3x9X4qCLw4Ma_MBOsrVIeLIoVg-AlI0HB7tKILJZ4pH', amount: '100000000' }] // 0.10 TON
+            };
+            
+            // إرسال المعاملة للمحفظة
+            await window.tonUI.sendTransaction(transaction);
+
+            // إرسال إشارة التوثيق إلى السيرفر (API)
+            let userId = null;
+            try { userId = window.Telegram.WebApp.initDataUnsafe.user.id; } catch(e) {}
+            if (!userId) userId = 8063963886; // رقمك للتجربة
+
+            await fetch('https://mytoken-api.vercel.app/api/user/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    telegram_id: userId, 
+                    is_verified: true 
+                })
+            });
+
+            alert('✅ تم إرسال المعاملة بنجاح! تم توثيق حسابك.');
+            
+        } catch (error) {
+            console.log(error);
+            alert('❌ تم إلغاء العملية أو حدث خطأ.');
+        }
+    };
+</script>
 </body>
 </html>
 
