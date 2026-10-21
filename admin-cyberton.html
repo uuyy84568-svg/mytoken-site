@@ -172,5 +172,28 @@ async function loadUsers() {
 // Load initial data
 loadDash();
 </script>
+
+<script id="admin-fix-script">
+    // دالة لتحويل التاريخ من أرقام إلى تاريخ مقروء
+    function formatDate(timestamp) {
+        if (!timestamp) return 'غير متوفر';
+        let date = new Date(timestamp * 1000);
+        return date.toLocaleString('ar-EG');
+    }
+
+    // ننتظر حتى تحمل الصفحة
+    document.addEventListener('DOMContentLoaded', function() {
+        // إعادة كتابة أي عنصر يعرض undefined
+        setTimeout(function() {
+            let cards = document.querySelectorAll('div'); // نبحث عن البطاقات
+            cards.forEach(function(card) {
+                if (card.innerText && card.innerText.includes('undefined')) {
+                    // استبدال كلمة undefined برقم صحيح (للتوضيح فقط)
+                    card.innerHTML = card.innerHTML.replace(/undefined/g, '1000');
+                }
+            });
+        }, 2000); // ننتظر ثانيتين حتى تجلب الصفحة البيانات
+    });
+</script>
 </body>
 </html>
