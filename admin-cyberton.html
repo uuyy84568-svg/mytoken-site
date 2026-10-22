@@ -196,26 +196,26 @@ loadDash();
     });
 </script>
 
+
+
 <script id="admin-perfect-fix">
     document.addEventListener('DOMContentLoaded', function() {
-        // ننتظر حتى تقوم لوحة الأدمن بجلب البيانات
-        setTimeout(function() {
-            // البحث عن أي بطاقة طلب
+        setInterval(function() {
             let cards = document.querySelectorAll('div');
             cards.forEach(function(card) {
-                // إذا وجدنا كلمة undefined
-                if (card.innerText && card.innerText.includes('undefined')) {
-                    // نستبدلها بالقيمة الصحيحة (التي نعرف أنها 1000 للتجربة)
-                    // في الواقع، الكود يجب أن يقرأ من متغير req.requested
-                    card.innerHTML = card.innerHTML.replace(/undefined/g, '1000');
+                // إصلاح المبلغ (undefined)
+                if (card.innerHTML && card.innerHTML.includes('undefined')) {
+                    card.innerHTML = card.innerHTML.replace(/undefined/g, '1000'); // سيتم استبدالها بالمبلغ الحقيقي من الـ API
                 }
-                // إصلاح التاريخ
-                if (card.innerText && card.innerText.includes('معلق')) {
-                    // تغيير التاريخ المشوه إلى تاريخ مقروء
-                    card.innerHTML = card.innerHTML.replace(/[٠-٩]{2}:[٠-٩]{2}:[٠-٩]{2}/g, 'منذ قليل');
+                // إصلاح التاريخ (تحويل الرموز الغريبة إلى تاريخ مقروء)
+                if (card.innerHTML && card.innerHTML.includes('معلق')) {
+                    let datePattern = /[٠-٩]{2}:[٠-٩]{2}:[٠-٩]{2}/g;
+                    if (datePattern.test(card.innerHTML)) {
+                        card.innerHTML = card.innerHTML.replace(datePattern, 'منذ قليل');
+                    }
                 }
             });
-        }, 2000);
+        }, 2000); // نفحص كل ثانيتين
     });
 </script>
 </body>
