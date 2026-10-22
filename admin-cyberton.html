@@ -1,352 +1,203 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة تحكم MYTOKEN</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MYTOKEN // مركز التحكم</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg: #0f172a;
-            --panel: #1e293b;
-            --primary: #3b82f6;
+            --bg-main: #0b1120;
+            --bg-card: rgba(30, 41, 59, 0.7);
+            --bg-card-hover: rgba(30, 41, 59, 0.9);
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
             --success: #10b981;
-            --danger: #ef4444;
+            --danger: #f43f5e;
             --warning: #f59e0b;
-            --text: #f8fafc;
+            --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --border: #334155;
+            --border: rgba(255, 255, 255, 0.1);
+            --glass-blur: blur(12px);
         }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
-        body { background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 80px; }
-
-        /* Header */
-        .header {
-            background: rgba(30, 41, 59, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border);
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky; top: 0; z-index: 100;
-        }
-        .logo { font-size: 20px; font-weight: 900; color: var(--primary); display: flex; align-items: center; gap: 8px; }
-        .status { font-size: 12px; background: rgba(16, 185, 129, 0.1); color: var(--success); padding: 5px 10px; border-radius: 20px; border: 1px solid rgba(16, 185, 129, 0.2); display: flex; align-items: center; gap: 5px; }
-        .dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; animation: pulse 2s infinite; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-main); background-image: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 50%); color: var(--text-main); min-height: 100vh; padding-bottom: 80px; overflow-x: hidden; }
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: rgba(11, 17, 32, 0.8); backdrop-filter: var(--glass-blur); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border); }
+        .logo { font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        .logo i { color: var(--primary); font-size: 24px; }
+        .status { font-size: 12px; color: var(--success); background: rgba(16, 185, 129, 0.1); padding: 6px 12px; border-radius: 20px; font-weight: 700; display: flex; align-items: center; gap: 6px; border: 1px solid rgba(16, 185, 129, 0.2); }
+        .status i { animation: pulse 2s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
-
-        /* Bottom Navigation (Mobile Friendly) */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            background: var(--panel); border-top: 1px solid var(--border);
-            display: flex; justify-content: space-around; padding: 10px 0; z-index: 100;
-        }
-        .nav-item {
-            display: flex; flex-direction: column; align-items: center; gap: 4px;
-            color: var(--text-muted); font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.3s;
-        }
-        .nav-item.active { color: var(--primary); }
-        .nav-icon { font-size: 20px; }
-
-        /* Content Area */
-        .content { padding: 20px; display: none; animation: fadeIn 0.3s ease; }
+        .content { padding: 20px; display: none; animation: slideUp 0.4s ease forwards; opacity: 0; transform: translateY(20px); }
         .content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .section-title { font-size: 18px; font-weight: 700; margin-bottom: 15px; color: var(--text); display: flex; align-items: center; gap: 8px; }
-
-        /* Cards */
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .stat-card {
-            background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 15px;
-            display: flex; flex-direction: column; gap: 8px;
-        }
-        .stat-title { font-size: 13px; color: var(--text-muted); font-weight: 500; }
-        .stat-value { font-size: 24px; font-weight: 900; color: var(--text); }
-        .stat-value.blue { color: var(--primary); }
-        .stat-value.green { color: var(--success); }
-        .stat-value.yellow { color: var(--warning); }
-
-        /* Lists */
-        .item-card {
-            background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 15px;
-            margin-bottom: 15px;
-        }
-        .item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-        .item-name { font-weight: 700; color: var(--text); font-size: 16px; }
-        .item-id { font-size: 12px; color: var(--text-muted); background: #0f172a; padding: 3px 8px; border-radius: 5px; }
-        
-        .info-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
-        .info-label { color: var(--text-muted); }
-        .info-value { font-weight: 700; color: var(--primary); }
-        .info-value.green { color: var(--success); }
-        
-        .wallet-box { background: #0f172a; padding: 10px; border-radius: 8px; font-family: monospace; font-size: 12px; color: var(--text-muted); word-break: break-all; margin: 10px 0; border: 1px solid var(--border); }
-
-        /* Buttons */
-        .actions { display: flex; gap: 10px; margin-top: 15px; }
-        .btn { flex: 1; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 14px; font-family: 'Tajawal', sans-serif; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 5px; }
-        .btn-approve { background: rgba(16, 185, 129, 0.1); color: var(--success); border: 1px solid var(--success); }
-        .btn-approve:active { background: var(--success); color: white; }
-        .btn-reject { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid var(--danger); }
-        .btn-reject:active { background: var(--danger); color: white; }
-
-        .empty-state { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 14px; }
-        .loader { width: 24px; height: 24px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 20px auto; }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .section-title { font-size: 20px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
+        .section-title i { color: var(--primary); }
+        .btn-refresh { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); width: 35px; height: 35px; border-radius: 10px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s; }
+        .btn-refresh:active { transform: scale(0.9); color: var(--primary); border-color: var(--primary); }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: var(--bg-card); backdrop-filter: var(--glass-blur); border: 1px solid var(--border); border-radius: 16px; padding: 20px; position: relative; overflow: hidden; transition: 0.3s; }
+        .stat-card:active { background: var(--bg-card-hover); }
+        .stat-card::before { content: ''; position: absolute; top: 0; right: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%); pointer-events: none; }
+        .stat-icon { font-size: 24px; margin-bottom: 10px; }
+        .stat-title { font-size: 13px; color: var(--text-muted); font-weight: 500; margin-bottom: 5px; }
+        .stat-value { font-size: 24px; font-weight: 800; color: var(--text-main); direction: ltr; text-align: right; }
+        .stat-card.blue .stat-icon { color: #3b82f6; }
+        .stat-card.green .stat-icon { color: var(--success); }
+        .stat-card.yellow .stat-icon { color: var(--warning); }
+        .stat-card.purple .stat-icon { color: #a855f7; }
+        .list-item { background: var(--bg-card); backdrop-filter: var(--glass-blur); border: 1px solid var(--border); border-radius: 16px; padding: 18px; margin-bottom: 15px; transition: 0.3s; }
+        .item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .item-name { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .item-name i { color: var(--primary); }
+        .item-badge { font-size: 11px; background: rgba(99, 102, 241, 0.1); color: var(--primary); padding: 4px 10px; border-radius: 20px; font-weight: 700; border: 1px solid rgba(99, 102, 241, 0.2); }
+        .item-details { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .detail-box { background: rgba(0,0,0,0.2); padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); }
+        .detail-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+        .detail-value { font-size: 14px; font-weight: 700; color: var(--text-main); direction: ltr; text-align: right; }
+        .detail-value.success { color: var(--success); }
+        .wallet-address { background: #000; padding: 12px; border-radius: 10px; font-family: monospace; font-size: 12px; color: var(--text-muted); word-break: break-all; margin-bottom: 15px; border: 1px solid var(--border); direction: ltr; text-align: left; }
+        .actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn-action { padding: 12px; border: none; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; font-family: 'Tajawal'; display: flex; justify-content: center; align-items: center; gap: 6px; transition: 0.2s; }
+        .btn-action:active { transform: scale(0.95); }
+        .btn-approve { background: rgba(16, 185, 129, 0.15); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.3); }
+        .btn-reject { background: rgba(244, 63, 94, 0.15); color: var(--danger); border: 1px solid rgba(244, 63, 94, 0.3); }
+        .btn-give { background: rgba(99, 102, 241, 0.15); color: var(--primary); border: 1px solid rgba(99, 102, 241, 0.3); width: 100%; margin-top: 10px; }
+        .form-group { margin-bottom: 15px; }
+        .form-label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 700; color: var(--text-main); }
+        .form-control { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 12px; padding: 15px; color: var(--text-main); font-family: 'Tajawal'; font-size: 15px; outline: none; transition: 0.3s; }
+        .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); }
+        .btn-primary { width: 100%; background: var(--primary); color: white; border: none; padding: 15px; border-radius: 12px; font-size: 16px; font-weight: 800; cursor: pointer; font-family: 'Tajawal'; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .empty-state { text-align: center; padding: 40px 20px; color: var(--text-muted); }
+        .empty-state i { font-size: 50px; margin-bottom: 15px; opacity: 0.5; }
+        .loader { width: 30px; height: 30px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 30px auto; }
         @keyframes spin { to { transform: rotate(360deg); } }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(11, 17, 32, 0.95); backdrop-filter: var(--glass-blur); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 10px 0 15px 0; z-index: 100; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 5px; color: var(--text-muted); font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.3s; width: 25%; }
+        .nav-item i { font-size: 22px; margin-bottom: 2px; }
+        .nav-item.active { color: var(--primary); }
     </style>
 </head>
 <body>
-
     <header class="header">
-        <div class="logo"><span>💎</span> MYTOKEN ADMIN</div>
-        <div class="status"><div class="dot"></div> متصل</div>
+        <div class="logo"><i class="fa-solid fa-cube"></i> MYTOKEN</div>
+        <div class="status"><i class="fa-solid fa-circle"></i> متصل</div>
     </header>
-
-    <!-- Dashboard Content -->
     <div id="content-dashboard" class="content active">
-        <div class="section-title">📊 نظرة عامة</div>
+        <div class="section-header"><div class="section-title"><i class="fa-solid fa-chart-pie"></i> نظرة عامة</div><div class="btn-refresh" onclick="fetchStats()"><i class="fa-solid fa-rotate-right"></i></div></div>
         <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-title">إجمالي المستخدمين</div>
-                <div class="stat-value blue" id="stat-users">...</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-title">إجمالي الرصيد</div>
-                <div class="stat-value green" id="stat-balance">... MYT</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-title">طلبات السحب المعلقة</div>
-                <div class="stat-value yellow" id="stat-pending">...</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-title">الحسابات الموثقة</div>
-                <div class="stat-value" id="stat-verified">...</div>
-            </div>
+            <div class="stat-card blue"><div class="stat-icon"><i class="fa-solid fa-users"></i></div><div class="stat-title">إجمالي المستخدمين</div><div class="stat-value" id="stat-users">--</div></div>
+            <div class="stat-card green"><div class="stat-icon"><i class="fa-solid fa-coins"></i></div><div class="stat-title">إجمالي الرصيد</div><div class="stat-value" id="stat-balance">--</div></div>
+            <div class="stat-card yellow"><div class="stat-icon"><i class="fa-solid fa-clock-rotate-left"></i></div><div class="stat-title">طلبات السحب المعلقة</div><div class="stat-value" id="stat-pending">--</div></div>
+            <div class="stat-card purple"><div class="stat-icon"><i class="fa-solid fa-gem"></i></div><div class="stat-title">الحسابات الموثقة</div><div class="stat-value" id="stat-verified">--</div></div>
         </div>
     </div>
-
-    <!-- Withdrawals Content -->
     <div id="content-withdrawals" class="content">
-        <div class="section-title">💸 طلبات السحب</div>
-        <div id="withdrawals-list">
-            <div class="loader"></div>
-        </div>
+        <div class="section-header"><div class="section-title"><i class="fa-solid fa-money-bill-transfer"></i> طلبات السحب</div><div class="btn-refresh" onclick="fetchWithdrawals()"><i class="fa-solid fa-rotate-right"></i></div></div>
+        <div id="withdrawals-list"><div class="loader"></div></div>
     </div>
-
-    <!-- Users Content -->
     <div id="content-users" class="content">
-        <div class="section-title">👥 قاعدة المستخدمين</div>
-        <div id="users-list">
-            <div class="loader"></div>
+        <div class="section-header"><div class="section-title"><i class="fa-solid fa-address-book"></i> قاعدة المستخدمين</div><div class="btn-refresh" onclick="fetchUsers()"><i class="fa-solid fa-rotate-right"></i></div></div>
+        <div id="users-list"><div class="loader"></div></div>
+    </div>
+    <div id="content-broadcast" class="content">
+        <div class="section-header"><div class="section-title"><i class="fa-solid fa-bullhorn"></i> الإرسال الجماعي</div></div>
+        <div class="list-item">
+            <div class="form-group">
+                <label class="form-label">نص الرسالة (يدعم HTML)</label>
+                <textarea id="broadcast-msg" class="form-control" rows="5" placeholder="اكتب إعلانك هنا..."></textarea>
+            </div>
+            <button class="btn-primary" onclick="sendBroadcast()"><i class="fa-solid fa-paper-plane"></i> إرسال للجميع</button>
         </div>
     </div>
-
-    <!-- Settings Content -->
-    <div id="content-settings" class="content">
-        <div class="section-title">⚙️ الإعدادات</div>
-        <div class="item-card">
-            <div class="info-row">
-                <span class="info-label">حالة البوت (Render)</span>
-                <span class="info-value green">يعمل</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">قاعدة البيانات (MongoDB)</span>
-                <span class="info-value green">متصل</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">شبكة الدفع (TON Connect)</span>
-                <span class="info-value green">جاهز</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">إصدار اللوحة</span>
-                <span class="info-value">v4.0 Pro</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bottom Navigation -->
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('dashboard', this)">
-            <span class="nav-icon">📊</span>
-            <span>الرئيسية</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('withdrawals', this)">
-            <span class="nav-icon">💸</span>
-            <span>السحب</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('users', this)">
-            <span class="nav-icon">👥</span>
-            <span>المستخدمين</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('settings', this)">
-            <span class="nav-icon">⚙️</span>
-            <span>الإعدادات</span>
-        </div>
+        <div class="nav-item active" onclick="switchTab('dashboard', this)"><i class="fa-solid fa-house"></i><span>الرئيسية</span></div>
+        <div class="nav-item" onclick="switchTab('withdrawals', this)"><i class="fa-solid fa-money-check-dollar"></i><span>السحب</span></div>
+        <div class="nav-item" onclick="switchTab('users', this)"><i class="fa-solid fa-users-gear"></i><span>المستخدمين</span></div>
+        <div class="nav-item" onclick="switchTab('broadcast', this)"><i class="fa-solid fa-tower-broadcast"></i><span>الإذاعة</span></div>
     </div>
-
     <script>
-        const API_BASE = 'https://mytoken-api.vercel.app';
+        const API = 'https://mytoken-api.vercel.app';
         const ADMIN_ID = '8063963886';
-
-        // 1. Tab Switching
-        function switchTab(tabId, element) {
+        function switchTab(tabId, el) {
             document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            
             document.getElementById('content-' + tabId).classList.add('active');
-            element.classList.add('active');
-
-            if (tabId === 'dashboard') fetchStats();
-            if (tabId === 'withdrawals') fetchWithdrawals();
-            if (tabId === 'users') fetchUsers();
+            el.classList.add('active');
+            if(tabId === 'dashboard') fetchStats();
+            if(tabId === 'withdrawals') fetchWithdrawals();
+            if(tabId === 'users') fetchUsers();
         }
-
-        // 2. Format Date
-        function formatDate(timestamp) {
-            if (!timestamp) return 'غير متوفر';
-            const date = new Date(timestamp * 1000);
-            return date.toLocaleString('ar-EG', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit' });
-        }
-
-        // 3. Fetch Stats
         async function fetchStats() {
             try {
-                const res = await fetch(API_BASE + '/api/admin/stats', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ admin_id: ADMIN_ID })
-                });
-                const data = await res.json();
-                
-                // Mocking pending and verified if API doesn't provide them yet
-                document.getElementById('stat-users').innerText = data.total_users || 0;
-                document.getElementById('stat-balance').innerText = (data.total_balance || 0).toFixed(2) + ' MYT';
-                document.getElementById('stat-pending').innerText = data.pending_withdrawals || '0';
-                document.getElementById('stat-verified').innerText = data.verified_users || '0';
-            } catch (e) { console.error(e); }
+                const res = await fetch(API + '/api/admin/stats', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({admin_id: ADMIN_ID}) });
+                const d = await res.json();
+                if(d.ok) {
+                    document.getElementById('stat-users').innerText = d.total_users || 0;
+                    document.getElementById('stat-balance').innerText = (d.total_balance || 0).toFixed(0) + ' MYT';
+                    document.getElementById('stat-pending').innerText = d.pending_withdrawals || 0;
+                    document.getElementById('stat-verified').innerText = d.verified_users || 0;
+                }
+            } catch(e) { console.error(e); }
         }
-
-        // 4. Fetch Withdrawals
         async function fetchWithdrawals() {
-            const container = document.getElementById('withdrawals-list');
-            container.innerHTML = '<div class="loader"></div>';
+            const c = document.getElementById('withdrawals-list');
+            c.innerHTML = '<div class="loader"></div>';
             try {
-                const res = await fetch(API_BASE + '/api/admin/withdrawals', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ admin_id: ADMIN_ID })
-                });
-                const data = await res.json();
-                
-                if (data.ok && data.withdrawals.length > 0) {
+                const res = await fetch(API + '/api/admin/withdrawals', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({admin_id: ADMIN_ID}) });
+                const d = await res.json();
+                if(d.ok && d.withdrawals.length > 0) {
                     let html = '';
-                    data.withdrawals.forEach(w => {
-                        if(w.status === 'pending') {
-                            // استخدام الأسماء الصحيحة من الـ API (requested, net_amount)
-                            let reqAmount = w.requested || w.amount || '0';
-                            let netAmount = w.net_amount || '0';
-                            let dateStr = w.created_at ? formatDate(w.created_at) : 'منذ قليل';
-                            
-                            html += `
-                            <div class="item-card">
-                                <div class="item-header">
-                                    <div class="item-name">${w.first_name || 'مستخدم'}</div>
-                                    <div class="item-id">ID: ${w.user_id}</div>
-                                </div>
-                                <div class="info-row">
-                                    <span class="info-label">المبلغ المطلوب:</span>
-                                    <span class="info-value">${reqAmount} MYT</span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="info-label">الصافي للمستخدم:</span>
-                                    <span class="info-value green">${netAmount} MYT</span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="info-label">الوقت:</span>
-                                    <span class="info-label" style="font-size:12px;">${dateStr}</span>
-                                </div>
-                                <div class="wallet-box">${w.wallet || 'لا يوجد عنوان'}</div>
-                                <div class="actions">
-                                    <button class="btn btn-approve" onclick="approveWD('${w.req_id}')">✅ موافقة</button>
-                                    <button class="btn btn-reject" onclick="rejectWD('${w.req_id}')">❌ رفض</button>
-                                </div>
-                            </div>`;
-                        }
+                    d.withdrawals.forEach(w => {
+                        html += `<div class="list-item"><div class="item-header"><div class="item-name"><i class="fa-solid fa-user"></i> ${w.first_name || 'مستخدم'}</div><div class="item-badge">ID: ${w.user_id}</div></div><div class="item-details"><div class="detail-box"><div class="detail-label">المطلوب</div><div class="detail-value">${w.requested} MYT</div></div><div class="detail-box"><div class="detail-label">الصافي</div><div class="detail-value success">${w.net_amount} MYT</div></div></div><div class="wallet-address"><i class="fa-solid fa-wallet"></i> ${w.wallet}</div><div class="actions-grid"><button class="btn-action btn-approve" onclick="wdAction('approve', '${w.req_id}')"><i class="fa-solid fa-check"></i> موافقة</button><button class="btn-action btn-reject" onclick="wdAction('reject', '${w.req_id}')"><i class="fa-solid fa-xmark"></i> رفض</button></div></div>`;
                     });
-                    container.innerHTML = html || '<div class="empty-state">لا توجد طلبات سحب معلقة حالياً.</div>';
-                } else {
-                    container.innerHTML = '<div class="empty-state">لا توجد طلبات سحب معلقة حالياً.</div>';
-                }
-            } catch (e) {
-                container.innerHTML = '<div class="empty-state" style="color:var(--danger)">حدث خطأ في الاتصال بالخادم.</div>';
-            }
+                    c.innerHTML = html;
+                } else { c.innerHTML = '<div class="empty-state"><i class="fa-solid fa-box-open"></i><p>لا توجد طلبات معلقة.</p></div>'; }
+            } catch(e) { c.innerHTML = '<div class="empty-state" style="color:var(--danger)"><i class="fa-solid fa-triangle-exclamation"></i><p>خطأ في الاتصال.</p></div>'; }
         }
-
-        // 5. Fetch Users
         async function fetchUsers() {
-            const container = document.getElementById('users-list');
-            container.innerHTML = '<div class="loader"></div>';
+            const c = document.getElementById('users-list');
+            c.innerHTML = '<div class="loader"></div>';
             try {
-                const res = await fetch(API_BASE + '/api/admin/users', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ admin_id: ADMIN_ID })
-                });
-                const data = await res.json();
-                
-                if (data.ok && data.users.length > 0) {
+                const res = await fetch(API + '/api/admin/users', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({admin_id: ADMIN_ID}) });
+                const d = await res.json();
+                if(d.ok && d.users.length > 0) {
                     let html = '';
-                    data.users.forEach(u => {
-                        let verifyBadge = u.is_verified ? '<span style="color:var(--primary)">💎 موثق</span>' : '';
-                        html += `
-                        <div class="item-card">
-                            <div class="item-header">
-                                <div class="item-name">${u.first_name || 'مستخدم'} ${verifyBadge}</div>
-                                <div class="item-id">ID: ${u.user_id}</div>
-                            </div>
-                            <div class="info-row">
-                                <span class="info-label">الرصيد:</span>
-                                <span class="info-value">${parseFloat(u.balance || 0).toFixed(2)} MYT</span>
-                            </div>
-                            <div class="info-row">
-                                <span class="info-label">عدد الإحالات:</span>
-                                <span class="info-value">${u.refs || 0}</span>
-                            </div>
-                        </div>`;
+                    d.users.forEach(u => {
+                        let verify = u.is_verified ? '<i class="fa-solid fa-circle-check" style="color:var(--primary)"></i>' : '';
+                        html += `<div class="list-item"><div class="item-header"><div class="item-name">${u.first_name} ${verify}</div><div class="item-badge">ID: ${u.user_id}</div></div><div class="item-details"><div class="detail-box"><div class="detail-label">الرصيد</div><div class="detail-value">${parseFloat(u.balance).toFixed(0)} MYT</div></div><div class="detail-box"><div class="detail-label">الإحالات</div><div class="detail-value">${u.refs}</div></div></div><button class="btn-action btn-give" onclick="giveBalance('${u.user_id}')"><i class="fa-solid fa-hand-holding-dollar"></i> تعديل الرصيد</button></div>`;
                     });
-                    container.innerHTML = html;
-                } else {
-                    container.innerHTML = '<div class="empty-state">لا يوجد مستخدمين في قاعدة البيانات.</div>';
-                }
-            } catch (e) {
-                container.innerHTML = '<div class="empty-state" style="color:var(--danger)">حدث خطأ في جلب بيانات المستخدمين.</div>';
-            }
+                    c.innerHTML = html;
+                } else { c.innerHTML = '<div class="empty-state"><i class="fa-solid fa-users-slash"></i><p>لا يوجد مستخدمين.</p></div>'; }
+            } catch(e) { c.innerHTML = '<div class="empty-state" style="color:var(--danger)"><i class="fa-solid fa-triangle-exclamation"></i><p>خطأ في الاتصال.</p></div>'; }
         }
-
-        // Actions
-        async function approveWD(req_id) {
-            if(!confirm('هل أنت متأكد من الموافقة على هذا الطلب؟')) return;
-            await fetch(API_BASE + '/api/admin/withdraw/approve', {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ admin_id: ADMIN_ID, req_id: req_id })
-            });
+        async function wdAction(action, req_id) {
+            if(!confirm('هل أنت متأكد؟')) return;
+            await fetch(API + '/api/admin/withdraw/' + action, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({admin_id: ADMIN_ID, req_id: req_id}) });
             fetchWithdrawals();
         }
-
-        async function rejectWD(req_id) {
-            if(!confirm('هل أنت متأكد من رفض هذا الطلب؟ سيتم إرجاع الرصيد للمستخدم.')) return;
-            await fetch(API_BASE + '/api/admin/withdraw/reject', {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ admin_id: ADMIN_ID, req_id: req_id })
-            });
-            fetchWithdrawals();
+        async function giveBalance(user_id) {
+            let amount = prompt('أدخل المبلغ (موجب للإضافة، سالب للخصم):', '1000');
+            if(!amount) return;
+            let res = await fetch(API + '/api/admin/give_balance', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({admin_id: ADMIN_ID, user_id: user_id, amount: amount}) });
+            let d = await res.json();
+            if(d.ok) { alert('تم التعديل بنجاح!'); fetchUsers(); }
         }
-
-        // Init
+        async function sendBroadcast() {
+            let msg = document.getElementById('broadcast-msg').value;
+            if(!msg) return alert('اكتب رسالة أولاً!');
+            if(!confirm('إرسال للجميع؟')) return;
+            let btn = document.querySelector('.btn-primary');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الإرسال...';
+            btn.disabled = true;
+            let res = await fetch(API + '/api/admin/broadcast', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({admin_id: ADMIN_ID, message: msg}) });
+            let d = await res.json();
+            btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> إرسال للجميع';
+            btn.disabled = false;
+            if(d.ok) { alert(`تم الإرسال إلى ${d.sent_to} مستخدم!`); document.getElementById('broadcast-msg').value = ''; }
+        }
         fetchStats();
     </script>
 </body>
