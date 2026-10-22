@@ -1,222 +1,288 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MYTOKEN | SUPER ADMIN</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
-:root{--bg:#0a0f1c;--card:#111827;--border:#1f2937;--cyan:#00d4ff;--green:#10b981;--red:#ef4444;--gold:#f59e0b;--text:#e5e7eb;--muted:#94a3b8}
-body{background:var(--bg);color:var(--text);min-height:100vh}
-.header{background:linear-gradient(135deg,#0f172a,#1e293b);padding:15px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
-.header h1{font-size:18px;color:var(--cyan);font-weight:900}
-.tabs{display:flex;gap:10px;padding:15px;background:rgba(15,23,42,.8);overflow-x:auto;border-bottom:1px solid var(--border)}
-.tab{padding:10px 20px;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--muted);cursor:pointer;font-weight:700;font-size:14px;white-space:nowrap;transition:0.3s}
-.tab.active{background:var(--cyan);color:#000;border-color:var(--cyan);box-shadow:0 0 15px rgba(0,212,255,0.4)}
-.container{padding:20px;max-width:1200px;margin:auto}
-.page{display:none}
-.page.active{display:block;animation:fade 0.3s}
-@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin-bottom:20px}
-.stat-card{background:var(--card);padding:20px;border-radius:15px;border:1px solid var(--border)}
-.stat-title{color:var(--muted);font-size:13px;margin-bottom:5px}
-.stat-val{font-size:24px;font-weight:900;color:#fff}
-.card{background:var(--card);border-radius:15px;border:1px solid var(--border);padding:20px;margin-bottom:20px}
-.card h2{font-size:16px;margin-bottom:15px;color:var(--cyan);border-bottom:1px solid var(--border);padding-bottom:10px}
-.wd-item{background:#1a2332;border:1px solid var(--border);border-radius:12px;padding:15px;margin-bottom:10px}
-.wd-head{display:flex;justify-content:space-between;margin-bottom:10px}
-.wd-amount{font-size:20px;font-weight:900;color:var(--gold)}
-.wd-details{font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.6}
-.wd-wallet{font-family:monospace;font-size:11px;background:rgba(0,0,0,0.3);padding:8px;border-radius:8px;word-break:break-all;direction:ltr;text-align:left;margin-bottom:10px}
-.wd-actions{display:flex;gap:10px}
-.btn{padding:10px;border:none;border-radius:8px;font-weight:900;font-family:'Cairo',sans-serif;cursor:pointer;flex:1;transition:0.2s}
-.btn-approve{background:var(--green);color:#fff}
-.btn-reject{background:var(--red);color:#fff}
-.btn:hover{transform:translateY(-2px);opacity:0.9}
-.user-item{display:flex;justify-content:space-between;align-items:center;background:#1a2332;padding:12px;border-radius:10px;margin-bottom:8px;border:1px solid var(--border)}
-.badge{display:inline-block;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;margin-right:5px}
-.badge-pending{background:rgba(245,158,11,0.2);color:var(--gold)}
-.badge-done{background:rgba(16,185,129,0.2);color:var(--green)}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MYTOKEN // ROOT ACCESS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0a0f12;
+            --neon-green: #00ff41;
+            --neon-blue: #00f3ff;
+            --neon-red: #ff003c;
+            --text: #e0e0e0;
+            --border: #1a2a32;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            background-image: 
+                linear-gradient(rgba(0, 255, 65, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 65, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .scanline {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,255,65,0.02) 50%, rgba(0,255,65,0.02));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(10, 15, 18, 0.9);
+            border-bottom: 2px solid var(--neon-green);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .logo { font-family: 'Share Tech Mono', monospace; font-size: 20px; color: var(--neon-green); text-shadow: 0 0 10px var(--neon-green); }
+        .status { font-size: 12px; color: var(--neon-blue); display: flex; align-items: center; gap: 8px; }
+        .dot { width: 10px; height: 10px; background: var(--neon-green); border-radius: 50%; box-shadow: 0 0 10px var(--neon-green); animation: pulse 1.5s infinite; }
+        
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+        /* Tabs */
+        .tabs { display: flex; gap: 10px; padding: 20px; overflow-x: auto; }
+        .tab {
+            background: transparent; border: 1px solid var(--border); color: var(--text);
+            padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;
+            transition: 0.3s; white-space: nowrap; font-family: 'Share Tech Mono', monospace;
+        }
+        .tab.active, .tab:hover {
+            border-color: var(--neon-green); color: var(--neon-green);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.3); background: rgba(0, 255, 65, 0.05);
+        }
+
+        /* Containers */
+        .container { padding: 0 20px 20px 20px; display: none; }
+        .container.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Stats Cards */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .stat-card {
+            background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 20px;
+            position: relative; overflow: hidden;
+        }
+        .stat-card::before { content: ''; position: absolute; top: 0; right: 0; width: 4px; height: 100%; background: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
+        .stat-title { font-size: 12px; color: #888; margin-bottom: 10px; font-family: 'Share Tech Mono', monospace; text-transform: uppercase; }
+        .stat-value { font-size: 28px; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        .stat-value.blue { color: var(--neon-blue); text-shadow: 0 0 10px rgba(0, 243, 255, 0.3); }
+
+        /* Lists (Users & Withdrawals) */
+        .list-container { display: flex; flex-direction: column; gap: 15px; }
+        .item-card {
+            background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 15px;
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .item-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #333; padding-bottom: 10px; }
+        .item-name { font-weight: bold; color: var(--neon-blue); }
+        .item-id { font-family: 'Share Tech Mono', monospace; color: #666; font-size: 12px; }
+        .item-body { display: flex; justify-content: space-between; font-size: 14px; }
+        .item-value { color: var(--neon-green); font-weight: bold; font-family: 'Share Tech Mono', monospace; }
+        
+        /* Buttons */
+        .actions { display: flex; gap: 10px; margin-top: 10px; }
+        .btn { flex: 1; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-family: 'Cairo', sans-serif; transition: 0.2s; }
+        .btn-approve { background: rgba(0, 255, 65, 0.1); color: var(--neon-green); border: 1px solid var(--neon-green); }
+        .btn-approve:hover { background: var(--neon-green); color: #000; box-shadow: 0 0 15px var(--neon-green); }
+        .btn-reject { background: rgba(255, 0, 60, 0.1); color: var(--neon-red); border: 1px solid var(--neon-red); }
+        .btn-reject:hover { background: var(--neon-red); color: #fff; box-shadow: 0 0 15px var(--neon-red); }
+
+        .loading-text { text-align: center; color: var(--neon-green); font-family: 'Share Tech Mono', monospace; animation: pulse 1s infinite; }
+        .error-text { text-align: center; color: var(--neon-red); font-family: 'Share Tech Mono', monospace; }
+    </style>
 </head>
 <body>
-<div class="header">
-    <h1>⚡ MYTOKEN ADMIN V3</h1>
-    <div style="font-size:12px;color:var(--green)">● Connected</div>
-</div>
-<div class="tabs">
-    <div class="tab active" onclick="switchTab('dash', this)">📊 Dashboard</div>
-    <div class="tab" onclick="switchTab('withdrawals', this)">💸 Withdrawals</div>
-    <div class="tab" onclick="switchTab('users', this)">👥 Users</div>
-</div>
-<div class="container">
-    <!-- DASHBOARD -->
-    <div id="page-dash" class="page active">
-        <div class="stats">
-            <div class="stat-card"><div class="stat-title">Total Users</div><div class="stat-val" id="st-users">0</div></div>
-            <div class="stat-card"><div class="stat-title">Total Balance</div><div class="stat-val" id="st-bal">0</div></div>
+    <div class="scanline"></div>
+
+    <header class="header">
+        <div class="logo">ROOT_ACCESS // MYTOKEN</div>
+        <div class="status"><div class="dot"></div> SECURE CONNECTION</div>
+    </header>
+
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab('dashboard', this)">DASHBOARD</button>
+        <button class="tab" onclick="switchTab('withdrawals', this)">WITHDRAWALS</button>
+        <button class="tab" onclick="switchTab('users', this)">USERS_DB</button>
+    </div>
+
+    <!-- Dashboard Tab -->
+    <div id="tab-dashboard" class="container active">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-title">Total Users</div>
+                <div class="stat-value blue" id="stat-users">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Total Balance</div>
+                <div class="stat-value" id="stat-balance">-- MYT</div>
+            </div>
         </div>
     </div>
 
-    <!-- WITHDRAWALS -->
-    <div id="page-withdrawals" class="page">
-        <div class="card">
-            <h2>Pending Withdrawal Requests</h2>
-            <div id="wd-list">Loading...</div>
+    <!-- Withdrawals Tab -->
+    <div id="tab-withdrawals" class="container">
+        <div class="list-container" id="withdrawals-list">
+            <div class="loading-text">INITIATING DATA STREAM...</div>
         </div>
     </div>
 
-    <!-- USERS -->
-    <div id="page-users" class="page">
-        <div class="card">
-            <h2>Registered Users</h2>
-            <div id="users-list">Loading...</div>
+    <!-- Users Tab -->
+    <div id="tab-users" class="container">
+        <div class="list-container" id="users-list">
+            <div class="loading-text">ACCESSING DATABASE...</div>
         </div>
     </div>
-</div>
 
-<script>
-const API = 'https://mytoken-api.vercel.app';
-const ADMIN_ID = '8063963886';
+    <script>
+        const API_BASE = 'https://mytoken-api.vercel.app';
+        const ADMIN_ID = '8063963886';
 
-async function apiCall(path, body = {}) {
-    const res = await fetch(API + path, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({admin_id: ADMIN_ID, ...body})
-    });
-    return res.json();
-}
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('tab-' + tabId).classList.add('active');
+            
+            if (tabId === 'withdrawals') fetchWithdrawals();
+            if (tabId === 'users') fetchUsers();
+            if (tabId === 'dashboard') fetchStats();
+        }
 
-function switchTab(name, el) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    el.classList.add('active');
-    document.getElementById('page-' + name).classList.add('active');
-    if(name === 'dash') loadDash();
-    if(name === 'withdrawals') loadWithdrawals();
-    if(name === 'users') loadUsers();
-}
-
-async function loadDash() {
-    const d = await apiCall('/api/admin/stats');
-    if(d.ok) {
-        document.getElementById('st-users').innerText = d.total_users;
-        document.getElementById('st-bal').innerText = d.total_balance + ' MYT';
-    }
-}
-
-async function loadWithdrawals() {
-    const d = await apiCall('/api/admin/withdrawals');
-    const list = document.getElementById('wd-list');
-    if(!d.ok || !d.withdrawals.length) {
-        list.innerHTML = '<div style="text-align:center;color:#94a3b8;padding:20px;">No requests found</div>';
-        return;
-    }
-    list.innerHTML = d.withdrawals.map(w => `
-        <div class="wd-item">
-            <div class="wd-head">
-                <div>
-                    <div style="font-weight:900">${w.first_name || 'User'}</div>
-                    <div style="font-size:11px;color:#94a3b8">ID: ${w.user_id}</div>
-                </div>
-                <div style="text-align:left">
-                    <div class="wd-amount">${w.requested} MYT</div>
-                    <div style="font-size:11px;color:${w.status==='pending'?'#f59e0b':'#10b981'}">${w.status.toUpperCase()}</div>
-                </div>
-            </div>
-            <div class="wd-details">
-                Requested: ${w.requested} | Platform Fee: ${w.platform_fee} | Network: ${w.network_fee}<br>
-                <strong>Net to user: ${w.net_amount} MYT</strong>
-            </div>
-            <div class="wd-wallet">${w.wallet}</div>
-            ${w.status === 'pending' ? `
-            <div class="wd-actions">
-                <button class="btn btn-approve" onclick="processWD('${w.req_id}', 'approve')">✅ Approve</button>
-                <button class="btn btn-reject" onclick="processWD('${w.req_id}', 'reject')">❌ Reject</button>
-            </div>` : ''}
-        </div>
-    `).join('');
-}
-
-async function processWD(reqId, action) {
-    if(!confirm(`Are you sure you want to ${action} this withdrawal?`)) return;
-    const d = await apiCall(`/api/admin/withdrawal/${action}`, {req_id: reqId});
-    if(d.ok) {
-        alert('Success!');
-        loadWithdrawals();
-    } else {
-        alert('Error: ' + (d.error || 'Unknown'));
-    }
-}
-
-async function loadUsers() {
-    const d = await apiCall('/api/admin/users');
-    const list = document.getElementById('users-list');
-    if(!d.ok || !d.users.length) {
-        list.innerHTML = '<div style="text-align:center;color:#94a3b8;padding:20px;">No users found</div>';
-        return;
-    }
-    list.innerHTML = d.users.map(u => `
-        <div class="user-item">
-            <div>
-                <div style="font-weight:900">${u.first_name || 'Unknown'}</div>
-                <div style="font-size:11px;color:#94a3b8;font-family:monospace">ID: ${u.user_id}</div>
-            </div>
-            <div style="font-weight:900;color:#10b981">${wd.requested} MYT</div>
-        </div>
-    `).join('');
-}
-
-// Load initial data
-loadDash();
-</script>
-
-<script id="admin-fix-script">
-    // دالة لتحويل التاريخ من أرقام إلى تاريخ مقروء
-    function formatDate(timestamp) {
-        if (!timestamp) return 'غير متوفر';
-        let date = new Date(timestamp * 1000);
-        return date.toLocaleString('ar-EG');
-    }
-
-    // ننتظر حتى تحمل الصفحة
-    document.addEventListener('DOMContentLoaded', function() {
-        // إعادة كتابة أي عنصر يعرض undefined
-        setTimeout(function() {
-            let cards = document.querySelectorAll('div'); // نبحث عن البطاقات
-            cards.forEach(function(card) {
-                if (card.innerText && card.innerText.includes('undefined')) {
-                    // استبدال كلمة undefined برقم صحيح (للتوضيح فقط)
-                    card.innerHTML = card.innerHTML.replace(/undefined/g, '1000');
+        // 1. Fetch Stats
+        async function fetchStats() {
+            try {
+                const res = await fetch(API_BASE + '/api/admin/stats', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ admin_id: ADMIN_ID })
+                });
+                const data = await res.json();
+                if (data.ok) {
+                    document.getElementById('stat-users').innerText = data.total_users;
+                    document.getElementById('stat-balance').innerText = data.total_balance.toFixed(2) + ' MYT';
                 }
+            } catch (e) { console.error(e); }
+        }
+
+        // 2. Fetch Withdrawals
+        async function fetchWithdrawals() {
+            const container = document.getElementById('withdrawals-list');
+            container.innerHTML = '<div class="loading-text">FETCHING TRANSACTIONS...</div>';
+            try {
+                const res = await fetch(API_BASE + '/api/admin/withdrawals', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ admin_id: ADMIN_ID })
+                });
+                const data = await res.json();
+                
+                if (data.ok && data.withdrawals.length > 0) {
+                    let html = '';
+                    data.withdrawals.forEach(w => {
+                        if(w.status === 'pending') {
+                            html += `
+                            <div class="item-card">
+                                <div class="item-header">
+                                    <div class="item-name">${w.first_name || 'Unknown'}</div>
+                                    <div class="item-id">ID: ${w.user_id}</div>
+                                </div>
+                                <div class="item-body">
+                                    <div>المبلغ: <span class="item-value">${w.requested} MYT</span></div>
+                                    <div>الصافي: <span class="item-value">${w.net_amount} MYT</span></div>
+                                </div>
+                                <div class="item-body" style="font-size:12px; color:#888; word-break: break-all;">
+                                    Wallet: ${w.wallet}
+                                </div>
+                                <div class="actions">
+                                    <button class="btn btn-approve" onclick="approveWD('${w.req_id}')">موافقة</button>
+                                    <button class="btn btn-reject" onclick="rejectWD('${w.req_id}')">رفض</button>
+                                </div>
+                            </div>`;
+                        }
+                    });
+                    container.innerHTML = html || '<div class="loading-text">NO PENDING WITHDRAWALS.</div>';
+                } else {
+                    container.innerHTML = '<div class="loading-text">NO PENDING WITHDRAWALS.</div>';
+                }
+            } catch (e) {
+                container.innerHTML = '<div class="error-text">API CONNECTION FAILED.</div>';
+            }
+        }
+
+        // 3. Fetch Users
+        async function fetchUsers() {
+            const container = document.getElementById('users-list');
+            container.innerHTML = '<div class="loading-text">SCANNING DATABASE...</div>';
+            try {
+                const res = await fetch(API_BASE + '/api/admin/users', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ admin_id: ADMIN_ID })
+                });
+                const data = await res.json();
+                
+                if (data.ok && data.users.length > 0) {
+                    let html = '';
+                    data.users.forEach(u => {
+                        html += `
+                        <div class="item-card">
+                            <div class="item-header">
+                                <div class="item-name">${u.first_name || 'No Name'}</div>
+                                <div class="item-id">ID: ${u.user_id}</div>
+                            </div>
+                            <div class="item-body">
+                                <div>الرصيد: <span class="item-value">${u.balance} MYT</span></div>
+                                <div>الإحالات: <span class="item-value">${u.refs}</span></div>
+                            </div>
+                        </div>`;
+                    });
+                    container.innerHTML = html;
+                } else {
+                    container.innerHTML = '<div class="loading-text">NO USERS FOUND.</div>';
+                }
+            } catch (e) {
+                container.innerHTML = '<div class="error-text">DATABASE CONNECTION FAILED.</div>';
+            }
+        }
+
+        // Actions
+        async function approveWD(req_id) {
+            if(!confirm('تأكيد الموافقة؟')) return;
+            await fetch(API_BASE + '/api/admin/withdraw/approve', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ admin_id: ADMIN_ID, req_id: req_id })
             });
-        }, 2000); // ننتظر ثانيتين حتى تجلب الصفحة البيانات
-    });
-</script>
+            fetchWithdrawals();
+        }
 
-
-
-<script id="admin-perfect-fix">
-    document.addEventListener('DOMContentLoaded', function() {
-        setInterval(function() {
-            let cards = document.querySelectorAll('div');
-            cards.forEach(function(card) {
-                // إصلاح المبلغ (undefined)
-                if (card.innerHTML && card.innerHTML.includes('undefined')) {
-                    card.innerHTML = card.innerHTML.replace(/undefined/g, '1000'); // سيتم استبدالها بالمبلغ الحقيقي من الـ API
-                }
-                // إصلاح التاريخ (تحويل الرموز الغريبة إلى تاريخ مقروء)
-                if (card.innerHTML && card.innerHTML.includes('معلق')) {
-                    let datePattern = /[٠-٩]{2}:[٠-٩]{2}:[٠-٩]{2}/g;
-                    if (datePattern.test(card.innerHTML)) {
-                        card.innerHTML = card.innerHTML.replace(datePattern, 'منذ قليل');
-                    }
-                }
+        async function rejectWD(req_id) {
+            if(!confirm('تأكيد الرفض؟')) return;
+            await fetch(API_BASE + '/api/admin/withdraw/reject', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ admin_id: ADMIN_ID, req_id: req_id })
             });
-        }, 2000); // نفحص كل ثانيتين
-    });
-</script>
+            fetchWithdrawals();
+        }
+
+        // Init
+        fetchStats();
+    </script>
 </body>
 </html>
