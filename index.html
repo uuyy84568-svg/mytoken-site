@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+
+<script>
+(function() {
+    var originalFetch = window.fetch;
+    window.fetch = function(input, init) {
+        init = init || {};
+        if (typeof input === 'string' && (input.includes('/api/') || input.includes('mytoken'))) {
+            var headers = new Headers(init.headers || {});
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) {
+                headers.set('X-Telegram-Init-Data', window.Telegram.WebApp.initData);
+            }
+            init.headers = headers;
+        }
+        return originalFetch(input, init);
+    };
+})();
+</script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>MYTOKEN</title>
