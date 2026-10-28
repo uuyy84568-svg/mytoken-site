@@ -22,7 +22,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>MYTOKEN</title>
-<script>window.API_BASE="https://mytoken-api.vercel.app";</script>
+<script>window.API_BASE="https://mytoken-bot-new.onrender.com";</script>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -944,7 +944,7 @@ input:focus{border-color:rgba(230,57,70,.7)}
 /* ===== Core Config ===== */
 var tg = window.Telegram && window.Telegram.WebApp;
 var inTG = !!(tg && tg.initData);
-var API = window.API_BASE || "https://mytoken-api.vercel.app";
+var API = window.API_BASE || "https://mytoken-bot-new.onrender.com";
 
 var CFG = {
   AD_REWARD: 0.10,
@@ -1703,7 +1703,7 @@ if (document.readyState === "loading") {
 <script id="mtokFinal">
 (function(){
     'use strict';
-    var API = 'https://mytoken-api.vercel.app';
+    var API = 'https://mytoken-bot-new.onrender.com';
     var RATE = 0.001;
     var FALLBACK = 8063963886;
 
@@ -1837,20 +1837,7 @@ if (document.readyState === "loading") {
         });
     };
 
-    window.mtokSubmit = function(){
-        var amt = parseFloat(document.getElementById('mtokWInput').value);
-        var err = document.getElementById('mtokWErr');
-        err.style.display = 'none';
-        if(!amt || amt < 1000){err.textContent='الحد الأدنى 1,000 MYT';err.style.display='block';return;}
-        fetch(API+'/api/admin/give',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({admin_id:'8063963886',target_id:String(uid()),amount:-amt})})
-        .then(function(r){return r.json()}).then(function(d){
-            if(d && d.ok){
-                document.getElementById('mtokWModal').style.display = 'none';
-                alert('✅ تم إرسال طلب سحب ' + fmt(amt) + ' MYT');
-                loadBal();
-            } else { err.textContent='فشل'; err.style.display='block'; }
-        }).catch(function(){err.textContent='خطأ';err.style.display='block';});
-    };
+    // [REMOVED]
 
     function start(){
         inject();
@@ -1930,7 +1917,7 @@ document.addEventListener('DOMContentLoaded', function() {
             try { userId = window.Telegram.WebApp.initDataUnsafe.user.id; } catch(e) {}
             if (!userId) userId = 8063963886; // رقمك للتجربة
 
-            await fetch('https://mytoken-api.vercel.app/api/user/update', {
+            await fetch('https://mytoken-bot-new.onrender.com/api/user/update', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
@@ -1968,7 +1955,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } catch(e) {}
 
-        fetch('https://mytoken-api.vercel.app/api/user', {
+        fetch('https://mytoken-bot-new.onrender.com/api/user', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: userId })
@@ -2066,7 +2053,7 @@ document.addEventListener('DOMContentLoaded', function() {
             try { userId = window.Telegram.WebApp.initDataUnsafe.user.id; } catch(e) {}
             if (!userId) userId = 8063963886; // رقمك للتجربة
 
-            await fetch('https://mytoken-api.vercel.app/api/user/update', {
+            await fetch('https://mytoken-bot-new.onrender.com/api/user/update', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
@@ -2104,7 +2091,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } catch(e) {}
 
-        fetch('https://mytoken-api.vercel.app/api/user', {
+        fetch('https://mytoken-bot-new.onrender.com/api/user', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: userId })
@@ -2227,7 +2214,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 (function() {
     'use strict';
-    const API_URL = 'https://mytoken-api.vercel.app';
+    const API_URL = 'https://mytoken-bot-new.onrender.com';
     let currentUserId = null;
     function showToast(msg, isError = false) {
         const toast = document.getElementById('mtokToast');
@@ -2294,7 +2281,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const originalText = btn.innerText;
         btn.innerText = 'جاري الإرسال...'; btn.disabled = true;
         try {
-            const response = await fetch(`${API_URL}/api/withdraw/request`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: currentUserId, amount: amount }) });
+            const response = await fetch(`${API_URL}/api/withdraw/request`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ amount: amount }) });
             const data = await response.json();
             if (data.ok) {
                 mtokCloseModal(); showToast(`✅ تم الطلب! سيصلك ${data.net_amount} MYT`); fetchUserData(); 
